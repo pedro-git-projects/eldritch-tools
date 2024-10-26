@@ -10,4 +10,7 @@ type Investigator struct {
 	Skills          map[string]*Skill
 	Weapons         map[string]*Weapon
 	Combat          Combat
+	Meta            Meta
+	Possessions     Possessions
+	Wealth          Wealth
 }
