@@ -2,7 +2,9 @@ package investigator
 
 import (
 	"errors"
+	"fmt"
 
+	"github.com/pedro-git-projects/necronomicon-engine/src/commons"
 	"github.com/pedro-git-projects/necronomicon-engine/src/dice"
 	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
 )
@@ -59,11 +61,16 @@ func (i *Investigator) InitTwentiesBaseSkills() {
 func (i *Investigator) InitWeapons() error {
 	roll := dice.GetDiceRoller().RollDx(3)
 	damageInt := roll + int(i.Combat.DamageBonus)
-	damage, err := utils.SafeIntToUint8(damageInt)
+	if damageInt < 0 {
+		damageInt = 0
+	}
+	fmt.Println("DamageInt Value ", damageInt)
+	damage, err := utils.SafeIntToUint8(damageInt, "InitWeapons")
+	fmt.Println("Damage Value ", damage)
 	if err != nil {
 		return err
 	}
-	i.Weapons["Unarmed"] = NewWeapon("Unarmed", damage)
+	i.Weapons["Unarmed"] = commons.NewWeapon("Unarmed", "Fighting (Brawl)", damage)
 	return nil
 }
 
@@ -72,7 +79,7 @@ func (i *Investigator) InitLuck() error {
 	roll2 := dice.GetDiceRoller().RollDx(6) * 5
 	roll3 := dice.GetDiceRoller().RollDx(6) * 5
 	luckInt := roll1 + roll2 + roll3
-	luck, err := utils.SafeIntToUint8(luckInt)
+	luck, err := utils.SafeIntToUint8(luckInt, "InitLuck")
 	if err != nil {
 		return err
 	}
@@ -82,6 +89,10 @@ func (i *Investigator) InitLuck() error {
 
 func (i *Investigator) InitMP() {
 	i.MP = uint8(i.Characteristics.Pow / 5)
+}
+
+func (i *Investigator) InitHP() {
+	i.HP.Value = utils.Point((i.Characteristics.Con + i.Characteristics.Siz) / 10)
 }
 
 func (i *Investigator) InitSan() {
@@ -104,7 +115,7 @@ func (i *Investigator) InitDamageBonus() error {
 		i.Combat.Build = 0
 		return nil
 	case param >= 125 && param <= 164:
-		roll, err := utils.SafeIntToInt8(dice.GetDiceRoller().RollDx(4))
+		roll, err := utils.SafeIntToInt8(dice.GetDiceRoller().RollDx(4), "InitDamageBonus")
 		if err != nil {
 			return err
 		}
@@ -112,7 +123,7 @@ func (i *Investigator) InitDamageBonus() error {
 		i.Combat.Build = 1
 		return nil
 	case param >= 165 && param <= 204:
-		roll, err := utils.SafeIntToInt8(dice.GetDiceRoller().RollDx(6))
+		roll, err := utils.SafeIntToInt8(dice.GetDiceRoller().RollDx(6), "InitDamageBonus")
 		if err != nil {
 			return err
 		}
