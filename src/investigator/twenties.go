@@ -123,3 +123,26 @@ func (i *Investigator) InitDamageBonus() error {
 		return errors.New("Invalid characteristics for Damage Bonus caluclation")
 	}
 }
+
+func (i *Investigator) InitMove() uint8 {
+	if i.Characteristics.Str < i.Characteristics.Siz && i.Characteristics.Dex < i.Characteristics.Siz {
+		i.Characteristics.Move = 7
+	} else if i.Characteristics.Str >= i.Characteristics.Siz || i.Characteristics.Dex >= i.Characteristics.Siz {
+		i.Characteristics.Move = 8
+	}
+	if i.Characteristics.Str > i.Characteristics.Siz && i.Characteristics.Dex > i.Characteristics.Siz {
+		i.Characteristics.Move = 9
+	}
+
+	if i.Info.Age >= 80 {
+		i.Characteristics.Move -= 2
+	} else if i.Info.Age >= 40 {
+		i.Characteristics.Move -= 1
+	}
+
+	if i.Characteristics.Move < 1 {
+		i.Characteristics.Move = 1
+	}
+
+	return uint8(i.Characteristics.Move)
+}

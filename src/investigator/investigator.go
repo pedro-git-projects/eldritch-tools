@@ -30,6 +30,7 @@ func (i *Investigator) InitializeTwenties() error {
 	i.InitMP()
 	i.InitSan()
 	i.InitTwentiesBaseSkills()
+	i.InitMove()
 	i.InitDamageBonus()
 
 	if err := i.InitWeapons(); err != nil {
