@@ -1,5 +1,10 @@
 package investigator
 
+import (
+	"github.com/pedro-git-projects/necronomicon-engine/src/dice"
+	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
+)
+
 func (i *Investigator) initTwentiesBaseSkills() {
 	i.Skills["Accounting"] = NewSkill("Accounting", 5)
 	i.Skills["Anthropology"] = NewSkill("Anthropology", 1)
@@ -47,4 +52,15 @@ func (i *Investigator) initTwentiesBaseSkills() {
 	i.Skills["Swim"] = NewSkill("Swim", 20)
 	i.Skills["Throw"] = NewSkill("Throw", 20)
 	i.Skills["Track"] = NewSkill("Track", 10)
+}
+
+func (i *Investigator) initWeapons() error {
+	roll := dice.GetDiceRoller().RollDx(3)
+	damageInt := roll + int(i.Combat.DamageBouns)
+	damage, err := utils.SafeIntToUint8(damageInt)
+	if err != nil {
+		return err
+	}
+	i.Weapons["Unarmed"] = NewWeapon("Unarmed", damage)
+	return nil
 }

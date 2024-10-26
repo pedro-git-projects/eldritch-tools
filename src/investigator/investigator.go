@@ -8,4 +8,6 @@ type Investigator struct {
 	Luck            uint8
 	MP              uint8
 	Skills          map[string]*Skill
+	Weapons         map[string]*Weapon
+	Combat          Combat
 }
