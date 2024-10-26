@@ -1,6 +1,10 @@
 package investigator
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
+)
 
 type Possession struct {
 	Name        string
@@ -46,7 +50,13 @@ func (p *Possessions) GetPossession(name string) (*Possession, bool) {
 }
 
 func (p *Possessions) ListPossessions() {
+	fmt.Println("===================================")
+	fmt.Println("         Investigator's Items      ")
+	fmt.Println("===================================")
 	for _, possession := range p.items {
-		fmt.Printf("Name: %s, Description: %s, Quantity: %d\n", possession.Name, possession.Description, possession.Quantity)
+		fmt.Printf("Name:        %s\n", possession.Name)
+		fmt.Printf("Quantity:    %d\n", possession.Quantity)
+		fmt.Printf("Description: %s\n", utils.WrapText(possession.Description, 50))
+		fmt.Println("-----------------------------------")
 	}
 }

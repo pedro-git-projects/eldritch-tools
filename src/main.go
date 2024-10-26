@@ -7,5 +7,5 @@ import (
 func main() {
 	i := new(investigator.Investigator)
 	i.InitializeTwenties()
-	i.Characteristics.PrintCharacteristics()
+	i.Print()
 }

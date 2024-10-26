@@ -1,5 +1,7 @@
 package investigator
 
+import "fmt"
+
 type Investigator struct {
 	Info            Info
 	Characteristics Characteristics
@@ -32,4 +34,27 @@ func (i *Investigator) InitializeTwenties() error {
 		return err
 	}
 	return nil
+}
+
+func (i *Investigator) PrintLuckAndMP() {
+	fmt.Println("+----------------+-------+")
+	fmt.Println("| Attribute      | Value |")
+	fmt.Println("+----------------+-------+")
+	fmt.Printf("| %-14s | %5d |\n", "Luck", i.Luck)
+	fmt.Printf("| %-14s | %5d |\n", "MP", i.MP)
+	fmt.Println("+----------------+-------+")
+}
+
+func (i *Investigator) Print() {
+	i.Info.PrintInfo()
+	i.Characteristics.PrintCharacteristics()
+	i.HP.PrintHP()
+	i.Sanity.PrintSanity()
+	i.PrintLuckAndMP()
+	i.PrintSkills()
+	i.PrintWeapons()
+	i.Combat.PrintCombat() // add half and fifth values
+	i.Meta.PrintMeta()
+	i.Possessions.ListPossessions()
+	i.Wealth.PrintWealth()
 }
