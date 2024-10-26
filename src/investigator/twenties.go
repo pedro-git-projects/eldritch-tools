@@ -1,11 +1,13 @@
 package investigator
 
 import (
+	"errors"
+
 	"github.com/pedro-git-projects/necronomicon-engine/src/dice"
 	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
 )
 
-func (i *Investigator) initTwentiesBaseSkills() {
+func (i *Investigator) InitTwentiesBaseSkills() {
 	i.Skills["Accounting"] = NewSkill("Accounting", 5)
 	i.Skills["Anthropology"] = NewSkill("Anthropology", 1)
 	i.Skills["Appraise"] = NewSkill("Appraise", 5)
@@ -54,13 +56,70 @@ func (i *Investigator) initTwentiesBaseSkills() {
 	i.Skills["Track"] = NewSkill("Track", 10)
 }
 
-func (i *Investigator) initWeapons() error {
+func (i *Investigator) InitWeapons() error {
 	roll := dice.GetDiceRoller().RollDx(3)
-	damageInt := roll + int(i.Combat.DamageBouns)
+	damageInt := roll + int(i.Combat.DamageBonus)
 	damage, err := utils.SafeIntToUint8(damageInt)
 	if err != nil {
 		return err
 	}
 	i.Weapons["Unarmed"] = NewWeapon("Unarmed", damage)
 	return nil
+}
+
+func (i *Investigator) InitLuck() error {
+	roll1 := dice.GetDiceRoller().RollDx(6) * 5
+	roll2 := dice.GetDiceRoller().RollDx(6) * 5
+	roll3 := dice.GetDiceRoller().RollDx(6) * 5
+	luckInt := roll1 + roll2 + roll3
+	luck, err := utils.SafeIntToUint8(luckInt)
+	if err != nil {
+		return err
+	}
+	i.Luck = luck
+	return nil
+}
+
+func (i *Investigator) InitMP() {
+	i.MP = uint8(i.Characteristics.Pow / 5)
+}
+
+func (i *Investigator) InitSan() {
+	i.Sanity.Value = uint8(i.Characteristics.Pow)
+}
+
+func (i *Investigator) InitDamageBonus() error {
+	param := i.Characteristics.Str + i.Characteristics.Siz
+	switch {
+	case param <= 64:
+		i.Combat.DamageBonus = -2
+		i.Combat.Build = -2
+		return nil
+	case param >= 65 && param <= 84:
+		i.Combat.DamageBonus = -1
+		i.Combat.Build = -1
+		return nil
+	case param >= 85 && param <= 124:
+		i.Combat.DamageBonus = 0
+		i.Combat.Build = 0
+		return nil
+	case param >= 125 && param <= 164:
+		roll, err := utils.SafeIntToInt8(dice.GetDiceRoller().RollDx(4))
+		if err != nil {
+			return err
+		}
+		i.Combat.DamageBonus = roll
+		i.Combat.Build = 1
+		return nil
+	case param >= 165 && param <= 204:
+		roll, err := utils.SafeIntToInt8(dice.GetDiceRoller().RollDx(6))
+		if err != nil {
+			return err
+		}
+		i.Combat.DamageBonus = roll
+		i.Combat.Build = 2
+		return nil
+	default:
+		return errors.New("Invalid characteristics for Damage Bonus caluclation")
+	}
 }

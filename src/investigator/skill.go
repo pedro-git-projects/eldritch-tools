@@ -20,13 +20,11 @@ func NewSkill(name string, baseChance utils.Point) *Skill {
 	}
 }
 
-// returns true if successfull
 func (s *Skill) SkillCheck() bool {
 	roll := rand.Intn(100) + 1
 	return roll <= int(s.Level)
 }
 
-// SetLevel allows setting a custom skill level above the base chance
 func (s *Skill) SetLevel(level int) {
 	s.Level = utils.Point(level)
 }

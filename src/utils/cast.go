@@ -8,3 +8,10 @@ func SafeIntToUint8(i int) (uint8, error) {
 	}
 	return uint8(i), nil
 }
+
+func SafeIntToInt8(i int) (int8, error) {
+	if i < -128 || i > 127 {
+		return 0, errors.New("value out of range for int8")
+	}
+	return int8(i), nil
+}
