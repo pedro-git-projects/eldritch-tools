@@ -1,6 +1,8 @@
 package investigator
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Investigator struct {
 	Info            Info
@@ -53,7 +55,7 @@ func (i *Investigator) Print() {
 	i.PrintLuckAndMP()
 	i.PrintSkills()
 	i.PrintWeapons()
-	i.Combat.PrintCombat() // add half and fifth values
+	i.Combat.PrintCombat()
 	i.Meta.PrintMeta()
 	i.Possessions.ListPossessions()
 	i.Wealth.PrintWealth()
