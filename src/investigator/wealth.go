@@ -12,8 +12,8 @@ func (w Wealth) PrintWealth() {
 	fmt.Println("+-----------------+---------------+")
 	fmt.Println("| Wealth Category |     Amount    |")
 	fmt.Println("+-----------------+---------------+")
-	fmt.Printf("| %-15s | %13d |\n", "Spending Level", w.SpendingLevel)
-	fmt.Printf("| %-15s | %13d |\n", "Cash", w.Cash)
-	fmt.Printf("| %-15s | %13d |\n", "Assets", w.Assets)
+	fmt.Printf("| %-15s | $%11.2f |\n", "Spending Level", float64(w.SpendingLevel)/100)
+	fmt.Printf("| %-15s | $%11.2f |\n", "Cash", float64(w.Cash)/100)
+	fmt.Printf("| %-15s | $%11.2f |\n", "Assets", float64(w.Assets)/100)
 	fmt.Println("+-----------------+---------------+")
 }

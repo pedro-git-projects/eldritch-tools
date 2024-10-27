@@ -72,6 +72,8 @@ func (s *CreateInvestigatorScreen) showSkillsForm() {
 	s.SkillsForm = forms.NewSkillsForm(s.investigator, func(updatedSkills map[string]*investigator.Skill) {
 		s.investigator.Skills = updatedSkills
 		s.investigator.PrintSkills()
+		s.investigator.InitWealth()
+		s.investigator.Wealth.PrintWealth()
 		dialog.ShowInformation("Success", "Investigator's skills updated successfully!", s.Window)
 	})
 

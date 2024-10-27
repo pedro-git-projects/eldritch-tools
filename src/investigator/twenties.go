@@ -135,14 +135,14 @@ func (i *Investigator) InitDamageBonus() error {
 	}
 }
 
-func (i *Investigator) InitMove() uint8 {
-	if i.Characteristics.Str < i.Characteristics.Siz && i.Characteristics.Dex < i.Characteristics.Siz {
-		i.Characteristics.Move = 7
-	} else if i.Characteristics.Str >= i.Characteristics.Siz || i.Characteristics.Dex >= i.Characteristics.Siz {
-		i.Characteristics.Move = 8
-	}
-	if i.Characteristics.Str > i.Characteristics.Siz && i.Characteristics.Dex > i.Characteristics.Siz {
+func (i *Investigator) InitMove() {
+	switch {
+	case i.Characteristics.Str > i.Characteristics.Siz && i.Characteristics.Dex > i.Characteristics.Siz:
 		i.Characteristics.Move = 9
+	case i.Characteristics.Str >= i.Characteristics.Siz || i.Characteristics.Dex >= i.Characteristics.Siz:
+		i.Characteristics.Move = 8
+	default:
+		i.Characteristics.Move = 7
 	}
 
 	if i.Info.Age >= 80 {
@@ -151,9 +151,49 @@ func (i *Investigator) InitMove() uint8 {
 		i.Characteristics.Move -= 1
 	}
 
+	// Ensure Move is at least 1
 	if i.Characteristics.Move < 1 {
 		i.Characteristics.Move = 1
 	}
+}
 
-	return uint8(i.Characteristics.Move)
+func (i *Investigator) InitWealth() {
+	skill, exists := i.Skills["Credit Rating"]
+	var cr int64
+	if !exists {
+		cr = 0
+	} else {
+		cr = int64(skill.Level)
+	}
+	switch {
+	case cr <= 0: // Penniless
+		i.Wealth.SpendingLevel = 50 // $0.50 in cents
+		i.Wealth.Cash = 50          // $0.50 in cents
+		i.Wealth.Assets = 0         // No assets
+	case cr >= 1 && cr <= 9: // Poor
+		i.Wealth.SpendingLevel = 200       // $2.00 in cents
+		i.Wealth.Cash = int64(cr) * 100    // CR x 1 ($1 - $9)
+		i.Wealth.Assets = int64(cr) * 1000 // CR x 10 ($10 - $90)
+	case cr >= 10 && cr <= 49: // Average
+		i.Wealth.SpendingLevel = 1000      // $10.00 in cents
+		i.Wealth.Cash = int64(cr) * 200    // CR x 2 ($20 - $98)
+		i.Wealth.Assets = int64(cr) * 5000 // CR x 50 ($500 - $2450)
+	case cr >= 50 && cr <= 89: // Wealthy
+		i.Wealth.SpendingLevel = 5000       // $50.00 in cents
+		i.Wealth.Cash = int64(cr) * 500     // CR x 5 ($250 - $445)
+		i.Wealth.Assets = int64(cr) * 50000 // CR x 500 ($25,000 - $44,500)
+	case cr >= 90 && cr <= 98: // Rich
+		i.Wealth.SpendingLevel = 25000       // $250.00 in cents
+		i.Wealth.Cash = int64(cr) * 2000     // CR x 20 ($1800 - $1960)
+		i.Wealth.Assets = int64(cr) * 200000 // CR x 2000 ($180,000 - $196,000)
+	case cr == 99: // Super Rich
+		i.Wealth.SpendingLevel = 500000 // $5000.00 in cents
+		i.Wealth.Cash = 5000000         // $50,000 in cents
+		i.Wealth.Assets = 500000000     // $5M in cents
+	default:
+		// Handle unexpected CR values gracefully
+		i.Wealth.SpendingLevel = 0
+		i.Wealth.Cash = 0
+		i.Wealth.Assets = 0
+	}
 }
