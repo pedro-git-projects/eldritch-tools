@@ -2,7 +2,6 @@ package investigator
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/pedro-git-projects/necronomicon-engine/src/commons"
 	"github.com/pedro-git-projects/necronomicon-engine/src/dice"
@@ -64,9 +63,7 @@ func (i *Investigator) InitWeapons() error {
 	if damageInt < 0 {
 		damageInt = 0
 	}
-	fmt.Println("DamageInt Value ", damageInt)
 	damage, err := utils.SafeIntToUint8(damageInt, "InitWeapons")
-	fmt.Println("Damage Value ", damage)
 	if err != nil {
 		return err
 	}

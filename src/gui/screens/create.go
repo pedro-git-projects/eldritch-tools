@@ -3,6 +3,7 @@ package screens
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
+	"github.com/pedro-git-projects/necronomicon-engine/src/commons"
 	"github.com/pedro-git-projects/necronomicon-engine/src/gui/forms"
 	"github.com/pedro-git-projects/necronomicon-engine/src/investigator"
 )
@@ -14,6 +15,7 @@ type CreateInvestigatorScreen struct {
 	CharacteristicsForm *forms.CharacteristicsForm
 	MetaForm            *forms.MetaForm
 	SkillsForm          *forms.SkillsForm
+	WeaponsForm         *forms.WeaponsForm
 
 	info            investigator.Info
 	characteristics investigator.Characteristics
@@ -75,9 +77,22 @@ func (s *CreateInvestigatorScreen) showSkillsForm() {
 		s.investigator.InitWealth()
 		s.investigator.Wealth.PrintWealth()
 		dialog.ShowInformation("Success", "Investigator's skills updated successfully!", s.Window)
+		s.showWeaponsForm()
 	})
 
 	s.Window.SetContent(s.SkillsForm.RenderWithWindow(s.Window))
+}
+
+func (s *CreateInvestigatorScreen) showWeaponsForm() {
+	s.WeaponsForm = forms.NewWeaponsForm(func(weapons map[string]*commons.Weapon) {
+		for name, weapon := range weapons {
+			s.investigator.Weapons[name] = weapon
+		}
+		s.investigator.PrintWeapons()
+		dialog.ShowInformation("Success", "Investigator's weapons updated successfully!", s.Window)
+	})
+
+	s.Window.SetContent(s.WeaponsForm.RenderWithWindow(s.Window))
 }
 
 func (s *CreateInvestigatorScreen) Show() {
