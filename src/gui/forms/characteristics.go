@@ -38,7 +38,7 @@ func NewCharacteristicsForm(onSubmit func(characteristics investigator.Character
 		OnSubmit: onSubmit,
 	}
 
-	form.SubmitButton = widget.NewButton("Submit", form.handleSubmit)
+	form.SubmitButton = widget.NewButton("Next", form.handleSubmit)
 	return form
 }
 

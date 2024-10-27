@@ -3,6 +3,7 @@ package screens
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"github.com/pedro-git-projects/necronomicon-engine/src/gui/forms"
 	"github.com/pedro-git-projects/necronomicon-engine/src/investigator"
 )
@@ -12,6 +13,7 @@ type CreateInvestigatorScreen struct {
 	Window              fyne.Window
 	InfoForm            *forms.InfoForm
 	CharacteristicsForm *forms.CharacteristicsForm
+	MetaForm            *forms.MetaForm
 }
 
 func NewCreateInvestigatorScreen(app fyne.App) *CreateInvestigatorScreen {
@@ -35,13 +37,20 @@ func NewCreateInvestigatorScreen(app fyne.App) *CreateInvestigatorScreen {
 
 func (s *CreateInvestigatorScreen) showCharacteristicsForm() {
 	s.CharacteristicsForm = forms.NewCharacteristicsForm(func(characteristics investigator.Characteristics) {
-		//s.Window.Close()
+		s.showMetaForm()
 	})
 
-	// Update the window content to display the CharacteristicsForm
 	s.Window.SetContent(container.NewVBox(
 		s.CharacteristicsForm.Render(),
 	))
+}
+
+func (s *CreateInvestigatorScreen) showMetaForm() {
+	s.MetaForm = forms.NewMetaForm(func(meta investigator.Meta) {
+		dialog.ShowInformation("Success", "All data submitted successfully!", s.Window)
+	})
+
+	s.Window.SetContent(s.MetaForm.RenderWithWindow(s.Window))
 }
 
 func (s *CreateInvestigatorScreen) Show() {
