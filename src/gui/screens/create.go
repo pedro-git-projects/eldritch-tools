@@ -13,10 +13,13 @@ type CreateInvestigatorScreen struct {
 	InfoForm            *forms.InfoForm
 	CharacteristicsForm *forms.CharacteristicsForm
 	MetaForm            *forms.MetaForm
+	SkillsForm          *forms.SkillsForm
 
 	info            investigator.Info
 	characteristics investigator.Characteristics
 	meta            investigator.Meta
+
+	investigator *investigator.Investigator
 }
 
 func NewCreateInvestigatorScreen(app fyne.App) *CreateInvestigatorScreen {
@@ -33,7 +36,6 @@ func NewCreateInvestigatorScreen(app fyne.App) *CreateInvestigatorScreen {
 	})
 
 	window.SetContent(screen.InfoForm.Render())
-
 	return screen
 }
 
@@ -62,9 +64,18 @@ func (s *CreateInvestigatorScreen) createInvestigator() {
 		return
 	}
 
-	dialog.ShowInformation("Investigator Created", "Investigator successfully created!", s.Window)
+	s.investigator = investigator
+	s.showSkillsForm()
+}
 
-	investigator.Print()
+func (s *CreateInvestigatorScreen) showSkillsForm() {
+	s.SkillsForm = forms.NewSkillsForm(s.investigator, func(updatedSkills map[string]*investigator.Skill) {
+		s.investigator.Skills = updatedSkills
+		s.investigator.PrintSkills()
+		dialog.ShowInformation("Success", "Investigator's skills updated successfully!", s.Window)
+	})
+
+	s.Window.SetContent(s.SkillsForm.RenderWithWindow(s.Window))
 }
 
 func (s *CreateInvestigatorScreen) Show() {
