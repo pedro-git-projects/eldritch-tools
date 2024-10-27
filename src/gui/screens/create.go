@@ -4,7 +4,9 @@ import (
 	"fmt"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/widget"
 	"github.com/pedro-git-projects/necronomicon-engine/src/commons"
 	"github.com/pedro-git-projects/necronomicon-engine/src/gui/forms"
 	"github.com/pedro-git-projects/necronomicon-engine/src/investigator"
@@ -34,13 +36,27 @@ func NewCreateInvestigatorScreen(app fyne.App) *CreateInvestigatorScreen {
 		Window: window,
 	}
 
-	screen.InfoForm = forms.NewInfoForm(func(info investigator.Info) {
-		screen.info = info
-		screen.showCharacteristicsForm()
+	screen.showInitialScreen()
+	return screen
+}
+
+func (s *CreateInvestigatorScreen) showInitialScreen() {
+	startButton := widget.NewButton("Create New Investigator", func() {
+		s.showInfoForm()
 	})
 
-	window.SetContent(screen.InfoForm.Render())
-	return screen
+	// Center the button in both vertical and horizontal directions
+	centered := container.NewCenter(startButton)
+	s.Window.SetContent(centered)
+}
+
+func (s *CreateInvestigatorScreen) showInfoForm() {
+	s.InfoForm = forms.NewInfoForm(func(info investigator.Info) {
+		s.info = info
+		s.showCharacteristicsForm()
+	})
+
+	s.Window.SetContent(s.InfoForm.Render())
 }
 
 func (s *CreateInvestigatorScreen) showCharacteristicsForm() {
@@ -75,10 +91,6 @@ func (s *CreateInvestigatorScreen) createInvestigator() {
 func (s *CreateInvestigatorScreen) showSkillsForm() {
 	s.SkillsForm = forms.NewSkillsForm(s.investigator, func(updatedSkills map[string]*investigator.Skill) {
 		s.investigator.Skills = updatedSkills
-		s.investigator.PrintSkills()
-		s.investigator.InitWealth()
-		s.investigator.Wealth.PrintWealth()
-		dialog.ShowInformation("Success", "Investigator's skills updated successfully!", s.Window)
 		s.showWeaponsForm()
 	})
 
@@ -90,15 +102,16 @@ func (s *CreateInvestigatorScreen) showWeaponsForm() {
 		for name, weapon := range weapons {
 			s.investigator.Weapons[name] = weapon
 		}
-		s.investigator.PrintWeapons()
 		err := s.investigator.Save()
 		if err != nil {
 			dialog.ShowError(fmt.Errorf("failed to save investigator: %w", err), s.Window)
 			return
 		}
 
-		dialog.ShowInformation("Success", "Investigator saved successfully!", s.Window)
+		dialog.ShowInformation("Success", "Investigator created successfully!", s.Window)
+		s.showInitialScreen()
 	})
+
 	s.Window.SetContent(s.WeaponsForm.RenderWithWindow(s.Window))
 }
 
