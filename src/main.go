@@ -1,13 +1,32 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"os"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"github.com/pedro-git-projects/necronomicon-engine/src/db"
 	"github.com/pedro-git-projects/necronomicon-engine/src/gui/screens"
 	"github.com/pedro-git-projects/necronomicon-engine/src/gui/theme"
 )
 
 func main() {
+
+	dbPath := "db/necronomicon.db"
+
+	if err := db.InitializeDB(dbPath); err != nil {
+		log.Fatalf("Error initializing database: %v", err)
+	}
+	defer func() {
+		if err := db.CloseDB(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing database: %v\n", err)
+		}
+	}()
+
+	fmt.Println("Application started with database initialized.")
+
 	a := app.New()
 	a.Settings().SetTheme(&theme.Cthulhu{})
 	investigatorScreen := screens.NewCreateInvestigatorScreen(a)

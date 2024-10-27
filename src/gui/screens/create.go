@@ -1,6 +1,8 @@
 package screens
 
 import (
+	"fmt"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/dialog"
 	"github.com/pedro-git-projects/necronomicon-engine/src/commons"
@@ -89,9 +91,14 @@ func (s *CreateInvestigatorScreen) showWeaponsForm() {
 			s.investigator.Weapons[name] = weapon
 		}
 		s.investigator.PrintWeapons()
-		dialog.ShowInformation("Success", "Investigator's weapons updated successfully!", s.Window)
-	})
+		err := s.investigator.Save()
+		if err != nil {
+			dialog.ShowError(fmt.Errorf("failed to save investigator: %w", err), s.Window)
+			return
+		}
 
+		dialog.ShowInformation("Success", "Investigator saved successfully!", s.Window)
+	})
 	s.Window.SetContent(s.WeaponsForm.RenderWithWindow(s.Window))
 }
 
