@@ -3,26 +3,18 @@ package main
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/widget"
+	"github.com/pedro-git-projects/necronomicon-engine/src/gui/screens"
 	"github.com/pedro-git-projects/necronomicon-engine/src/gui/theme"
 )
 
 func main() {
 	a := app.New()
 	a.Settings().SetTheme(&theme.Cthulhu{})
-	w := a.NewWindow("Necronomicon")
-	w.Resize(fyne.NewSize(400, 600))
+	investigatorScreen := screens.NewCreateInvestigatorScreen(a)
+	investigatorScreen.Window.Resize(fyne.NewSize(400, 600))
+	investigatorScreen.Show()
+	a.Run()
 
-	hello := widget.NewLabel("Hello Fyne!")
-	w.SetContent(container.NewVBox(
-		hello,
-		widget.NewButton("Hi!", func() {
-			hello.SetText("Welcome :)")
-		}),
-	))
-
-	w.ShowAndRun()
 	// player := &investigator.Investigator{}
 	// player.Info.Name = "Player1"
 	// player.SetIsPlayerControlled(true)
