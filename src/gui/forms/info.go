@@ -33,7 +33,7 @@ func NewInfoForm(onSubmit func(info investigator.Info)) *InfoForm {
 		OnSubmit:        onSubmit,
 	}
 
-	form.SubmitButton = widget.NewButton("Submit", form.handleSubmit)
+	form.SubmitButton = widget.NewButton("Next", form.handleSubmit)
 	return form
 }
 
