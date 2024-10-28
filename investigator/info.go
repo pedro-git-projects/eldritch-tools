@@ -25,3 +25,13 @@ func (i Info) PrintInfo() {
 	fmt.Printf("| %-14s | %-24s |\n", "Birthplace", i.Birthplace)
 	fmt.Println("+----------------+--------------------------+")
 }
+
+func (i *Info) UpdateInfo(name, player, occupation, residence, birthplace string, age uint, sex Sex) {
+	i.Name = name
+	i.Player = player
+	i.Occupation = occupation
+	i.Residence = residence
+	i.Birthplace = birthplace
+	i.Age = age
+	i.Sex = sex
+}
