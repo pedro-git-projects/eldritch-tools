@@ -5,17 +5,17 @@ import (
 	"log"
 	"os"
 
-	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/app"
+	"gioui.org/app"
+	"gioui.org/layout"
+	"gioui.org/op"
 	"github.com/pedro-git-projects/necronomicon-engine/src/db"
-	"github.com/pedro-git-projects/necronomicon-engine/src/gui/screens"
-	"github.com/pedro-git-projects/necronomicon-engine/src/gui/theme"
+	"github.com/pedro-git-projects/necronomicon-engine/src/imgui/form"
+	"github.com/pedro-git-projects/necronomicon-engine/src/imgui/theme"
+	"github.com/pedro-git-projects/necronomicon-engine/src/investigator"
 )
 
 func main() {
-
 	dbPath := "db/necronomicon.db"
-
 	if err := db.InitializeDB(dbPath); err != nil {
 		log.Fatalf("Error initializing database: %v", err)
 	}
@@ -27,36 +27,40 @@ func main() {
 
 	fmt.Println("Application started with database initialized.")
 
-	a := app.New()
-	a.Settings().SetTheme(&theme.Cthulhu{})
-	investigatorScreen := screens.NewCreateInvestigatorScreen(a)
-	investigatorScreen.Window.Resize(fyne.NewSize(400, 600))
-	investigatorScreen.Show()
-	a.Run()
+	go func() {
+		w := new(app.Window)
+		if err := run(w); err != nil {
+			log.Fatalf("Error running application: %v", err)
+		}
+	}()
 
-	// player := &investigator.Investigator{}
-	// player.Info.Name = "Player1"
-	// player.SetIsPlayerControlled(true)
-	// if err := player.InitializeTwenties(); err != nil {
-	// 	fmt.Println("Error initializing player:", err)
-	// 	return
-	// }
-	// player.Weapons["Sword"] = &commons.Weapon{Name: "Sword", Damage: 5, SkillName: "Fighting (Sword)"}
-	// player.Characteristics.Dex = 40
-	// player.HP.Value = 40
-	//
-	// npc := &investigator.Investigator{}
-	// npc.Info.Name = "NPC1"
-	// npc.SetIsPlayerControlled(false)
-	// if err := npc.InitializeTwenties(); err != nil {
-	// 	fmt.Println("Error initializing NPC:", err)
-	// 	return
-	// }
-	// npc.Weapons["Club"] = &commons.Weapon{Name: "Club", Damage: 4, SkillName: "Fighting (Club)"}
-	// npc.Characteristics.Dex = 20
-	// npc.HP.Value = 40
-	//
-	// engine := combat.NewCombatEngine([]combat.Actor{player, npc})
-	//
-	// engine.StartCombat()
+	app.Main()
+}
+
+func run(w *app.Window) error {
+	cthulhuTheme := theme.NewCthulhuTheme()
+
+	var ops op.Ops
+	infoForm := form.NewInfoForm(func(info investigator.Info) {
+		fmt.Println("Submitted info:", info)
+	})
+
+	for {
+		e := w.Event()
+		switch e := e.(type) {
+		case app.DestroyEvent:
+			return e.Err
+		case app.FrameEvent:
+			ops.Reset()
+
+			gtx := app.NewContext(&ops, e)
+			layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+					return infoForm.Layout(gtx, cthulhuTheme.Theme)
+				}),
+			)
+
+			e.Frame(&ops)
+		}
+	}
 }
