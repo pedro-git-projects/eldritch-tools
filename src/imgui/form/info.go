@@ -1,6 +1,7 @@
 package form
 
 import (
+	"image/color"
 	"strconv"
 
 	"gioui.org/layout"
@@ -15,8 +16,7 @@ type InfoForm struct {
 	PlayerEntry     widget.Editor
 	OccupationEntry widget.Editor
 	AgeEntry        widget.Editor
-	SexMale         widget.Clickable
-	SexFemale       widget.Clickable
+	SexEnum         widget.Enum
 	SelectedSex     string
 	ResidenceEntry  widget.Editor
 	BirthplaceEntry widget.Editor
@@ -30,6 +30,7 @@ func NewInfoForm(onSubmit func(info investigator.Info)) *InfoForm {
 		PlayerEntry:     widget.Editor{SingleLine: true},
 		OccupationEntry: widget.Editor{SingleLine: true},
 		AgeEntry:        widget.Editor{SingleLine: true},
+		SexEnum:         widget.Enum{Value: "Male"},
 		SelectedSex:     "Male",
 		ResidenceEntry:  widget.Editor{SingleLine: true},
 		BirthplaceEntry: widget.Editor{SingleLine: true},
@@ -38,13 +39,10 @@ func NewInfoForm(onSubmit func(info investigator.Info)) *InfoForm {
 }
 
 func (f *InfoForm) handleSubmit() {
-	// Convert the age from string to integer
 	age, err := strconv.Atoi(f.AgeEntry.Text())
 	if err != nil {
 		age = 0
 	}
-
-	// Determine selected sex
 	var sex investigator.Sex
 	switch f.SelectedSex {
 	case "Male":
@@ -52,8 +50,6 @@ func (f *InfoForm) handleSubmit() {
 	case "Female":
 		sex = investigator.Female
 	}
-
-	// Create the Info struct
 	info := investigator.Info{
 		Name:       f.NameEntry.Text(),
 		Player:     f.PlayerEntry.Text(),
@@ -63,57 +59,71 @@ func (f *InfoForm) handleSubmit() {
 		Residence:  f.ResidenceEntry.Text(),
 		Birthplace: f.BirthplaceEntry.Text(),
 	}
-	info.PrintInfo()
 	if f.OnSubmit != nil {
+		info.PrintInfo()
 		f.OnSubmit(info)
 	}
 }
 
 func (f *InfoForm) Layout(gtx layout.Context, th *material.Theme) layout.Dimensions {
-	// Layout form components vertically
-	return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
-		layout.Rigid(material.Label(th, unit.Sp(16), "Name").Layout),
-		layout.Rigid(material.Editor(th, &f.NameEntry, "Enter name").Layout),
-		layout.Rigid(material.Label(th, unit.Sp(16), "Player").Layout),
-		layout.Rigid(material.Editor(th, &f.PlayerEntry, "Enter player").Layout),
-		layout.Rigid(material.Label(th, unit.Sp(16), "Occupation").Layout),
-		layout.Rigid(material.Editor(th, &f.OccupationEntry, "Enter occupation").Layout),
-		layout.Rigid(material.Label(th, unit.Sp(16), "Age").Layout),
-		layout.Rigid(material.Editor(th, &f.AgeEntry, "Enter age").Layout),
-		layout.Rigid(material.Label(th, unit.Sp(16), "Sex").Layout),
+	inset := layout.UniformInset(unit.Dp(8))
+	buttonColor := color.NRGBA{R: 0x52, G: 0xa5, B: 0x93, A: 0xff}
+	btnTextColor := color.NRGBA{R: 0xf0, G: 0xfa, B: 0xfd, A: 0xff}
 
-		// Radio buttons for Sex selection
+	return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+		layout.Rigid(material.Label(th, unit.Sp(20), "Personal Information").Layout),
+
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			return inset.Layout(gtx, material.Editor(th, &f.NameEntry, "Enter name").Layout)
+		}),
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			return inset.Layout(gtx, material.Editor(th, &f.PlayerEntry, "Enter player").Layout)
+		}),
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			return inset.Layout(gtx, material.Editor(th, &f.OccupationEntry, "Enter occupation").Layout)
+		}),
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			return inset.Layout(gtx, material.Editor(th, &f.AgeEntry, "Enter age").Layout)
+		}),
+
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 			return layout.Flex{Axis: layout.Horizontal, Spacing: layout.SpaceEnd}.Layout(gtx,
+				layout.Rigid(material.Label(th, unit.Sp(16), "Sex: ").Layout),
 				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-					btn := material.Button(th, &f.SexMale, "Male")
-					if f.SexMale.Clicked(gtx) {
+					radioMale := material.RadioButton(th, &f.SexEnum, "Male", "Male")
+					radioMale.Color = btnTextColor
+					if f.SexEnum.Value == "Male" {
 						f.SelectedSex = "Male"
 					}
-					return btn.Layout(gtx)
+					return radioMale.Layout(gtx)
 				}),
 				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-					btn := material.Button(th, &f.SexFemale, "Female")
-					if f.SexFemale.Clicked(gtx) {
+					radioFemale := material.RadioButton(th, &f.SexEnum, "Female", "Female")
+					radioFemale.Color = btnTextColor
+					if f.SexEnum.Value == "Female" {
 						f.SelectedSex = "Female"
 					}
-					return btn.Layout(gtx)
+					return radioFemale.Layout(gtx)
 				}),
 			)
 		}),
 
-		layout.Rigid(material.Label(th, unit.Sp(16), "Residence").Layout),
-		layout.Rigid(material.Editor(th, &f.ResidenceEntry, "Enter residence").Layout),
-		layout.Rigid(material.Label(th, unit.Sp(16), "Birthplace").Layout),
-		layout.Rigid(material.Editor(th, &f.BirthplaceEntry, "Enter birthplace").Layout),
-
-		// Submit button
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			btn := material.Button(th, &f.SubmitButton, "Next")
+			return inset.Layout(gtx, material.Editor(th, &f.ResidenceEntry, "Enter residence").Layout)
+		}),
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			return inset.Layout(gtx, material.Editor(th, &f.BirthplaceEntry, "Enter birthplace").Layout)
+		}),
+
+		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+			submit := material.Button(th, &f.SubmitButton, "Next")
+			submit.Background = buttonColor
+			submit.Color = btnTextColor
+			submit.CornerRadius = unit.Dp(4)
 			if f.SubmitButton.Clicked(gtx) {
 				f.handleSubmit()
 			}
-			return btn.Layout(gtx)
+			return inset.Layout(gtx, submit.Layout)
 		}),
 	)
 }
