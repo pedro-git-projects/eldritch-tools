@@ -23,6 +23,7 @@ func main() {
 		Sex:        investigator.Male,
 		Residence:  "",
 		Birthplace: "",
+		Portrait:   make([]byte, 0),
 	}
 
 	// Print

@@ -48,7 +48,9 @@ func InitializeDB(dbPath string) error {
 		
 		luck INTEGER,
 		mp INTEGER,
-		wealth TEXT
+		wealth TEXT,
+
+		portrait BLOB
 	);
 	`
 	_, err = db.Exec(createTableQuery)

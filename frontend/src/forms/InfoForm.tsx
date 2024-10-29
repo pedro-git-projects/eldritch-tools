@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { UpdateInfo, PrintInfo } from '../../wailsjs/go/investigator/Info';
-import portrait from "../assets/images/portrait.jpg"
+import placeholder from "../assets/images/portrait.jpg"
 import TopMenu from './TopMenu';
 
 export default function InfoForm() {
@@ -12,6 +12,7 @@ export default function InfoForm() {
     sex: 'Male',
     residence: '',
     birthplace: '',
+    portrait: '',
   });
 
   const handleChange = (e: any) => {
@@ -32,13 +33,32 @@ export default function InfoForm() {
         info.residence,
         info.birthplace,
         parseInt(info.age, 10),
-        info.sex
+        info.sex,
+        info.portrait
       );
       alert('Info updated successfully!');
     } catch (error) {
       console.error('Error updating info:', error);
     }
   };
+
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result && typeof reader.result === "string") {
+          setInfo((prevInfo) => ({
+            ...prevInfo,
+            portrait: reader.result as string,
+          }));
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
 
   const handlePrintInfo = async () => {
     try {
@@ -48,6 +68,7 @@ export default function InfoForm() {
       console.error('Error printing info:', error);
     }
   };
+
 
   return (
     <>
@@ -61,15 +82,24 @@ export default function InfoForm() {
 
           <form onSubmit={handleSubmit} className="md:col-span-2">
             <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+
               <div className="col-span-full flex items-center gap-x-8">
                 <img
                   alt="Investigator Avatar"
-                  src={portrait}
+                  src={info.portrait || placeholder}
                   className="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover"
                 />
                 <div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                    id="portraitInput"
+                  />
                   <button
                     type="button"
+                    onClick={() => document.getElementById("portraitInput")?.click()}
                     className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
                   >
                     Change avatar
@@ -77,6 +107,7 @@ export default function InfoForm() {
                   <p className="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
                 </div>
               </div>
+
 
               <div className="sm:col-span-3">
                 <label htmlFor="name" className="block text-sm/6 font-medium text-white">

@@ -61,13 +61,14 @@ func (i *Investigator) Save() error {
 		INSERT INTO investigators 
 		(name, player, occupation, age, sex, residence, birthplace, 
 		characteristics, hp, sanity, combat, meta, weapons, skills, possessions, 
-		luck, mp, wealth)
+		luck, mp, wealth, portrait)
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
 		i.Info.Name, i.Info.Player, i.Info.Occupation, i.Info.Age, i.Info.Sex,
 		i.Info.Residence, i.Info.Birthplace,
 		characteristicsJSON, hpJSON, sanityJSON, combatJSON, metaJSON,
 		weaponsJSON, skillsJSON, possessionsJSON,
 		i.Luck, i.MP, wealthJSON,
+		i.Info.Portrait,
 	)
 	if err != nil {
 		return fmt.Errorf("could not insert investigator: %w", err)

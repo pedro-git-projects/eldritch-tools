@@ -6,6 +6,10 @@ export function PrintInfo() {
   return window['go']['investigator']['Info']['PrintInfo']();
 }
 
-export function UpdateInfo(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
-  return window['go']['investigator']['Info']['UpdateInfo'](arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+export function ToBase64() {
+  return window['go']['investigator']['Info']['ToBase64']();
+}
+
+export function UpdateInfo(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) {
+  return window['go']['investigator']['Info']['UpdateInfo'](arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
 }

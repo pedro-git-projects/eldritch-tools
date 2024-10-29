@@ -4,4 +4,6 @@ import {investigator} from '../models';
 
 export function PrintInfo():Promise<void>;
 
-export function UpdateInfo(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string,arg6:number,arg7:investigator.Sex):Promise<void>;
+export function ToBase64():Promise<string>;
+
+export function UpdateInfo(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string,arg6:number,arg7:investigator.Sex,arg8:string):Promise<void>;
