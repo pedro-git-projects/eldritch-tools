@@ -4,6 +4,7 @@ import (
 	"embed"
 	"necronomicon/investigator"
 
+	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
@@ -25,6 +26,17 @@ func main() {
 		Birthplace: "",
 		Portrait:   make([]byte, 0),
 	}
+	characteristics := investigator.Characteristics{
+		utils.Point(0),
+		utils.Point(0),
+		utils.Point(0),
+		utils.Point(0),
+		utils.Point(0),
+		utils.Point(0),
+		utils.Point(0),
+		utils.Point(0),
+		utils.Point(0),
+	}
 
 	// Print
 	// Create application with options
@@ -40,6 +52,7 @@ func main() {
 		Bind: []interface{}{
 			app,
 			&info,
+			&characteristics,
 		},
 	})
 

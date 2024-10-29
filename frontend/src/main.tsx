@@ -7,12 +7,14 @@ import {
 } from "react-router-dom";
 import SearchInvestigator from './screens/SearchInvestigator';
 import SimulateCombat from './screens/SimulateCombat';
+import InfoForm from './forms/InfoForm';
+import CharacteristicsForm from './forms/CharacteristicsForm';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <CreateInvestigator />,
+    element: <InfoForm />,
   },
   {
     path: "/search",
@@ -22,6 +24,10 @@ const router = createBrowserRouter([
     path: "/combat",
     element: <SimulateCombat />,
   },
+  {
+    path: "/characteristics",
+    element: <CharacteristicsForm />,
+  }
 ]);
 
 

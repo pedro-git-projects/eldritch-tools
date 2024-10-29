@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { UpdateInfo, PrintInfo } from '../../wailsjs/go/investigator/Info';
 import placeholder from "../assets/images/portrait.jpg"
+import Navigation from '../layout/Navigation';
 import TopMenu from './TopMenu';
 
 export default function InfoForm() {
@@ -71,7 +72,7 @@ export default function InfoForm() {
 
 
   return (
-    <>
+    <Navigation>
       <TopMenu />
       <div className="divide-y divide-white/5">
         <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
@@ -242,6 +243,6 @@ export default function InfoForm() {
           </form>
         </div>
       </div>
-    </>
+    </Navigation>
   );
 }

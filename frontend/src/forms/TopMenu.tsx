@@ -1,11 +1,15 @@
+import { Link, useLocation } from "react-router-dom"
+
 export default function TopMenu() {
   const navigation = [
-    { name: 'Info', href: '#', current: true },
-    { name: 'Characteristics', href: '#', current: false },
-    { name: 'Skills', href: '#', current: false },
-    { name: 'Weapons', href: '#', current: false },
-    { name: 'Background', href: '#', current: false },
+    { name: 'Info', href: '/' },
+    { name: 'Characteristics', href: '/characteristics' },
+    { name: 'Skills', href: '/skills' },
+    { name: 'Weapons', href: '/weapons' },
+    { name: 'Background', href: '/background' },
   ]
+
+  const location = useLocation();
 
   return (
     <header className="border-b border-white/5">
@@ -16,9 +20,16 @@ export default function TopMenu() {
         >
           {navigation.map((item) => (
             <li key={item.name}>
-              <a href={item.href} className={item.current ? 'text-indigo-400' : ''}>
+              <Link
+                to={item.href}
+                className={
+                  location.pathname === item.href
+                    ? 'text-indigo-400'
+                    : 'text-gray-400 hover:text-indigo-300'
+                }
+              >
                 {item.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
