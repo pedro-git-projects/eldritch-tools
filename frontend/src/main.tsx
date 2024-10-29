@@ -9,6 +9,9 @@ import SearchInvestigator from './screens/SearchInvestigator';
 import SimulateCombat from './screens/SimulateCombat';
 import InfoForm from './forms/InfoForm';
 import CharacteristicsForm from './forms/CharacteristicsForm';
+import WeaponsForm from './forms/WeaponsForm';
+import SkillsForm from './forms/SkillsForm';
+import BackgroundForm from './forms/BackgroundForm';
 
 
 const router = createBrowserRouter([
@@ -27,7 +30,19 @@ const router = createBrowserRouter([
   {
     path: "/characteristics",
     element: <CharacteristicsForm />,
-  }
+  },
+  {
+    path: "/skills",
+    element: <SkillsForm />,
+  },
+  {
+    path: "/weapons",
+    element: <WeaponsForm />,
+  },
+  {
+    path: "/background",
+    element: <BackgroundForm />,
+  },
 ]);
 
 
