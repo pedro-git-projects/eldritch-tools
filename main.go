@@ -16,13 +16,13 @@ func main() {
 	// Create an instance of the app structure
 	app := NewApp()
 	info := investigator.Info{
-		Name:       "John Doe",
-		Player:     "Player1",
-		Occupation: "Engineer",
-		Age:        30,
+		Name:       "",
+		Player:     "",
+		Occupation: "",
+		Age:        1,
 		Sex:        investigator.Male,
-		Residence:  "New York",
-		Birthplace: "Los Angeles",
+		Residence:  "",
+		Birthplace: "",
 	}
 
 	// Print
