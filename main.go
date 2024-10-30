@@ -27,15 +27,15 @@ func main() {
 		Portrait:   make([]byte, 0),
 	}
 	characteristics := investigator.Characteristics{
-		utils.Point(0),
-		utils.Point(0),
-		utils.Point(0),
-		utils.Point(0),
-		utils.Point(0),
-		utils.Point(0),
-		utils.Point(0),
-		utils.Point(0),
-		utils.Point(0),
+		Str:  utils.Point(0),
+		Dex:  utils.Point(0),
+		Int:  utils.Point(0),
+		Con:  utils.Point(0),
+		App:  utils.Point(0),
+		Pow:  utils.Point(0),
+		Siz:  utils.Point(0),
+		Edu:  utils.Point(0),
+		Move: utils.Point(0),
 	}
 
 	// Print

@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client'
 import './style.css'
-import CreateInvestigator from './screens/CreateInvestigator'
 import {
   createBrowserRouter,
   RouterProvider,

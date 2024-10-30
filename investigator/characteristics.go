@@ -49,5 +49,17 @@ func (c Characteristics) PrintCharacteristics() {
 	fmt.Printf("| %-25s | %5d |\n", "Movement", c.Move)
 	fmt.Printf("| %-25s | %5d |\n", "Movement (Half)", c.Move.GetHalf())
 	fmt.Printf("| %-25s | %5d |\n", "Movement (Fifth)", c.Move.GetFifth())
-	fmt.Println("+-----------------+-------+")
+	fmt.Println("+---------------------------+-------+")
+}
+
+func (c *Characteristics) UpdateCharacteristics(str, dex, inte, con, app, pow, siz, edu, move utils.Point) {
+	c.Str = str
+	c.Dex = dex
+	c.Int = inte
+	c.Con = con
+	c.App = app
+	c.Pow = pow
+	c.Siz = siz
+	c.Edu = edu
+	c.Move = move
 }
