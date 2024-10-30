@@ -198,3 +198,17 @@ func (i *Investigator) GetSkillLevel(skillName string) uint8 {
 func (i *Investigator) GetDamageBonus() int8 {
 	return i.Combat.DamageBonus
 }
+
+func NewInvestigator(info Info, meta Meta, characteristics Characteristics) (*Investigator, error) {
+	investigator := &Investigator{
+		Info:            info,
+		Meta:            meta,
+		Characteristics: characteristics,
+	}
+
+	if err := investigator.InitializeTwenties(); err != nil {
+		return nil, fmt.Errorf("failed to initialize investigator: %w", err)
+	}
+
+	return investigator, nil
+}

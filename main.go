@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"log"
 	"necronomicon/investigator"
 
 	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
@@ -37,10 +38,15 @@ func main() {
 		Edu:  utils.Point(0),
 		Move: utils.Point(0),
 	}
+	meta := investigator.Meta{}
+	i, err := investigator.NewInvestigator(info, meta, characteristics)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Print
 	// Create application with options
-	err := wails.Run(&options.App{
+	err = wails.Run(&options.App{
 		Title:  "necronomicon",
 		Width:  1024,
 		Height: 768,
@@ -53,6 +59,8 @@ func main() {
 			app,
 			&info,
 			&characteristics,
+			&meta,
+			i,
 		},
 	})
 

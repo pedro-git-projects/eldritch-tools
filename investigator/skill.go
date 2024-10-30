@@ -30,6 +30,18 @@ func (s *Skill) SetLevel(level int) {
 	s.Level = utils.Point(level)
 }
 
+func (i *Investigator) GetSkills() []Skill {
+	skills := []Skill{}
+	for _, skill := range i.Skills {
+		skills = append(skills, Skill{
+			Name:       skill.Name,
+			BaseChance: skill.BaseChance,
+			Level:      skill.Level,
+		})
+	}
+	return skills
+}
+
 func (i *Investigator) PrintSkills() {
 	fmt.Println("+--------------------------+------------+--------+")
 	fmt.Println("| Skill Name               | Base Chance| Level  |")
