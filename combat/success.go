@@ -2,9 +2,8 @@ package combat
 
 import (
 	"errors"
-
-	"github.com/pedro-git-projects/necronomicon-engine/src/dice"
-	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
+	"necronomicon/dice"
+	"necronomicon/utils"
 )
 
 func RollSuccessLevel(skillLevel uint8) (string, uint8, error) {

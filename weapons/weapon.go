@@ -1,4 +1,4 @@
-package commons
+package weapons
 
 type Weapon struct {
 	Name            string

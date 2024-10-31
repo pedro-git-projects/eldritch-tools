@@ -3,7 +3,7 @@ export namespace combat {
 	export class Action {
 	    Type: number;
 	    Target: any;
-	    Weapon?: commons.Weapon;
+	    Weapon?: weapons.Weapon;
 	    SuccessLevel: string;
 	
 	    static createFrom(source: any = {}) {
@@ -14,7 +14,7 @@ export namespace combat {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Type = source["Type"];
 	        this.Target = source["Target"];
-	        this.Weapon = this.convertValues(source["Weapon"], commons.Weapon);
+	        this.Weapon = this.convertValues(source["Weapon"], weapons.Weapon);
 	        this.SuccessLevel = source["SuccessLevel"];
 	    }
 	
@@ -55,7 +55,28 @@ export namespace combat {
 
 }
 
-export namespace commons {
+export namespace investigator {
+	
+	export class Skill {
+	    Name: string;
+	    BaseChance: number;
+	    Level: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new Skill(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Name = source["Name"];
+	        this.BaseChance = source["BaseChance"];
+	        this.Level = source["Level"];
+	    }
+	}
+
+}
+
+export namespace weapons {
 	
 	export class Weapon {
 	    Name: string;
@@ -81,25 +102,28 @@ export namespace commons {
 	        this.Malf = source["Malf"];
 	    }
 	}
-
-}
-
-export namespace investigator {
-	
-	export class Skill {
+	export class WeaponConfig {
 	    Name: string;
-	    BaseChance: number;
-	    Level: number;
+	    SkillName: string;
+	    Damage: number;
+	    NumberOfAttacks: number;
+	    Range: number;
+	    Ammo: number;
+	    Malf: number;
 	
 	    static createFrom(source: any = {}) {
-	        return new Skill(source);
+	        return new WeaponConfig(source);
 	    }
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Name = source["Name"];
-	        this.BaseChance = source["BaseChance"];
-	        this.Level = source["Level"];
+	        this.SkillName = source["SkillName"];
+	        this.Damage = source["Damage"];
+	        this.NumberOfAttacks = source["NumberOfAttacks"];
+	        this.Range = source["Range"];
+	        this.Ammo = source["Ammo"];
+	        this.Malf = source["Malf"];
 	    }
 	}
 

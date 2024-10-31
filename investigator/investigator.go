@@ -3,13 +3,13 @@ package investigator
 import (
 	"bufio"
 	"fmt"
+	"necronomicon/combat"
+	"necronomicon/weapons"
 	"os"
 	"strconv"
 	"strings"
 
-	"github.com/pedro-git-projects/necronomicon-engine/src/combat"
-	"github.com/pedro-git-projects/necronomicon-engine/src/commons"
-	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
+	"necronomicon/utils"
 )
 
 type Investigator struct {
@@ -20,7 +20,7 @@ type Investigator struct {
 	Luck               uint8
 	MP                 uint8
 	Skills             map[string]*Skill
-	Weapons            map[string]*commons.Weapon
+	Weapons            map[string]*weapons.Weapon
 	Combat             Combat
 	Meta               Meta
 	Possessions        Possessions
@@ -31,7 +31,7 @@ type Investigator struct {
 func (i *Investigator) InitializeTwenties() error {
 
 	i.Skills = make(map[string]*Skill)
-	i.Weapons = make(map[string]*commons.Weapon)
+	i.Weapons = make(map[string]*weapons.Weapon)
 
 	if err := i.InitLuck(); err != nil {
 		return err
@@ -113,11 +113,11 @@ func (i *Investigator) selectTarget(engine *combat.CombatEngine) combat.Actor {
 	}
 }
 
-func (i *Investigator) selectWeapon() *commons.Weapon {
+func (i *Investigator) selectWeapon() *weapons.Weapon {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Println("\nSelect weapon or skill for attack:")
-	weaponList := make([]*commons.Weapon, 0, len(i.Weapons))
+	weaponList := make([]*weapons.Weapon, 0, len(i.Weapons))
 	idx := 1
 
 	for _, weapon := range i.Weapons {

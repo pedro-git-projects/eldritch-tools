@@ -4,8 +4,8 @@ import (
 	"embed"
 	"log"
 	"necronomicon/investigator"
+	"necronomicon/utils"
 
-	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"

@@ -4,8 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-
-	"github.com/pedro-git-projects/necronomicon-engine/src/db"
+	"necronomicon/db"
 )
 
 func toJSON(v interface{}) (string, error) {

@@ -2,9 +2,8 @@ package api
 
 import (
 	"encoding/json"
+	"necronomicon/investigator"
 	"net/http"
-
-	"github.com/pedro-git-projects/necronomicon-engine/src/investigator"
 )
 
 func InvestigatorHandler(w http.ResponseWriter, r *http.Request) {

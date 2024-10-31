@@ -3,8 +3,7 @@ package investigator
 import (
 	"fmt"
 	"math/rand"
-
-	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
+	"necronomicon/utils"
 )
 
 type Skill struct {

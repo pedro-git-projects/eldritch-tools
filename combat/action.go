@@ -1,6 +1,8 @@
 package combat
 
-import "github.com/pedro-git-projects/necronomicon-engine/src/commons"
+import (
+	"necronomicon/weapons"
+)
 
 type ActionType int
 
@@ -14,6 +16,6 @@ const (
 type Action struct {
 	Type         ActionType
 	Target       Actor
-	Weapon       *commons.Weapon
+	Weapon       *weapons.Weapon
 	SuccessLevel string // Regular, Hard, Extreme, Critical
 }

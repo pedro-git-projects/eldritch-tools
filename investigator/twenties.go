@@ -3,10 +3,9 @@ package investigator
 import (
 	"errors"
 	"fmt"
-
-	"github.com/pedro-git-projects/necronomicon-engine/src/commons"
-	"github.com/pedro-git-projects/necronomicon-engine/src/dice"
-	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
+	"necronomicon/dice"
+	"necronomicon/utils"
+	"necronomicon/weapons"
 )
 
 func (i *Investigator) InitTwentiesBaseSkills() {
@@ -70,8 +69,25 @@ func (i *Investigator) InitWeapons() error {
 	if err != nil {
 		return err
 	}
-	i.Weapons["Unarmed"] = commons.NewWeapon("Unarmed", "Fighting (Brawl)", damage)
+	i.Weapons["Unarmed"] = weapons.NewWeapon("Unarmed", "Fighting (Brawl)", damage)
 	return nil
+}
+
+func (i *Investigator) AddWeapon(name, skillName string, damage uint8, options ...weapons.WeaponOption) {
+	weapon := weapons.NewWeapon(name, skillName, damage, options...)
+	i.Weapons[name] = weapon
+	fmt.Printf("Added weapon: %s, Damage: %d, Skill: %s\n", weapon.Name, weapon.Damage, weapon.SkillName)
+}
+
+func (i *Investigator) AddWeaponWithConfig(config weapons.WeaponConfig) {
+	options := []weapons.WeaponOption{
+		weapons.WithRange(config.Range),
+		weapons.WithAmmo(config.Ammo),
+		weapons.WithMalf(config.Malf),
+		weapons.WithNumberOfAttacks(config.NumberOfAttacks),
+	}
+
+	i.AddWeapon(config.Name, config.SkillName, config.Damage, options...)
 }
 
 func (i *Investigator) InitLuck() error {

@@ -3,7 +3,7 @@ package investigator
 import (
 	"fmt"
 
-	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
+	"necronomicon/utils"
 )
 
 type Characteristics struct {
