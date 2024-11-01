@@ -19,6 +19,19 @@ type Meta struct {
 	EncountersWithStrangeEntities string
 }
 
+func (m *Meta) UpdateMeta(personalDescription, traits, ideologyAndBeliefs, significantPeople, meaningfulLocations, treasuredPosessions, injuriesAndScars, phobiasAndManias, arcaneTomesSpellsAndArtifacts, encountersWithStrangeEntities string) {
+	m.PersonalDescription = personalDescription
+	m.Traits = traits
+	m.IdeologyAndBeliefs = ideologyAndBeliefs
+	m.SignificantPeople = significantPeople
+	m.MeaningfulLocations = meaningfulLocations
+	m.TreasuredPosessions = treasuredPosessions
+	m.InjuriesAndScars = injuriesAndScars
+	m.PhobiasAndManias = phobiasAndManias
+	m.ArcaneTomesSpellsAndArtifacts = arcaneTomesSpellsAndArtifacts
+	m.EncountersWithStrangeEntities = encountersWithStrangeEntities
+}
+
 func (m Meta) PrintMeta() {
 	fmt.Println("===================================")
 	fmt.Println("          Investigator Meta        ")
