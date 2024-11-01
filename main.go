@@ -62,6 +62,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	possesions := investigator.Possessions{}
 
 	// Print
 	// Create application with options
@@ -78,6 +79,7 @@ func main() {
 			app,
 			&info,
 			&characteristics,
+			&possesions,
 			&meta,
 			i,
 		},

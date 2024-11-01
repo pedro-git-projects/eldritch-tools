@@ -141,6 +141,34 @@ export namespace investigator {
 	        this.EncountersWithStrangeEntities = source["EncountersWithStrangeEntities"];
 	    }
 	}
+	export class Possession {
+	    Name: string;
+	    Description: string;
+	    Quantity: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new Possession(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Name = source["Name"];
+	        this.Description = source["Description"];
+	        this.Quantity = source["Quantity"];
+	    }
+	}
+	export class Possessions {
+	
+	
+	    static createFrom(source: any = {}) {
+	        return new Possessions(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	
+	    }
+	}
 	export class Skill {
 	    Name: string;
 	    BaseChance: number;

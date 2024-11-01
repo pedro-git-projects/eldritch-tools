@@ -213,8 +213,19 @@ func NewInvestigator(info Info, meta Meta, characteristics Characteristics) (*In
 	return investigator, nil
 }
 
-func (i *Investigator) UpdateInvestigator(info Info, meta Meta, characteristics Characteristics) {
+func (i *Investigator) UpdateInvestigator(info Info, meta Meta, characteristics Characteristics, possessions []Possession) {
 	i.Info = info
 	i.Meta = meta
 	i.Characteristics = characteristics
+
+	i.Possessions.items = make(map[string]*Possession)
+	for _, possession := range possessions {
+		i.Possessions.items[possession.Name] = &Possession{
+			Name:        possession.Name,
+			Description: possession.Description,
+			Quantity:    possession.Quantity,
+		}
+	}
+
+	i.Print()
 }
