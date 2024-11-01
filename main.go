@@ -17,7 +17,8 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
-// var placeholderImage []byte
+//go:embed assets/portrait.jpg
+var placeholderImage []byte
 
 func main() {
 	dbPath := "sqlite_db/necronomicon.db"
@@ -43,7 +44,7 @@ func main() {
 		Sex:        investigator.Male,
 		Residence:  "",
 		Birthplace: "",
-		Portrait:   make([]byte, 0),
+		Portrait:   placeholderImage,
 	}
 	characteristics := investigator.Characteristics{
 		Str:  utils.Point(0),
