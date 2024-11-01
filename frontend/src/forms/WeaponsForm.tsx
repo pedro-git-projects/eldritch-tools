@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
-import { AddWeaponWithConfig } from "../../wailsjs/go/investigator/Investigator";
+import { AddWeaponWithConfig, Print } from "../../wailsjs/go/investigator/Investigator";
 import WeaponsList from "../components/WeaponsList";
 
 interface WeaponData {
@@ -67,6 +67,25 @@ export default function WeaponsForm() {
       malf: 0,
       numberOfAttacks: 1,
     });
+  };
+
+  const handleBindWeapons = async () => {
+    for (const weapon of weapons) {
+      const weaponConfig = {
+        Name: weapon.name,
+        SkillName: weapon.skillName,
+        Damage: weapon.damage,
+        Range: weapon.range,
+        Ammo: weapon.ammo,
+        Malf: weapon.malf,
+        NumberOfAttacks: weapon.numberOfAttacks,
+      };
+
+      await AddWeaponWithConfig(weaponConfig);
+      await Print();
+    }
+
+    alert("Weapons bound to investigator successfully.");
   };
 
   const handleEditWeapon = (index: number) => {
@@ -160,6 +179,7 @@ export default function WeaponsForm() {
           Add Weapon
         </button>
 
+
         {editingWeapon && (
           <div
             className="fixed inset-0 flex items-center justify-center bg-cthulhu-secondary bg-opacity-90"
@@ -244,10 +264,16 @@ export default function WeaponsForm() {
           </div>
         )}
 
-        <div className="mt-8">
+        <div className="mt-8 ">
           <h3 className="text-lg font-semibold text-white">Current Weapons</h3>
           <WeaponsList weapons={weapons} onEdit={handleEditWeapon} onDelete={handleDeleteWeapon} />
         </div>
+        <button
+          onClick={handleBindWeapons}
+          className="mt-4 rounded-md bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400"
+        >
+          Bind Weapons to Investigator
+        </button>
       </div>
     </Navigation>
   );
