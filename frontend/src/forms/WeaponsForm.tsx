@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 import { AddWeaponWithConfig } from "../../wailsjs/go/investigator/Investigator";
+import WeaponsList from "../components/WeaponsList";
 
 interface WeaponData {
   name: string;
@@ -25,18 +26,23 @@ export default function WeaponsForm() {
     numberOfAttacks: 1,
   });
 
-  const [showPreview, setShowPreview] = useState(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingWeapon, setEditingWeapon] = useState<WeaponData | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, isEditMode = false) => {
     const { name, value } = e.target;
-    setNewWeapon((prev) => ({
-      ...prev,
-      [name]: name === "damage" || name === "range" || name === "ammo" || name === "malf" || name === "numberOfAttacks" ? Number(value) : value,
-    }));
-    setShowPreview(true);
+    const update = isEditMode ? setEditingWeapon : setNewWeapon;
+
+    update((prev: any) =>
+      prev
+        ? {
+          ...prev,
+          [name]:
+            name === "name" || name === "skillName" ? value : Number(value),
+        }
+        : prev
+    );
   };
-
-
 
   const handleAddWeapon = async () => {
     const weaponConfig = {
@@ -61,9 +67,26 @@ export default function WeaponsForm() {
       malf: 0,
       numberOfAttacks: 1,
     });
-    setShowPreview(false);
   };
 
+  const handleEditWeapon = (index: number) => {
+    setEditingIndex(index);
+    setEditingWeapon({ ...weapons[index] });
+  };
+
+  const handleSaveEdit = () => {
+    if (editingIndex !== null && editingWeapon) {
+      setWeapons((prev) =>
+        prev.map((weapon, i) => (i === editingIndex ? editingWeapon : weapon))
+      );
+      setEditingIndex(null);
+      setEditingWeapon(null);
+    }
+  };
+
+  const handleDeleteWeapon = (index: number) => {
+    setWeapons((prev) => prev.filter((_, i) => i !== index));
+  };
 
   return (
     <Navigation>
@@ -76,7 +99,7 @@ export default function WeaponsForm() {
             type="text"
             name="name"
             value={newWeapon.name}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             placeholder="Weapon Name"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -84,7 +107,7 @@ export default function WeaponsForm() {
             type="text"
             name="skillName"
             value={newWeapon.skillName}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             placeholder="Skill Name"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -92,7 +115,7 @@ export default function WeaponsForm() {
             type="number"
             name="damage"
             value={newWeapon.damage}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             placeholder="Damage"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -100,7 +123,7 @@ export default function WeaponsForm() {
             type="number"
             name="range"
             value={newWeapon.range}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             placeholder="Range"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -108,7 +131,7 @@ export default function WeaponsForm() {
             type="number"
             name="ammo"
             value={newWeapon.ammo}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             placeholder="Ammo"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -116,7 +139,7 @@ export default function WeaponsForm() {
             type="number"
             name="malf"
             value={newWeapon.malf}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             placeholder="Malf"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -124,7 +147,7 @@ export default function WeaponsForm() {
             type="number"
             name="numberOfAttacks"
             value={newWeapon.numberOfAttacks}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
             placeholder="Number of Attacks"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -137,29 +160,93 @@ export default function WeaponsForm() {
           Add Weapon
         </button>
 
-
-        {showPreview && (
-          <div className="mt-4 p-4 bg-gray-700 rounded-md text-white">
-            <h3 className="text-lg font-semibold">Weapon Preview</h3>
-            <p>Name: {newWeapon.name}</p>
-            <p>Skill Name: {newWeapon.skillName}</p>
-            <p>Damage: {newWeapon.damage}</p>
-            <p>Range: {newWeapon.range}</p>
-            <p>Ammo: {newWeapon.ammo}</p>
-            <p>Malf: {newWeapon.malf}</p>
-            <p>Number of Attacks: {newWeapon.numberOfAttacks}</p>
+        {editingWeapon && (
+          <div
+            className="fixed inset-0 flex items-center justify-center bg-cthulhu-secondary bg-opacity-90"
+            style={{ zIndex: 1050 }}
+          >
+            <div className="bg-cthulhu-dark p-6 rounded-md z-1050 shadow-lg max-w-lg w-full mx-4 sm:mx-6 md:mx-auto">
+              <h3 className="text-lg font-semibold mb-4 text-cthulhu-highlight">Edit Weapon</h3>
+              <input
+                type="text"
+                name="name"
+                value={editingWeapon.name}
+                onChange={(e) => handleInputChange(e, true)}
+                placeholder="Weapon Name"
+                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
+              />
+              <input
+                type="text"
+                name="skillName"
+                value={editingWeapon.skillName}
+                onChange={(e) => handleInputChange(e, true)}
+                placeholder="Skill Name"
+                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
+              />
+              <input
+                type="number"
+                name="damage"
+                value={editingWeapon.damage}
+                onChange={(e) => handleInputChange(e, true)}
+                placeholder="Damage"
+                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
+              />
+              <input
+                type="number"
+                name="range"
+                value={editingWeapon.range}
+                onChange={(e) => handleInputChange(e, true)}
+                placeholder="Range"
+                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
+              />
+              <input
+                type="number"
+                name="ammo"
+                value={editingWeapon.ammo}
+                onChange={(e) => handleInputChange(e, true)}
+                placeholder="Ammo"
+                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
+              />
+              <input
+                type="number"
+                name="malf"
+                value={editingWeapon.malf}
+                onChange={(e) => handleInputChange(e, true)}
+                placeholder="Malf"
+                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
+              />
+              <input
+                type="number"
+                name="numberOfAttacks"
+                value={editingWeapon.numberOfAttacks}
+                onChange={(e) => handleInputChange(e, true)}
+                placeholder="Number of Attacks"
+                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
+              />
+              <div className="flex justify-end gap-2 mt-4">
+                <button
+                  onClick={() => {
+                    setEditingIndex(null);
+                    setEditingWeapon(null);
+                  }}
+                  className="rounded-md bg-cthulhu-muted px-4 py-2 text-sm text-cthulhu-bg hover:bg-cthulhu-bluegray"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveEdit}
+                  className="rounded-md bg-cthulhu-accent px-4 py-2 text-sm text-cthulhu-bg hover:bg-cthulhu-teal"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
         <div className="mt-8">
           <h3 className="text-lg font-semibold text-white">Current Weapons</h3>
-          <ul className="mt-2 text-white space-y-2">
-            {weapons.map((weapon, index) => (
-              <li key={index}>
-                {weapon.name} - Damage: {weapon.damage}, Skill: {weapon.skillName}
-              </li>
-            ))}
-          </ul>
+          <WeaponsList weapons={weapons} onEdit={handleEditWeapon} onDelete={handleDeleteWeapon} />
         </div>
       </div>
     </Navigation>
