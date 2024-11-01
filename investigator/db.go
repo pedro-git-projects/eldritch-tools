@@ -82,19 +82,17 @@ func (i *Investigator) Save() error {
 	fmt.Println("19. Portrait (Base64):")
 
 	_, err = db.Exec(`
-    INSERT INTO investigators 
-    (name, player, occupation, age, sex, residence, birthplace, 
-    characteristics, hp, sanity, combat, meta, weapons, skills, possessions, 
-    luck, mp, wealth, portrait)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+		INSERT INTO investigators 
+		(name, player, occupation, age, sex, residence, birthplace, 
+		characteristics, hp, sanity, combat, meta, weapons, skills, possessions, 
+		luck, mp, wealth, portrait)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
 		i.Info.Name, i.Info.Player, i.Info.Occupation, i.Info.Age, i.Info.Sex,
 		i.Info.Residence, i.Info.Birthplace,
 		characteristicsJSON, hpJSON, sanityJSON, combatJSON, metaJSON,
 		weaponsJSON, skillsJSON, possessionsJSON,
-		i.Luck, i.MP, wealthJSON,
-		portraitBase64,
+		i.Luck, i.MP, wealthJSON, portraitBase64,
 	)
-
 	if err != nil {
 		return fmt.Errorf("could not insert investigator: %w", err)
 	}
