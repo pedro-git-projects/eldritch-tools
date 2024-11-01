@@ -11,6 +11,7 @@ import CharacteristicsForm from './forms/CharacteristicsForm';
 import WeaponsForm from './forms/WeaponsForm';
 import SkillsForm from './forms/SkillsForm';
 import BackgroundForm from './forms/BackgroundForm';
+import SaveInvestigator from './forms/SaveInvestigator';
 
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/background",
     element: <BackgroundForm />,
+  },
+  {
+    path: "/save",
+    element: <SaveInvestigator />,
   },
 ]);
 

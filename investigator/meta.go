@@ -32,6 +32,10 @@ func (m *Meta) UpdateMeta(personalDescription, traits, ideologyAndBeliefs, signi
 	m.EncountersWithStrangeEntities = encountersWithStrangeEntities
 }
 
+func (m *Meta) GetMeta() Meta {
+	return *m
+}
+
 func (m Meta) PrintMeta() {
 	fmt.Println("===================================")
 	fmt.Println("          Investigator Meta        ")

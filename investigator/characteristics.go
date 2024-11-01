@@ -63,3 +63,7 @@ func (c *Characteristics) UpdateCharacteristics(str, dex, inte, con, app, pow, s
 	c.Edu = edu
 	c.Move = move
 }
+
+func (c *Characteristics) GetCharacteristics() Characteristics {
+	return *c
+}

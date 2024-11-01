@@ -109,3 +109,7 @@ export function SetIsPlayerControlled(arg1) {
 export function TakeTurn(arg1) {
   return window['go']['investigator']['Investigator']['TakeTurn'](arg1);
 }
+
+export function UpdateInvestigator(arg1, arg2, arg3) {
+  return window['go']['investigator']['Investigator']['UpdateInvestigator'](arg1, arg2, arg3);
+}

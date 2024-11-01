@@ -212,3 +212,9 @@ func NewInvestigator(info Info, meta Meta, characteristics Characteristics) (*In
 
 	return investigator, nil
 }
+
+func (i *Investigator) UpdateInvestigator(info Info, meta Meta, characteristics Characteristics) {
+	i.Info = info
+	i.Meta = meta
+	i.Characteristics = characteristics
+}

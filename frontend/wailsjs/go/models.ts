@@ -57,6 +57,90 @@ export namespace combat {
 
 export namespace investigator {
 	
+	export class Characteristics {
+	    Str: number;
+	    Dex: number;
+	    Int: number;
+	    Con: number;
+	    App: number;
+	    Pow: number;
+	    Siz: number;
+	    Edu: number;
+	    Move: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new Characteristics(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Str = source["Str"];
+	        this.Dex = source["Dex"];
+	        this.Int = source["Int"];
+	        this.Con = source["Con"];
+	        this.App = source["App"];
+	        this.Pow = source["Pow"];
+	        this.Siz = source["Siz"];
+	        this.Edu = source["Edu"];
+	        this.Move = source["Move"];
+	    }
+	}
+	export class Info {
+	    Name: string;
+	    Player: string;
+	    Occupation: string;
+	    Age: number;
+	    Sex: number;
+	    Residence: string;
+	    Birthplace: string;
+	    Portrait: number[];
+	
+	    static createFrom(source: any = {}) {
+	        return new Info(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Name = source["Name"];
+	        this.Player = source["Player"];
+	        this.Occupation = source["Occupation"];
+	        this.Age = source["Age"];
+	        this.Sex = source["Sex"];
+	        this.Residence = source["Residence"];
+	        this.Birthplace = source["Birthplace"];
+	        this.Portrait = source["Portrait"];
+	    }
+	}
+	export class Meta {
+	    PersonalDescription: string;
+	    Traits: string;
+	    IdeologyAndBeliefs: string;
+	    SignificantPeople: string;
+	    MeaningfulLocations: string;
+	    TreasuredPosessions: string;
+	    InjuriesAndScars: string;
+	    PhobiasAndManias: string;
+	    ArcaneTomesSpellsAndArtifacts: string;
+	    EncountersWithStrangeEntities: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Meta(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.PersonalDescription = source["PersonalDescription"];
+	        this.Traits = source["Traits"];
+	        this.IdeologyAndBeliefs = source["IdeologyAndBeliefs"];
+	        this.SignificantPeople = source["SignificantPeople"];
+	        this.MeaningfulLocations = source["MeaningfulLocations"];
+	        this.TreasuredPosessions = source["TreasuredPosessions"];
+	        this.InjuriesAndScars = source["InjuriesAndScars"];
+	        this.PhobiasAndManias = source["PhobiasAndManias"];
+	        this.ArcaneTomesSpellsAndArtifacts = source["ArcaneTomesSpellsAndArtifacts"];
+	        this.EncountersWithStrangeEntities = source["EncountersWithStrangeEntities"];
+	    }
+	}
 	export class Skill {
 	    Name: string;
 	    BaseChance: number;

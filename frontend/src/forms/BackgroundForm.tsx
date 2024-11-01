@@ -2,7 +2,6 @@ import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 import { useState } from "react";
 import { UpdateMeta } from "../../wailsjs/go/investigator/Meta"
-// TODO: Bind to investigator
 
 export default function BackgroundForm() {
   const [meta, setMeta] = useState({

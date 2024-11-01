@@ -50,3 +50,7 @@ func (i *Info) UpdateInfo(name, player, occupation, residence, birthplace string
 
 	return nil
 }
+
+func (i *Info) GetInfo() Info {
+	return *i
+}

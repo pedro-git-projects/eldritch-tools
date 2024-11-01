@@ -57,3 +57,5 @@ export function Save():Promise<void>;
 export function SetIsPlayerControlled(arg1:boolean):Promise<void>;
 
 export function TakeTurn(arg1:combat.CombatEngine):Promise<void>;
+
+export function UpdateInvestigator(arg1:investigator.Info,arg2:investigator.Meta,arg3:investigator.Characteristics):Promise<void>;

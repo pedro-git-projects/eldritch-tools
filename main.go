@@ -2,9 +2,12 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"log"
+	"necronomicon/db"
 	"necronomicon/investigator"
 	"necronomicon/utils"
+	"os"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -14,7 +17,23 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
+//go:embed frontend/dist/assets/*portrait*
+var placeholderImage []byte
+
 func main() {
+	dbPath := "sqlite_db/necronomicon.db"
+
+	if err := db.InitializeDB(dbPath); err != nil {
+		log.Fatalf("Error initializing database: %v", err)
+	}
+	defer func() {
+		if err := db.CloseDB(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing database: %v\n", err)
+		}
+	}()
+
+	fmt.Println("Application started with database initialized.")
+
 	// Create an instance of the app structure
 	app := NewApp()
 	info := investigator.Info{
@@ -25,7 +44,7 @@ func main() {
 		Sex:        investigator.Male,
 		Residence:  "",
 		Birthplace: "",
-		Portrait:   make([]byte, 0),
+		Portrait:   placeholderImage,
 	}
 	characteristics := investigator.Characteristics{
 		Str:  utils.Point(0),

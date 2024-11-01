@@ -7,6 +7,7 @@ export default function TopMenu() {
     { name: 'Skills', href: '/skills' },
     { name: 'Weapons', href: '/weapons' },
     { name: 'Background', href: '/background' },
+    { name: 'Save', href: '/save' },
   ]
 
   const location = useLocation();

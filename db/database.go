@@ -50,7 +50,7 @@ func InitializeDB(dbPath string) error {
 		mp INTEGER,
 		wealth TEXT,
 
-		portrait BLOB
+		portrait TEXT 
 	);
 	`
 	_, err = db.Exec(createTableQuery)
