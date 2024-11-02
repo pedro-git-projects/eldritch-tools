@@ -5,6 +5,7 @@ import { UpdateInvestigator, Save, Print } from '../../wailsjs/go/investigator/I
 import { GetInfo } from '../../wailsjs/go/investigator/Info'
 import { GetMeta } from '../../wailsjs/go/investigator/Meta'
 import { GetCharacteristics } from '../../wailsjs/go/investigator/Characteristics'
+import { GetPossessionsList } from "../../wailsjs/go/investigator/Possessions";
 import Navigation from '../layout/Navigation'
 import TopMenu from './TopMenu'
 
@@ -108,12 +109,11 @@ function Modal() {
 
 
 export const combineInvestigatorData = async () => {
-  //@ts-ignore
-  console.log(window?.go);
   const info = await GetInfo();
   const characteristics = await GetCharacteristics();
   const meta = await GetMeta();
-  await UpdateInvestigator(info, meta, characteristics)
+  const possessions = await GetPossessionsList();
+  await UpdateInvestigator(info, meta, characteristics, possessions);
 };
 
 
@@ -125,7 +125,7 @@ export default function SaveInvestigator() {
   const handleSave = async () => {
     try {
       await combineInvestigatorData();
-      await Print();
+    // await Print();
       await Save();
       setShowSuccessModal(true);
     } catch (error) {

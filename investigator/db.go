@@ -48,7 +48,7 @@ func (i *Investigator) Save() error {
 	if err != nil {
 		return err
 	}
-	possessionsJSON, err := toJSON(i.Possessions)
+	possessionsJSON, err := i.Possessions.ToJSON()
 	if err != nil {
 		return err
 	}
@@ -58,38 +58,40 @@ func (i *Investigator) Save() error {
 	}
 
 	portraitBase64 := base64.StdEncoding.EncodeToString(i.Info.Portrait)
-	fmt.Println("Debugging INSERT values:")
-	fmt.Println("Name:", i.Info.Name)
-	fmt.Println("Player:", i.Info.Player)
-	fmt.Println("Occupation:", i.Info.Occupation)
-	fmt.Println("Age:", i.Info.Age)
-	fmt.Println("Sex:", i.Info.Sex)
-	fmt.Println("Residence:", i.Info.Residence)
-	fmt.Println("Birthplace:", i.Info.Birthplace)
-	fmt.Println("Characteristics JSON:", characteristicsJSON)
-	fmt.Println("HP JSON:", hpJSON)
-	fmt.Println("Sanity JSON:", sanityJSON)
-	fmt.Println("Combat JSON:", combatJSON)
-	fmt.Println("Meta JSON:", metaJSON)
-	fmt.Println("Weapons JSON:", weaponsJSON)
-	fmt.Println("Skills JSON:", skillsJSON)
-	fmt.Println("Possessions JSON:", possessionsJSON)
-	fmt.Println("Luck:", i.Luck)
-	fmt.Println("MP:", i.MP)
-	fmt.Println("Wealth JSON:", wealthJSON)
-	//	fmt.Println("Portrait (Base64):", portraitBase64)
+
+	fmt.Println("Debugging individual values for INSERT:")
+
+	fmt.Println("1. Name:", i.Info.Name)
+	fmt.Println("2. Player:", i.Info.Player)
+	fmt.Println("3. Occupation:", i.Info.Occupation)
+	fmt.Println("4. Age:", i.Info.Age)
+	fmt.Println("5. Sex:", i.Info.Sex)
+	fmt.Println("6. Residence:", i.Info.Residence)
+	fmt.Println("7. Birthplace:", i.Info.Birthplace)
+	fmt.Println("8. Characteristics JSON:", characteristicsJSON)
+	fmt.Println("9. HP JSON:", hpJSON)
+	fmt.Println("10. Sanity JSON:", sanityJSON)
+	fmt.Println("11. Combat JSON:", combatJSON)
+	fmt.Println("12. Meta JSON:", metaJSON)
+	fmt.Println("13. Weapons JSON:", weaponsJSON)
+	fmt.Println("14. Skills JSON:", skillsJSON)
+	fmt.Println("15. Possessions JSON:", possessionsJSON)
+	fmt.Println("16. Luck:", i.Luck)
+	fmt.Println("17. MP:", i.MP)
+	fmt.Println("18. Wealth JSON:", wealthJSON)
+	fmt.Println("19. Portrait (Base64):")
+
 	_, err = db.Exec(`
 		INSERT INTO investigators 
 		(name, player, occupation, age, sex, residence, birthplace, 
 		characteristics, hp, sanity, combat, meta, weapons, skills, possessions, 
 		luck, mp, wealth, portrait)
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
 		i.Info.Name, i.Info.Player, i.Info.Occupation, i.Info.Age, i.Info.Sex,
 		i.Info.Residence, i.Info.Birthplace,
 		characteristicsJSON, hpJSON, sanityJSON, combatJSON, metaJSON,
 		weaponsJSON, skillsJSON, possessionsJSON,
-		i.Luck, i.MP, wealthJSON,
-		portraitBase64,
+		i.Luck, i.MP, wealthJSON, portraitBase64,
 	)
 	if err != nil {
 		return fmt.Errorf("could not insert investigator: %w", err)

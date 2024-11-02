@@ -7,7 +7,7 @@ interface SkillData {
   name: string;
   baseChance: number;
   level: number;
-  additionalPoints: number | string; // Allows empty string temporarily
+  additionalPoints: number | string;
 }
 
 export default function SkillsForm() {

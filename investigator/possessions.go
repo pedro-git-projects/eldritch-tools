@@ -1,6 +1,7 @@
 package investigator
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
@@ -20,6 +21,19 @@ func NewPossessions() *Possessions {
 	return &Possessions{
 		items: make(map[string]*Possession),
 	}
+}
+
+func (p *Possessions) ToJSON() (string, error) {
+	if len(p.items) == 0 {
+		fmt.Println("Possessions map is empty, returning null")
+		return "null", nil
+	}
+	jsonData, err := json.Marshal(p.items)
+	if err != nil {
+		return "", fmt.Errorf("failed to serialize possessions: %w", err)
+	}
+	fmt.Println("Serialized Possessions JSON data:", string(jsonData))
+	return string(jsonData), nil
 }
 
 func (p *Possessions) AddPossession(name, description string, quantity uint8) {
@@ -49,6 +63,24 @@ func (p *Possessions) GetPossession(name string) (*Possession, bool) {
 	return possession, found
 }
 
+func (p *Possessions) GetSelf() Possessions {
+	fmt.Println("Self ")
+	p.ListPossessions()
+	return *p
+}
+
+func (p *Possessions) UpdatePossessions(newPossessions []Possession) {
+	fmt.Println("Updating possessions:", newPossessions)
+	p.items = make(map[string]*Possession)
+	for _, possession := range newPossessions {
+		p.items[possession.Name] = &Possession{
+			Name:        possession.Name,
+			Description: possession.Description,
+			Quantity:    possession.Quantity,
+		}
+	}
+}
+
 func (p *Possessions) ListPossessions() {
 	fmt.Println("===================================")
 	fmt.Println("         Investigator's Items      ")
@@ -59,4 +91,12 @@ func (p *Possessions) ListPossessions() {
 		fmt.Printf("Description: %s\n", utils.WrapText(possession.Description, 50))
 		fmt.Println("-----------------------------------")
 	}
+}
+
+func (p *Possessions) GetPossessionsList() []Possession {
+	possessionsList := []Possession{}
+	for _, possession := range p.items {
+		possessionsList = append(possessionsList, *possession)
+	}
+	return possessionsList
 }

@@ -17,7 +17,7 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
-//go:embed frontend/dist/assets/*portrait*
+//go:embed assets/portrait.jpg
 var placeholderImage []byte
 
 func main() {
@@ -62,6 +62,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	possesions := investigator.Possessions{}
 
 	// Print
 	// Create application with options
@@ -78,6 +79,7 @@ func main() {
 			app,
 			&info,
 			&characteristics,
+			&possesions,
 			&meta,
 			i,
 		},

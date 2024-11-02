@@ -12,6 +12,7 @@ import WeaponsForm from './forms/WeaponsForm';
 import SkillsForm from './forms/SkillsForm';
 import BackgroundForm from './forms/BackgroundForm';
 import SaveInvestigator from './forms/SaveInvestigator';
+import PossessionsForm from './forms/PossessionsForm';
 
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/weapons",
     element: <WeaponsForm />,
+  },
+  {
+    path: "/possessions",
+    element: <PossessionsForm />,
   },
   {
     path: "/background",

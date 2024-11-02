@@ -6,6 +6,7 @@ export default function TopMenu() {
     { name: 'Characteristics', href: '/characteristics' },
     { name: 'Skills', href: '/skills' },
     { name: 'Weapons', href: '/weapons' },
+    { name: 'Possessions', href: "/possessions" },
     { name: 'Background', href: '/background' },
     { name: 'Save', href: '/save' },
   ]
