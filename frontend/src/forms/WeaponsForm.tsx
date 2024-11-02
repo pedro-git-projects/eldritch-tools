@@ -3,6 +3,7 @@ import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 import { AddWeaponWithConfig, Print } from "../../wailsjs/go/investigator/Investigator";
 import WeaponsList from "../components/WeaponsList";
+import { useFormContext } from "../context/FormContext";
 
 interface WeaponData {
   name: string;
@@ -15,7 +16,8 @@ interface WeaponData {
 }
 
 export default function WeaponsForm() {
-  const [weapons, setWeapons] = useState<WeaponData[]>([]);
+  const { weapons, setWeapons } = useFormContext();
+
   const [newWeapon, setNewWeapon] = useState<WeaponData>({
     name: "",
     skillName: "",

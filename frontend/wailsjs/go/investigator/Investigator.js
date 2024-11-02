@@ -98,6 +98,10 @@ export function ReceiveDamage(arg1) {
   return window['go']['investigator']['Investigator']['ReceiveDamage'](arg1);
 }
 
+export function ResetInvestigator() {
+  return window['go']['investigator']['Investigator']['ResetInvestigator']();
+}
+
 export function Save() {
   return window['go']['investigator']['Investigator']['Save']();
 }

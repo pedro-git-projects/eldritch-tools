@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Navigation from '../layout/Navigation';
 import TopMenu from './TopMenu';
 import { UpdatePossessions } from '../../wailsjs/go/investigator/Possessions';
+import { useFormContext } from '../context/FormContext';
 
 type Possession = {
   Name: string;
@@ -10,7 +11,8 @@ type Possession = {
 };
 
 export default function PossessionsForm() {
-  const [possessions, setPossessions] = useState<Possession[]>([]);
+  const { possessions, setPossessions } = useFormContext();
+
   const [newPossession, setNewPossession] = useState<Possession>({
     Name: '',
     Description: '',
@@ -31,9 +33,9 @@ export default function PossessionsForm() {
     update((prev: any) =>
       prev
         ? {
-            ...prev,
-            [name]: name === 'Quantity' ? parseInt(value, 10) : value,
-          }
+          ...prev,
+          [name]: name === 'Quantity' ? parseInt(value, 10) : value,
+        }
         : prev
     );
   };
@@ -71,10 +73,10 @@ export default function PossessionsForm() {
     console.log(possessions);
     try {
       await UpdatePossessions(possessions);
-      setShowSuccessModal(true);  
+      setShowSuccessModal(true);
     } catch (error) {
       console.error('Error updating possessions:', error);
-      setShowErrorModal(true);  
+      setShowErrorModal(true);
     }
   };
 

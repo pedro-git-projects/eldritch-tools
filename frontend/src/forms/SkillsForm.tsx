@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 import { GetSkills } from "../../wailsjs/go/investigator/Investigator";
+import { useFormContext } from "../context/FormContext";
 
 interface SkillData {
   name: string;
@@ -11,7 +12,7 @@ interface SkillData {
 }
 
 export default function SkillsForm() {
-  const [skills, setSkills] = useState<SkillData[]>([]);
+  const {skills, setSkills} = useFormContext();
 
   useEffect(() => {
     async function loadSkills() {

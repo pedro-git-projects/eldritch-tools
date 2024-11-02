@@ -52,6 +52,8 @@ export function PrintWeapons():Promise<void>;
 
 export function ReceiveDamage(arg1:number):Promise<boolean>;
 
+export function ResetInvestigator():Promise<void>;
+
 export function Save():Promise<void>;
 
 export function SetIsPlayerControlled(arg1:boolean):Promise<void>;

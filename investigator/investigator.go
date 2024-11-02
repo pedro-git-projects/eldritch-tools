@@ -229,3 +229,33 @@ func (i *Investigator) UpdateInvestigator(info Info, meta Meta, characteristics 
 
 	i.Print()
 }
+
+func (i *Investigator) ResetInvestigator() error {
+	i.Info = Info{}
+	i.Meta = Meta{}
+	i.Characteristics = Characteristics{}
+	i.HP = HP{}
+	i.Sanity = Sanity{}
+	i.Luck = 0
+	i.MP = 0
+	i.isPlayerControlled = false
+
+	i.Skills = make(map[string]*Skill)
+	i.Weapons = make(map[string]*weapons.Weapon)
+
+	i.Possessions = Possessions{
+		items: make(map[string]*Possession),
+	}
+
+	i.Wealth = Wealth{}
+
+	i.Combat = Combat{}
+	fmt.Println("RESET DEBUG::")
+	i.Print()
+
+	if err := i.InitializeTwenties(); err != nil {
+		return fmt.Errorf("failed to reset investigator: %w", err)
+	}
+
+	return nil
+}

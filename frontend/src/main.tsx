@@ -13,6 +13,7 @@ import SkillsForm from './forms/SkillsForm';
 import BackgroundForm from './forms/BackgroundForm';
 import SaveInvestigator from './forms/SaveInvestigator';
 import PossessionsForm from './forms/PossessionsForm';
+import { FormProvider } from './context/FormContext';
 
 
 const router = createBrowserRouter([
@@ -59,7 +60,8 @@ const router = createBrowserRouter([
 const container = document.getElementById('root')
 
 const root = createRoot(container!)
-
 root.render(
-  <RouterProvider router={router} />
+  <FormProvider>
+    <RouterProvider router={router} />
+  </FormProvider>
 )

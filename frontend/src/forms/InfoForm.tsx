@@ -1,20 +1,11 @@
-import { useState } from 'react';
 import { UpdateInfo, PrintInfo } from '../../wailsjs/go/investigator/Info';
 import placeholder from "../assets/images/portrait.jpg"
+import { useFormContext } from '../context/FormContext';
 import Navigation from '../layout/Navigation';
 import TopMenu from './TopMenu';
 
 export default function InfoForm() {
-  const [info, setInfo] = useState({
-    name: '',
-    player: '',
-    occupation: '',
-    age: '',
-    sex: 'Male',
-    residence: '',
-    birthplace: '',
-    portrait: '',
-  });
+  const { info, setInfo } = useFormContext();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;

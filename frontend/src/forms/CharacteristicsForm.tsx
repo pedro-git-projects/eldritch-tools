@@ -1,22 +1,12 @@
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 import { UpdateCharacteristics, PrintCharacteristics } from "../../wailsjs/go/investigator/Characteristics";
-import { useState } from "react";
+import { useFormContext } from "../context/FormContext";
 
 export default function CharacteristicsForm() {
   type CharacteristicKey = 'str' | 'dex' | 'int' | 'con' | 'app' | 'pow' | 'siz' | 'edu' | 'move';
 
-  const [characteristics, setCharacteristics] = useState<Record<CharacteristicKey, number>>({
-    str: 0,
-    dex: 0,
-    int: 0,
-    con: 0,
-    app: 0,
-    pow: 0,
-    siz: 0,
-    edu: 0,
-    move: 0,
-  });
+  const {characteristics, setCharacteristics} = useFormContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
