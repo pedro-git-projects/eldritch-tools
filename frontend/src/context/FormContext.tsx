@@ -53,6 +53,7 @@ interface FormContextType {
   info: InfoState;
   setInfo: React.Dispatch<React.SetStateAction<InfoState>>;
   resetInfo: () => void;
+  setPortrait: (portrait: string) => void;
 
   meta: MetaData;
   setMeta: React.Dispatch<React.SetStateAction<MetaData>>;
@@ -120,12 +121,20 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
     str: 0, dex: 0, int: 0, con: 0, app: 0, pow: 0, siz: 0, edu: 0, move: 0,
   });
 
+  const setPortrait = (portrait: string) => {
+    setInfo((prevInfo) => ({
+      ...prevInfo,
+      portrait,
+    }));
+  };
+
   return (
     <FormContext.Provider
       value={{
         info,
         setInfo,
         resetInfo,
+        setPortrait,
         meta,
         setMeta,
         resetMeta,

@@ -79,7 +79,7 @@ func (i *Investigator) Save() error {
 	fmt.Println("16. Luck:", i.Luck)
 	fmt.Println("17. MP:", i.MP)
 	fmt.Println("18. Wealth JSON:", wealthJSON)
-	fmt.Println("19. Portrait (Base64):")
+	// fmt.Println("Debug: Final Base64 Portrait before saving:", portraitBase64)
 
 	_, err = db.Exec(`
 		INSERT INTO investigators 

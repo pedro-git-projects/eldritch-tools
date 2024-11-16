@@ -5,7 +5,7 @@ import Navigation from '../layout/Navigation';
 import TopMenu from './TopMenu';
 
 export default function InfoForm() {
-  const { info, setInfo } = useFormContext();
+  const { info, setInfo, setPortrait } = useFormContext();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -34,22 +34,26 @@ export default function InfoForm() {
     }
   };
 
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const fileInput = e.target;
+    const file = fileInput.files?.[0];
+
     if (file) {
       const reader = new FileReader();
+
       reader.onloadend = () => {
-        if (reader.result && typeof reader.result === "string") {
-          setInfo((prevInfo) => ({
-            ...prevInfo,
-            portrait: reader.result as string,
-          }));
+        if (typeof reader.result === "string") {
+          setTimeout(() => {
+            setPortrait(reader.result as string); // Ensure update
+          }, 0);
         }
+        fileInput.value = ""; // Reset the input
       };
-      reader.readAsDataURL(file);
+
+      reader.readAsDataURL(file); // Read file
     }
   };
+
 
 
   const handlePrintInfo = async () => {
@@ -216,6 +220,8 @@ export default function InfoForm() {
               </div>
             </div>
 
+            Current Info Portait: {info.portrait}
+
             <div className="mt-8 flex items-center justify-end gap-x-6">
               <button
                 type="button"
@@ -226,6 +232,7 @@ export default function InfoForm() {
               </button>
               <button
                 type="submit"
+                onClick={handleSubmit}
                 className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
                 Save

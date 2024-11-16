@@ -3,6 +3,7 @@ package investigator
 import (
 	"encoding/base64"
 	"fmt"
+	"strings"
 )
 
 type Info struct {
@@ -42,10 +43,19 @@ func (i *Info) UpdateInfo(name, player, occupation, residence, birthplace string
 	i.Birthplace = birthplace
 	i.Age = age
 	i.Sex = sex
+	if strings.HasPrefix(portraitBase64, "data:image") {
+		parts := strings.SplitN(portraitBase64, ",", 2)
+		if len(parts) == 2 {
+			portraitBase64 = parts[1]
+		}
+	}
+
 	portraitBytes, err := base64.StdEncoding.DecodeString(portraitBase64)
 	if err != nil {
 		return fmt.Errorf("could not decode portrait: %w", err)
 	}
+
+	fmt.Printf("Decoded portrait length: %d bytes\n", len(portraitBytes))
 	i.Portrait = portraitBytes
 
 	return nil
