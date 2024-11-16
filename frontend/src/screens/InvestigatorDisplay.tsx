@@ -60,7 +60,7 @@ export default function InvestigatorList() {
               {selected && (
                 <img
                   alt={selected.name}
-                  src={selected.portrait || ''}
+                  src={selected.portrait}
                   onError={(e) => {
                     console.error("Image failed to load for investigator:", selected.name);
                   }}
@@ -114,7 +114,6 @@ export default function InvestigatorList() {
       {selected && (
         <div className="mt-6 bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-2">{selected.name}</h2>
-          <p className="text-gray-700 mb-1"><strong>test</strong> {selected.portrait}</p>
           <p className="text-gray-700 mb-1"><strong>Player:</strong> {selected.player}</p>
           <p className="text-gray-700 mb-1"><strong>Occupation:</strong> {selected.occupation}</p>
           <p className="text-gray-700 mb-1"><strong>Age:</strong> {selected.age}</p>

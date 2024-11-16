@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"necronomicon/models"
@@ -115,7 +114,7 @@ func GetAllInvestigators() ([]models.Investigator, error) {
 
 		// Convert portrait data to a base64 string
 		if portraitData != nil {
-			investigator.Portrait = "data:image/jpeg;base64," + base64.StdEncoding.EncodeToString(portraitData)
+			investigator.Portrait = "data:image/jpeg;base64," + string(portraitData)
 		}
 
 		investigators = append(investigators, investigator)
