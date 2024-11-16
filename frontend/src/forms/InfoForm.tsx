@@ -220,8 +220,6 @@ export default function InfoForm() {
               </div>
             </div>
 
-            Current Info Portait: {info.portrait}
-
             <div className="mt-8 flex items-center justify-end gap-x-6">
               <button
                 type="button"
