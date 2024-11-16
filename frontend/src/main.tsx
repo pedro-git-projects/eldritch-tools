@@ -14,6 +14,7 @@ import BackgroundForm from './forms/BackgroundForm';
 import SaveInvestigator from './forms/SaveInvestigator';
 import PossessionsForm from './forms/PossessionsForm';
 import { FormProvider } from './context/FormContext';
+import RollDice from './screens/RollDice';
 
 
 const router = createBrowserRouter([
@@ -53,6 +54,11 @@ const router = createBrowserRouter([
     path: "/save",
     element: <SaveInvestigator />,
   },
+  {
+    path: "/roll",
+    element: <RollDice />,
+  },
+
 ]);
 
 

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"necronomicon/db"
+	"necronomicon/dice"
 	"necronomicon/investigator"
 	"necronomicon/utils"
 	"os"
@@ -64,6 +65,8 @@ func main() {
 	}
 	possesions := investigator.Possessions{}
 
+	dr := dice.GetDiceRoller()
+
 	// Print
 	// Create application with options
 	err = wails.Run(&options.App{
@@ -82,9 +85,9 @@ func main() {
 			&possesions,
 			&meta,
 			i,
+			dr,
 		},
 	})
-
 	if err != nil {
 		println("Error:", err.Error())
 	}

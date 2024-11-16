@@ -31,3 +31,14 @@ func (dr *DiceRoller) RollDx(sides int) int {
 	}
 	return dr.rng.Intn(sides) + 1
 }
+
+func (dr *DiceRoller) RollMultipleDice(sides, count, constant int) []int {
+	if sides < 1 || count < 1 {
+		panic("Dice and count must be at least 1")
+	}
+	results := make([]int, count)
+	for i := 0; i < count; i++ {
+		results[i] = dr.RollDx(sides) + constant
+	}
+	return results
+}

@@ -3,9 +3,10 @@ import {
   Bars3Icon,
   PlusCircleIcon,
   MagnifyingGlassIcon,
-  BoltIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline'
+  BeakerIcon,
+} from '@heroicons/react/24/solid'
+import { GiDiceTwentyFacesOne } from "react-icons/gi";
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 
@@ -19,7 +20,8 @@ export default function Navigation({ children }: LayoutProps) {
   const navigation = [
     { name: 'Create Investigator', href: '/', icon: PlusCircleIcon, current: true },
     { name: 'Search Investigator', href: '/search', icon: MagnifyingGlassIcon, current: false },
-    { name: 'Simulate Combat', href: '/combat', icon: BoltIcon, current: false },
+    { name: 'Simulate Combat', href: '/combat', icon: BeakerIcon, current: false },
+    { name: 'Roll Dice', href: '/roll', icon: GiDiceTwentyFacesOne, current: false },
   ]
 
   function classNames(...classes: String[]) {
