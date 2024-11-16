@@ -188,6 +188,61 @@ export namespace investigator {
 
 }
 
+export namespace models {
+	
+	export class Investigator {
+	    id: number;
+	    name: string;
+	    player: string;
+	    occupation: string;
+	    age: number;
+	    sex: string;
+	    residence: string;
+	    birthplace: string;
+	    characteristics: number[];
+	    hp: number[];
+	    sanity: number[];
+	    combat: number[];
+	    meta: number[];
+	    weapons: number[];
+	    skills: number[];
+	    possessions: number[];
+	    luck: number;
+	    mp: number;
+	    wealth: number[];
+	    portrait: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Investigator(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
+	        this.name = source["name"];
+	        this.player = source["player"];
+	        this.occupation = source["occupation"];
+	        this.age = source["age"];
+	        this.sex = source["sex"];
+	        this.residence = source["residence"];
+	        this.birthplace = source["birthplace"];
+	        this.characteristics = source["characteristics"];
+	        this.hp = source["hp"];
+	        this.sanity = source["sanity"];
+	        this.combat = source["combat"];
+	        this.meta = source["meta"];
+	        this.weapons = source["weapons"];
+	        this.skills = source["skills"];
+	        this.possessions = source["possessions"];
+	        this.luck = source["luck"];
+	        this.mp = source["mp"];
+	        this.wealth = source["wealth"];
+	        this.portrait = source["portrait"];
+	    }
+	}
+
+}
+
 export namespace weapons {
 	
 	export class Weapon {

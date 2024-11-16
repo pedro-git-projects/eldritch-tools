@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {  useEffect } from "react";
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 import { GetSkills } from "../../wailsjs/go/investigator/Investigator";

@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"necronomicon/db"
+	"necronomicon/models"
 )
 
 // App struct
@@ -18,4 +20,8 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+}
+
+func (a *App) GetAllInvestigators() ([]models.Investigator, error) {
+	return db.GetAllInvestigators()
 }

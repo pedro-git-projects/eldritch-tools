@@ -2,7 +2,10 @@ package db
 
 import (
 	"database/sql"
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
+	"necronomicon/models"
 	"os"
 	"path/filepath"
 
@@ -67,4 +70,60 @@ func GetDB() *sql.DB {
 
 func CloseDB() error {
 	return db.Close()
+}
+
+func GetAllInvestigators() ([]models.Investigator, error) {
+	rows, err := db.Query(`
+		SELECT id, name, player, occupation, age, sex, residence, birthplace, 
+		       characteristics, hp, sanity, combat, meta, weapons, skills, possessions, 
+		       luck, mp, wealth, portrait 
+		FROM investigators
+	`)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query investigators: %w", err)
+	}
+	defer rows.Close()
+
+	var investigators []models.Investigator
+	for rows.Next() {
+		var investigator models.Investigator
+		var portraitData []byte
+
+		// Use intermediate string variables for JSON fields
+		var characteristics, hp, sanity, combat, meta, weapons, skills, possessions, wealth string
+
+		err := rows.Scan(
+			&investigator.ID, &investigator.Name, &investigator.Player, &investigator.Occupation,
+			&investigator.Age, &investigator.Sex, &investigator.Residence, &investigator.Birthplace,
+			&characteristics, &hp, &sanity, &combat, &meta, &weapons, &skills, &possessions,
+			&investigator.Luck, &investigator.MP, &wealth, &portraitData,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan investigator: %w", err)
+		}
+
+		// Convert strings to json.RawMessage
+		investigator.Characteristics = json.RawMessage(characteristics)
+		investigator.HP = json.RawMessage(hp)
+		investigator.Sanity = json.RawMessage(sanity)
+		investigator.Combat = json.RawMessage(combat)
+		investigator.Meta = json.RawMessage(meta)
+		investigator.Weapons = json.RawMessage(weapons)
+		investigator.Skills = json.RawMessage(skills)
+		investigator.Possessions = json.RawMessage(possessions)
+		investigator.Wealth = json.RawMessage(wealth)
+
+		// Convert portrait data to a base64 string
+		if portraitData != nil {
+			investigator.Portrait = "data:image/jpeg;base64," + base64.StdEncoding.EncodeToString(portraitData)
+		}
+
+		investigators = append(investigators, investigator)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating over rows: %w", err)
+	}
+
+	return investigators, nil
 }
