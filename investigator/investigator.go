@@ -259,3 +259,14 @@ func (i *Investigator) ResetInvestigator() error {
 
 	return nil
 }
+
+func (i *Investigator) UpdateSkills(updatedSkills []Skill) error {
+	for _, updatedSkill := range updatedSkills {
+		if skill, exists := i.Skills[updatedSkill.Name]; exists {
+			skill.SetLevel(int(updatedSkill.Level))
+		} else {
+			return fmt.Errorf("skill %s does not exist", updatedSkill.Name)
+		}
+	}
+	return nil
+}

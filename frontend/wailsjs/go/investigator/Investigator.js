@@ -117,3 +117,7 @@ export function TakeTurn(arg1) {
 export function UpdateInvestigator(arg1, arg2, arg3, arg4) {
   return window['go']['investigator']['Investigator']['UpdateInvestigator'](arg1, arg2, arg3, arg4);
 }
+
+export function UpdateSkills(arg1) {
+  return window['go']['investigator']['Investigator']['UpdateSkills'](arg1);
+}

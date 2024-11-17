@@ -1,10 +1,8 @@
-import {  useEffect } from "react";
+import { useEffect } from "react";
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
-import { GetSkills } from "../../wailsjs/go/investigator/Investigator";
+import { GetSkills, UpdateSkills } from "../../wailsjs/go/investigator/Investigator";
 import { useFormContext } from "../context/FormContext";
-
-// TODO: implement UpdateSkills in Go
 
 interface SkillData {
   name: string;
@@ -13,8 +11,24 @@ interface SkillData {
   additionalPoints: number | string;
 }
 
+
 export default function SkillsForm() {
-  const {skills, setSkills} = useFormContext();
+  const { skills, setSkills } = useFormContext();
+
+  const handleSubmit = async () => {
+    const updatedSkills = skills.map((skill: SkillData) => ({
+      Name: skill.name,
+      BaseChance: skill.baseChance,
+      Level: skill.baseChance + (typeof skill.additionalPoints === "number" ? skill.additionalPoints : 0),
+    }));
+
+    try {
+      await UpdateSkills(updatedSkills);
+      alert('Skills updated successfully!');
+    } catch (error) {
+      console.error('Error updating skills:', error);
+    }
+  };
 
   useEffect(() => {
     async function loadSkills() {
@@ -40,16 +54,7 @@ export default function SkillsForm() {
       )
     );
   };
-
-  const handleSubmit = () => {
-    const updatedSkills = skills.map((skill) => ({
-      name: skill.name,
-      totalValue: skill.baseChance + (typeof skill.additionalPoints === "number" ? skill.additionalPoints : 0),
-    }));
-
-    console.log("Updated Skills:", updatedSkills);
-  };
-
+  
   return (
     <Navigation>
       <TopMenu />
