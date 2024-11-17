@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { GetAllInvestigators } from '../../wailsjs/go/main/App'
 import { Listbox, ListboxOption, ListboxOptions, ListboxButton } from '@headlessui/react'
 import { CharacteristicsDisplay } from '../components/DisplayCharacteristics';
+import SkillsDisplay from '../components/DisplaySkills';
 
 interface FullInvestigator {
   id: number;
@@ -122,12 +123,14 @@ export default function InvestigatorList() {
           <p className="text-gray-700 mb-1"><strong>Residence:</strong> {selected.residence}</p>
           <p className="text-gray-700 mb-1"><strong>Birthplace:</strong> {selected.birthplace}</p>
 
-          <CharacteristicsDisplay data={selected.characteristics} /> 
-          
+
+          <div className="mt-4">
+            <CharacteristicsDisplay data={selected.characteristics} />
+          </div>
+
           {/* Skills */}
           <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-900">Skills</h3>
-            <pre className="text-gray-700 text-sm mt-2">{JSON.stringify(selected.skills, null, 2)}</pre>
+            <SkillsDisplay skills={selected.skills} />
           </div>
 
           {/* HP */}
