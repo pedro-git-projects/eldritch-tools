@@ -2,6 +2,7 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react'
 import { GetAllInvestigators } from '../../wailsjs/go/main/App'
 import { Listbox, ListboxOption, ListboxOptions, ListboxButton } from '@headlessui/react'
+import { CharacteristicsDisplay } from '../components/DisplayCharacteristics';
 
 interface FullInvestigator {
   id: number;
@@ -121,12 +122,8 @@ export default function InvestigatorList() {
           <p className="text-gray-700 mb-1"><strong>Residence:</strong> {selected.residence}</p>
           <p className="text-gray-700 mb-1"><strong>Birthplace:</strong> {selected.birthplace}</p>
 
-          {/* Characteristics */}
-          <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-900">Characteristics</h3>
-            <pre className="text-gray-700 text-sm mt-2">{JSON.stringify(selected.characteristics, null, 2)}</pre>
-          </div>
-
+          <CharacteristicsDisplay data={selected.characteristics} /> 
+          
           {/* Skills */}
           <div className="mt-4">
             <h3 className="text-lg font-semibold text-gray-900">Skills</h3>

@@ -4,6 +4,8 @@ import TopMenu from "./TopMenu";
 import { GetSkills } from "../../wailsjs/go/investigator/Investigator";
 import { useFormContext } from "../context/FormContext";
 
+// TODO: implement UpdateSkills in Go
+
 interface SkillData {
   name: string;
   baseChance: number;
