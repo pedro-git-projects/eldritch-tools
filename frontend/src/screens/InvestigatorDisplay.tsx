@@ -10,6 +10,8 @@ import {
 import { CharacteristicsDisplay } from "../components/DisplayCharacteristics";
 import SkillsDisplay from "../components/DisplaySkills";
 import InvestigatorCard from "../components/InvestigatorCard";
+import HpStatusCard from "../components/HpStatusCard";
+import SanityStatusCard from "../components/SanityStatusCard";
 
 interface FullInvestigator {
   id: number;
@@ -133,25 +135,16 @@ export default function InvestigatorList() {
             <CharacteristicsDisplay data={selected.characteristics} />
           </div>
 
-          {/* Skills */}
+          <div className="mt-4">
+            <HpStatusCard selected={selected} />
+          </div>
+
+          <div className="mt-4">
+            <SanityStatusCard selected={selected} />
+          </div>
+
           <div className="mt-4">
             <SkillsDisplay skills={selected.skills} />
-          </div>
-
-          {/* HP */}
-          <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-900">HP</h3>
-            <pre className="text-gray-700 text-sm mt-2">
-              {JSON.stringify(selected.hp, null, 2)}
-            </pre>
-          </div>
-
-          {/* Sanity */}
-          <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-900">Sanity</h3>
-            <pre className="text-gray-700 text-sm mt-2">
-              {JSON.stringify(selected.sanity, null, 2)}
-            </pre>
           </div>
 
           {/* Combat */}

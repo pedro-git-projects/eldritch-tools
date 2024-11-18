@@ -1,25 +1,4 @@
-interface FullInvestigator {
-  id: number;
-  name: string;
-  player: string;
-  occupation: string;
-  age: number;
-  sex: string;
-  residence: string;
-  birthplace: string;
-  characteristics: any;
-  hp: any;
-  sanity: any;
-  combat: any;
-  meta: any;
-  weapons: any;
-  skills: any;
-  possessions: any;
-  luck: number;
-  mp: number;
-  wealth: any;
-  portrait: string;
-}
+import { FullInvestigator } from "../types/FullInvestigator";
 
 type InvestigatorCardProps = {
   selected: FullInvestigator;
@@ -55,13 +34,13 @@ export default function InvestigatorCard({ selected }: InvestigatorCardProps) {
             </div>
             <div className="flex justify-center lg:pt-4 pt-8 pb-0">
               <div className="p-3 text-center">
-                <span className="text-lg font-bold block uppercase tracking-wide">
+                <span className="text-lg font-bold block tracking-wide">
                   Age
                 </span>
                 <span className="text-lg">{selected.age}</span>
               </div>
               <div className="p-3 text-center">
-                <span className="text-lg font-bold block uppercase tracking-wide">
+                <span className="text-lg font-bold block tracking-wide">
                   Sex
                 </span>
                 <span className="text-lg">
@@ -69,17 +48,56 @@ export default function InvestigatorCard({ selected }: InvestigatorCardProps) {
                 </span>
               </div>
               <div className="p-3 text-center">
-                <span className="text-lg font-bold block uppercase tracking-wide">
+                <span className="text-lg font-bold block tracking-wide">
                   Residence
                 </span>
                 <span className="text-lg">{selected.residence}</span>
               </div>
 
               <div className="p-3 text-center">
-                <span className="text-lg font-bold block uppercase tracking-wide">
+                <span className="text-lg font-bold block tracking-wide">
                   Birthplace
                 </span>
                 <span className="text-lg">{selected.birthplace}</span>
+              </div>
+            </div>
+            <div className="flex justify-center lg:pt-4 pt-8 pb-0">
+              <div className="p-3 text-center">
+                <span className="text-lg font-bold block tracking-wide">
+                  Sanity
+                </span>
+                <span className="text-lg">
+                  {selected.sanity.Value} |{" "}
+                  {Math.floor(selected.sanity.Value / 2)} |{" "}
+                  {Math.floor(selected.sanity.Value / 5)}
+                </span>
+              </div>
+              <div className="p-3 text-center">
+                <span className="text-lg font-bold block tracking-wide">
+                  HP
+                </span>
+                <span className="text-lg">
+                  {selected.hp.Value} | {Math.floor(selected.hp.Value / 2)} |{" "}
+                  {Math.floor(selected.hp.Value / 5)}
+                </span>
+              </div>
+              <div className="p-3 text-center">
+                <span className="text-lg font-bold block tracking-wide">
+                  Luck
+                </span>
+                <span className="text-lg">
+                  {selected.luck} | {Math.floor(selected.luck / 2)} |{" "}
+                  {Math.floor(selected.luck / 5)}
+                </span>
+              </div>
+              <div className="p-3 text-center">
+                <span className="text-lg font-bold block tracking-wide">
+                  MP
+                </span>
+                <span className="text-lg">
+                  {selected.mp} | {Math.floor(selected.mp / 2)} |{" "}
+                  {Math.floor(selected.mp / 5)}
+                </span>
               </div>
             </div>
           </div>

@@ -24,7 +24,7 @@ export default function SkillsDisplay({ skills }: SkillsDisplayProps) {
               key={skill.Name}
               className="overflow-hidden rounded-lg bg-cthulhu-secondary px-4 py-5 shadow sm:p-6"
             >
-              <dt className="truncate text-sm font-medium">{skill.Name}</dt>
+              <dt className="truncate text-xl font-medium">{skill.Name}</dt>
               <div className="flex items-baseline text-2xl font-semibold text-cthulhu-olive">
                 {total}%
               </div>
