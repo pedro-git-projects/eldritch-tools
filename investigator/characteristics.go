@@ -52,7 +52,7 @@ func (c Characteristics) PrintCharacteristics() {
 	fmt.Println("+---------------------------+-------+")
 }
 
-func (c *Characteristics) UpdateCharacteristics(str, dex, inte, con, app, pow, siz, edu, move utils.Point) {
+func (c *Characteristics) UpdateCharacteristics(str, dex, inte, con, app, pow, siz, edu utils.Point) {
 	c.Str = str
 	c.Dex = dex
 	c.Int = inte
@@ -61,7 +61,6 @@ func (c *Characteristics) UpdateCharacteristics(str, dex, inte, con, app, pow, s
 	c.Pow = pow
 	c.Siz = siz
 	c.Edu = edu
-	c.Move = move
 }
 
 func (c *Characteristics) GetCharacteristics() Characteristics {

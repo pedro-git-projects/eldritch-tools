@@ -15,8 +15,7 @@ export default function CharacteristicsForm() {
     | "app"
     | "pow"
     | "siz"
-    | "edu"
-    | "move";
+    | "edu";
 
   const { characteristics, setCharacteristics } = useFormContext();
 
@@ -40,7 +39,6 @@ export default function CharacteristicsForm() {
         characteristics.pow,
         characteristics.siz,
         characteristics.edu,
-        characteristics.move,
       );
       alert("Characteristics updated successfully!");
     } catch (error) {

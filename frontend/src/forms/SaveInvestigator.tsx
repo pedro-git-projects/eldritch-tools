@@ -13,6 +13,10 @@ import {
   UpdateInvestigator,
   Save,
   ResetInvestigator,
+  InitHP,
+  InitMP,
+  InitSan,
+  InitDamageBonus,
 } from "../../wailsjs/go/investigator/Investigator";
 import { GetInfo } from "../../wailsjs/go/investigator/Info";
 import { GetMeta } from "../../wailsjs/go/investigator/Meta";
@@ -162,6 +166,10 @@ export default function SaveInvestigator() {
   const handleSave = async () => {
     try {
       await combineInvestigatorData();
+      await InitHP();
+      await InitMP();
+      await InitSan();
+      await InitDamageBonus();
       await Save();
       setShowSuccessModal(true);
     } catch (error) {

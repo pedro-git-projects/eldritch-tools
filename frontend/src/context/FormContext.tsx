@@ -42,8 +42,7 @@ type CharacteristicKey =
   | "app"
   | "pow"
   | "siz"
-  | "edu"
-  | "move";
+  | "edu";
 
 interface MetaData {
   PersonalDescription: string;
@@ -130,7 +129,6 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
     pow: 0,
     siz: 0,
     edu: 0,
-    move: 0,
   });
 
   const resetInfo = () => setInfo(defaultInfoState);
@@ -148,7 +146,6 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
       pow: 0,
       siz: 0,
       edu: 0,
-      move: 0,
     });
 
   const setPortrait = (portrait: string) => {
