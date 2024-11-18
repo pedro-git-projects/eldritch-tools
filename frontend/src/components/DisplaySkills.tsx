@@ -22,15 +22,19 @@ export default function SkillsDisplay({ skills }: SkillsDisplayProps) {
           return (
             <div
               key={skill.Name}
-              className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6"
+              className="overflow-hidden rounded-lg bg-cthulhu-secondary px-4 py-5 shadow sm:p-6"
             >
-              <dt className="truncate text-sm font-medium text-gray-500">{skill.Name}</dt>
-              <div className="flex items-baseline text-2xl font-semibold text-indigo-600">
+              <dt className="truncate text-sm font-medium">{skill.Name}</dt>
+              <div className="flex items-baseline text-2xl font-semibold text-cthulhu-olive">
                 {total}%
               </div>
-              <div className="mt-2 flex justify-between text-sm text-gray-600">
-                <span>Half: {half}%</span>
-                <span>Fifth: {fifth}%</span>
+              <div className="mt-2 flex justify-between text-sm">
+                <span>
+                  Half: <span className="text-cthulhu-olive">{half}%</span>
+                </span>
+                <span>
+                  Fifth: <span className="text-cthulhu-olive">{fifth}%</span>
+                </span>
               </div>
             </div>
           );

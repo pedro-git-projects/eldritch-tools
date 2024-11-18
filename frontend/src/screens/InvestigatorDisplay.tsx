@@ -64,7 +64,7 @@ export default function InvestigatorList() {
                   alt={selected.name}
                   src={selected.portrait}
                   onError={(e) => {
-                    console.error("Image failed to load for investigator:", selected.name);
+                    console.error("Image failed to load for investigator:", selected.name, e);
                   }}
                   className="h-5 w-5 flex-shrink-0 rounded-full"
                 />

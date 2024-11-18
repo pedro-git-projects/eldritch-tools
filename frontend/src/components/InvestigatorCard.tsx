@@ -38,7 +38,7 @@ export default function InvestigatorCard({ selected }: InvestigatorCardProps) {
                 onError={(e) => {
                   console.error("Image failed to load for investigator:", selected.name, e);
                 }}
-                className="h-36 w-36 flex-shrink-0 rounded-full object-cover border border-gray-200"
+                className="h-36 w-36 flex-shrink-0 rounded-full object-cover border border-cthulhu-beige"
               />
             </div>
           </div>
