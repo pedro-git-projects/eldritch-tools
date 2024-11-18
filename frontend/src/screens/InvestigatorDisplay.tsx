@@ -55,9 +55,10 @@ export default function InvestigatorList() {
 
   return (
     <div>
+      <label className='text-md font-semibold'>Select Investigator</label>
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative mt-2">
-          <ListboxButton className="relative w-full cursor-default rounded-md bg-cthulhu-secondary py-1.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-cthulhu-beige focus:outline-none focus:ring-2 focus:ring-cthulhu-olive sm:text-sm">
+          <ListboxButton className="relative w-full cursor-default rounded-md bg-cthulhu-secondary py-1.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-cthulhu-secondary focus:outline-none focus:ring-2 focus:ring-cthulhu-olive sm:text-sm">
             <span className="flex items-center">
               {selected && (
                 <img
