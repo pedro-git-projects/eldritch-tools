@@ -1,4 +1,4 @@
-module necronomicon
+module github.com/pedro-git-projects/eldritch-tools
 
 go 1.23.1
 
@@ -6,7 +6,6 @@ toolchain go1.23.2
 
 require (
 	github.com/mattn/go-sqlite3 v1.14.24
-	github.com/pedro-git-projects/necronomicon-engine v0.0.0-20241026215736-9a48c80ab472
 	github.com/wailsapp/wails/v2 v2.9.2
 )
 

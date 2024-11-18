@@ -3,7 +3,8 @@ package investigator
 import (
 	"fmt"
 	"math/rand"
-	"necronomicon/utils"
+
+	"github.com/pedro-git-projects/eldritch-tools/utils"
 )
 
 type Skill struct {

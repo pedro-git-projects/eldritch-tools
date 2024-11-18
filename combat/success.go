@@ -2,8 +2,10 @@ package combat
 
 import (
 	"errors"
-	"necronomicon/dice"
-	"necronomicon/utils"
+
+	"github.com/pedro-git-projects/eldritch-tools/utils"
+
+	"github.com/pedro-git-projects/eldritch-tools/dice"
 )
 
 func RollSuccessLevel(skillLevel uint8) (string, uint8, error) {

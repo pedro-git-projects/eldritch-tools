@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/pedro-git-projects/necronomicon-engine/src/utils"
+	"github.com/pedro-git-projects/eldritch-tools/utils"
 )
 
 type Possession struct {

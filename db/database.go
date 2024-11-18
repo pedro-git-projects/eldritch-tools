@@ -4,9 +4,10 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"necronomicon/models"
 	"os"
 	"path/filepath"
+
+	"github.com/pedro-git-projects/eldritch-tools/models"
 
 	_ "github.com/mattn/go-sqlite3"
 )

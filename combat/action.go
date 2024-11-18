@@ -1,8 +1,6 @@
 package combat
 
-import (
-	"necronomicon/weapons"
-)
+import "github.com/pedro-git-projects/eldritch-tools/weapons"
 
 type ActionType int
 

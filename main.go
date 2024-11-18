@@ -4,11 +4,15 @@ import (
 	"embed"
 	"fmt"
 	"log"
-	"necronomicon/db"
-	"necronomicon/dice"
-	"necronomicon/investigator"
-	"necronomicon/utils"
 	"os"
+
+	"github.com/pedro-git-projects/eldritch-tools/utils"
+
+	"github.com/pedro-git-projects/eldritch-tools/investigator"
+
+	"github.com/pedro-git-projects/eldritch-tools/dice"
+
+	"github.com/pedro-git-projects/eldritch-tools/db"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"

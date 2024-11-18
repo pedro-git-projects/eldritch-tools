@@ -2,8 +2,9 @@ package api
 
 import (
 	"encoding/json"
-	"necronomicon/investigator"
 	"net/http"
+
+	"github.com/pedro-git-projects/eldritch-tools/investigator"
 )
 
 func InvestigatorHandler(w http.ResponseWriter, r *http.Request) {

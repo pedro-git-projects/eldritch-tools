@@ -3,7 +3,7 @@ package investigator
 import (
 	"fmt"
 
-	"necronomicon/utils"
+	"github.com/pedro-git-projects/eldritch-tools/utils"
 )
 
 type Characteristics struct {

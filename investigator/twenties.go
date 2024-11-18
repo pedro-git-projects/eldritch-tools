@@ -3,9 +3,12 @@ package investigator
 import (
 	"errors"
 	"fmt"
-	"necronomicon/dice"
-	"necronomicon/utils"
-	"necronomicon/weapons"
+
+	"github.com/pedro-git-projects/eldritch-tools/utils"
+
+	"github.com/pedro-git-projects/eldritch-tools/weapons"
+
+	"github.com/pedro-git-projects/eldritch-tools/dice"
 )
 
 func (i *Investigator) InitTwentiesBaseSkills() {

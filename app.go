@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
-	"necronomicon/db"
-	"necronomicon/models"
+
+	"github.com/pedro-git-projects/eldritch-tools/models"
+
+	"github.com/pedro-git-projects/eldritch-tools/db"
 )
 
 // App struct

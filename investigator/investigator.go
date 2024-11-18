@@ -3,13 +3,15 @@ package investigator
 import (
 	"bufio"
 	"fmt"
-	"necronomicon/combat"
-	"necronomicon/weapons"
 	"os"
 	"strconv"
 	"strings"
 
-	"necronomicon/utils"
+	"github.com/pedro-git-projects/eldritch-tools/weapons"
+
+	"github.com/pedro-git-projects/eldritch-tools/combat"
+
+	"github.com/pedro-git-projects/eldritch-tools/utils"
 )
 
 type Investigator struct {

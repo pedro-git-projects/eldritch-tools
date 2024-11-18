@@ -5,7 +5,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"necronomicon/db"
+
+	"github.com/pedro-git-projects/eldritch-tools/db"
 )
 
 func toJSON(v interface{}) (string, error) {
