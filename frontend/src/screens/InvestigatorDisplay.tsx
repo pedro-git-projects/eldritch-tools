@@ -13,6 +13,7 @@ import InvestigatorCard from "../components/InvestigatorCard";
 import HpStatusCard from "../components/HpStatusCard";
 import SanityStatusCard from "../components/SanityStatusCard";
 import CombatStatusCard from "../components/CombatStatusCard";
+import MetaDisplay from "../components/DisplayMeta";
 
 interface FullInvestigator {
   id: number;
@@ -152,12 +153,8 @@ export default function InvestigatorList() {
             <CombatStatusCard selected={selected} />
           </div>
 
-          {/* Meta */}
           <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-900">Meta</h3>
-            <pre className="text-gray-700 text-sm mt-2">
-              {JSON.stringify(selected.meta, null, 2)}
-            </pre>
+            <MetaDisplay meta={selected.meta} />
           </div>
 
           {/* Weapons */}
