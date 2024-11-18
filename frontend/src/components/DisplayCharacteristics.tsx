@@ -10,11 +10,11 @@ type Characteristics = {
   Move: number;
 };
 
-
 const classNames = (...classes: string[]) => classes.filter(Boolean).join(" ");
 
-
-export const CharacteristicsDisplay: React.FC<{ data: Characteristics }> = ({ data }) => {
+export const CharacteristicsDisplay: React.FC<{ data: Characteristics }> = ({
+  data,
+}) => {
   const characteristicEntries = Object.entries(data);
 
   return (
@@ -55,7 +55,7 @@ export const CharacteristicsDisplay: React.FC<{ data: Characteristics }> = ({ da
                 <td
                   className={classNames(
                     idx === 0 ? "" : "border-t border-cthulhu-beige",
-                    "relative py-4 pl-4 pr-3 text-sm sm:pl-6"
+                    "relative py-4 pl-4 pr-3 text-sm sm:pl-6",
                   )}
                 >
                   <div className="font-medium">{key}</div>
@@ -66,7 +66,7 @@ export const CharacteristicsDisplay: React.FC<{ data: Characteristics }> = ({ da
                 <td
                   className={classNames(
                     idx === 0 ? "" : "border-t border-cthulhu-beige",
-                    "px-3 py-3.5 text-sm"
+                    "px-3 py-3.5 text-sm",
                   )}
                 >
                   {value}
@@ -74,7 +74,7 @@ export const CharacteristicsDisplay: React.FC<{ data: Characteristics }> = ({ da
                 <td
                   className={classNames(
                     idx === 0 ? "" : "border-t border-cthulhu-beige",
-                    "px-3 py-3.5 text-sm"
+                    "px-3 py-3.5 text-sm",
                   )}
                 >
                   {Math.floor(value / 2)}
@@ -82,7 +82,7 @@ export const CharacteristicsDisplay: React.FC<{ data: Characteristics }> = ({ da
                 <td
                   className={classNames(
                     idx === 0 ? "" : "border-t border-cthulhu-beige",
-                    "px-3 py-3.5 text-sm"
+                    "px-3 py-3.5 text-sm",
                   )}
                 >
                   {Math.floor(value / 5)}
@@ -95,4 +95,3 @@ export const CharacteristicsDisplay: React.FC<{ data: Characteristics }> = ({ da
     </div>
   );
 };
-

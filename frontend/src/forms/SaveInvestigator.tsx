@@ -1,14 +1,26 @@
-import { useState } from 'react';
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
-import { CheckIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import { UpdateInvestigator, Save, ResetInvestigator } from '../../wailsjs/go/investigator/Investigator';
-import { GetInfo } from '../../wailsjs/go/investigator/Info';
-import { GetMeta } from '../../wailsjs/go/investigator/Meta';
-import { GetCharacteristics } from '../../wailsjs/go/investigator/Characteristics';
-import { GetPossessionsList } from '../../wailsjs/go/investigator/Possessions';
-import Navigation from '../layout/Navigation';
-import TopMenu from './TopMenu';
-import { useFormContext } from '../context/FormContext';
+import { useState } from "react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
+import {
+  CheckIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
+import {
+  UpdateInvestigator,
+  Save,
+  ResetInvestigator,
+} from "../../wailsjs/go/investigator/Investigator";
+import { GetInfo } from "../../wailsjs/go/investigator/Info";
+import { GetMeta } from "../../wailsjs/go/investigator/Meta";
+import { GetCharacteristics } from "../../wailsjs/go/investigator/Characteristics";
+import { GetPossessionsList } from "../../wailsjs/go/investigator/Possessions";
+import Navigation from "../layout/Navigation";
+import TopMenu from "./TopMenu";
+import { useFormContext } from "../context/FormContext";
 
 function ErrorModal({ message, onClose, onRetry }: any) {
   return (
@@ -18,10 +30,16 @@ function ErrorModal({ message, onClose, onRetry }: any) {
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <DialogPanel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-              <ExclamationTriangleIcon aria-hidden="true" className="h-6 w-6 text-red-600" />
+              <ExclamationTriangleIcon
+                aria-hidden="true"
+                className="h-6 w-6 text-red-600"
+              />
             </div>
             <div className="mt-3 text-center sm:mt-5">
-              <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
+              <DialogTitle
+                as="h3"
+                className="text-base font-semibold text-gray-900"
+              >
                 Error Saving Investigator
               </DialogTitle>
               <div className="mt-2">
@@ -51,7 +69,15 @@ function ErrorModal({ message, onClose, onRetry }: any) {
   );
 }
 
-function Modal({ isOpen, onClose, onCreateAnother }: { isOpen: boolean; onClose: () => void; onCreateAnother: () => void }) {
+function Modal({
+  isOpen,
+  onClose,
+  onCreateAnother,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onCreateAnother: () => void;
+}) {
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-[60]">
       <DialogBackdrop
@@ -67,15 +93,22 @@ function Modal({ isOpen, onClose, onCreateAnother }: { isOpen: boolean; onClose:
           >
             <div>
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                <CheckIcon aria-hidden="true" className="h-6 w-6 text-green-600" />
+                <CheckIcon
+                  aria-hidden="true"
+                  className="h-6 w-6 text-green-600"
+                />
               </div>
               <div className="mt-3 text-center sm:mt-5">
-                <DialogTitle as="h3" className="text-base font-semibold text-gray-900">
+                <DialogTitle
+                  as="h3"
+                  className="text-base font-semibold text-gray-900"
+                >
                   Investigator saved to the database successfully
                 </DialogTitle>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    You can now visualize and use your investigator in combat situations.
+                    You can now visualize and use your investigator in combat
+                    situations.
                   </p>
                 </div>
               </div>
@@ -124,7 +157,7 @@ export default function SaveInvestigator() {
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSave = async () => {
     try {
@@ -132,7 +165,7 @@ export default function SaveInvestigator() {
       await Save();
       setShowSuccessModal(true);
     } catch (error) {
-      console.error('Error saving investigator:', error);
+      console.error("Error saving investigator:", error);
       setErrorMessage(String(error));
       setShowErrorModal(true);
     }
@@ -170,11 +203,20 @@ export default function SaveInvestigator() {
           Save Investigator
         </button>
         {showSuccessModal && (
-          <Modal isOpen={showSuccessModal} onClose={closeModals} onCreateAnother={handleCreateAnother} />
+          <Modal
+            isOpen={showSuccessModal}
+            onClose={closeModals}
+            onCreateAnother={handleCreateAnother}
+          />
         )}
-        {showErrorModal && <ErrorModal message={errorMessage} onClose={closeModals} onRetry={retrySave} />}
+        {showErrorModal && (
+          <ErrorModal
+            message={errorMessage}
+            onClose={closeModals}
+            onRetry={retrySave}
+          />
+        )}
       </div>
     </Navigation>
   );
 }
-

@@ -6,5 +6,5 @@ export default function SearchInvestigator() {
     <Navigation>
       <InvestigatorDisplay />
     </Navigation>
-  )
+  );
 }

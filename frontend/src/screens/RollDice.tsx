@@ -24,7 +24,7 @@ const RollDice: React.FC = () => {
         const rolled: DiceResult = await RollMultipleDice(
           config.sides,
           config.numDice,
-          constant
+          constant,
         );
         allResults.push(...rolled);
       }
@@ -33,7 +33,7 @@ const RollDice: React.FC = () => {
       setHistory([
         ...history,
         `Rolled: ${diceConfigs
-          .map((d) => `${d.numDice}d${d.sides}`)
+          .map(d => `${d.numDice}d${d.sides}`)
           .join(", ")} + ${constant} = ${allResults.join(", ")}`,
       ]);
     } catch (error) {
@@ -45,9 +45,13 @@ const RollDice: React.FC = () => {
     setDiceConfigs([...diceConfigs, { numDice: 1, sides: 6 }]);
   };
 
-  const updateDiceConfig = (index: number, key: keyof DiceConfig, value: number) => {
+  const updateDiceConfig = (
+    index: number,
+    key: keyof DiceConfig,
+    value: number,
+  ) => {
     const updatedConfigs = diceConfigs.map((config, i) =>
-      i === index ? { ...config, [key]: value } : config
+      i === index ? { ...config, [key]: value } : config,
     );
     setDiceConfigs(updatedConfigs);
   };
@@ -69,8 +73,12 @@ const RollDice: React.FC = () => {
                 type="number"
                 min="1"
                 value={config.numDice}
-                onChange={(e) =>
-                  updateDiceConfig(index, "numDice", parseInt(e.target.value, 10))
+                onChange={e =>
+                  updateDiceConfig(
+                    index,
+                    "numDice",
+                    parseInt(e.target.value, 10),
+                  )
                 }
                 className="w-full p-2 border rounded mb-2"
                 placeholder="Number of Dice"
@@ -79,7 +87,7 @@ const RollDice: React.FC = () => {
                 type="number"
                 min="1"
                 value={config.sides}
-                onChange={(e) =>
+                onChange={e =>
                   updateDiceConfig(index, "sides", parseInt(e.target.value, 10))
                 }
                 className="w-full p-2 border rounded"
@@ -108,7 +116,7 @@ const RollDice: React.FC = () => {
           <input
             type="number"
             value={constant}
-            onChange={(e) => setConstant(parseInt(e.target.value, 10))}
+            onChange={e => setConstant(parseInt(e.target.value, 10))}
             className="w-full p-2 border rounded"
           />
         </div>
@@ -133,7 +141,9 @@ const RollDice: React.FC = () => {
           <div className="mt-2 p-4 bg-gray-100 border rounded">
             {results.length > 0 ? (
               results.map((result, index) => (
-                <p key={index}>Roll {index + 1}: {result}</p>
+                <p key={index}>
+                  Roll {index + 1}: {result}
+                </p>
               ))
             ) : (
               <p>No results yet</p>
@@ -157,4 +167,3 @@ const RollDice: React.FC = () => {
 };
 
 export default RollDice;
-

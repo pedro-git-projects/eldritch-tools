@@ -23,7 +23,7 @@ interface FullInvestigator {
 
 type InvestigatorCardProps = {
   selected: FullInvestigator;
-}
+};
 
 export default function InvestigatorCard({ selected }: InvestigatorCardProps) {
   return (
@@ -35,8 +35,12 @@ export default function InvestigatorCard({ selected }: InvestigatorCardProps) {
               <img
                 alt={selected.name}
                 src={selected.portrait}
-                onError={(e) => {
-                  console.error("Image failed to load for investigator:", selected.name, e);
+                onError={e => {
+                  console.error(
+                    "Image failed to load for investigator:",
+                    selected.name,
+                    e,
+                  );
                 }}
                 className="h-36 w-36 flex-shrink-0 rounded-full object-cover border border-cthulhu-beige"
               />
@@ -51,29 +55,31 @@ export default function InvestigatorCard({ selected }: InvestigatorCardProps) {
             </div>
             <div className="flex justify-center lg:pt-4 pt-8 pb-0">
               <div className="p-3 text-center">
-                <span className="text-lg font-bold block uppercase tracking-wide">Age</span>
+                <span className="text-lg font-bold block uppercase tracking-wide">
+                  Age
+                </span>
+                <span className="text-lg">{selected.age}</span>
+              </div>
+              <div className="p-3 text-center">
+                <span className="text-lg font-bold block uppercase tracking-wide">
+                  Sex
+                </span>
                 <span className="text-lg">
-                  {selected.age}
+                  {selected.sex === "0" ? "Male" : "Female"}
                 </span>
               </div>
               <div className="p-3 text-center">
-                <span className="text-lg font-bold block uppercase tracking-wide">Sex</span>
-                <span className="text-lg">
-                  {selected.sex === "0" ? 'Male' : 'Female'}
+                <span className="text-lg font-bold block uppercase tracking-wide">
+                  Residence
                 </span>
-              </div>
-              <div className="p-3 text-center">
-                <span className="text-lg font-bold block uppercase tracking-wide">Residence</span>
-                <span className="text-lg">
-                  {selected.residence}
-                </span>
+                <span className="text-lg">{selected.residence}</span>
               </div>
 
               <div className="p-3 text-center">
-                <span className="text-lg font-bold block uppercase tracking-wide">Birthplace</span>
-                <span className="text-lg">
-                  {selected.birthplace}
+                <span className="text-lg font-bold block uppercase tracking-wide">
+                  Birthplace
                 </span>
+                <span className="text-lg">{selected.birthplace}</span>
               </div>
             </div>
           </div>
@@ -82,4 +88,3 @@ export default function InvestigatorCard({ selected }: InvestigatorCardProps) {
     </div>
   );
 }
-

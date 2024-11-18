@@ -9,4 +9,3 @@ export type Characteristics = {
   Edu: number;
   Move: number;
 };
-

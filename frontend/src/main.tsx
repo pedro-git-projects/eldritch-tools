@@ -1,21 +1,17 @@
-import { createRoot } from 'react-dom/client'
-import './style.css'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import SearchInvestigator from './screens/SearchInvestigator';
-import SimulateCombat from './screens/SimulateCombat';
-import InfoForm from './forms/InfoForm';
-import CharacteristicsForm from './forms/CharacteristicsForm';
-import WeaponsForm from './forms/WeaponsForm';
-import SkillsForm from './forms/SkillsForm';
-import BackgroundForm from './forms/BackgroundForm';
-import SaveInvestigator from './forms/SaveInvestigator';
-import PossessionsForm from './forms/PossessionsForm';
-import { FormProvider } from './context/FormContext';
-import RollDice from './screens/RollDice';
-
+import { createRoot } from "react-dom/client";
+import "./style.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import SearchInvestigator from "./screens/SearchInvestigator";
+import SimulateCombat from "./screens/SimulateCombat";
+import InfoForm from "./forms/InfoForm";
+import CharacteristicsForm from "./forms/CharacteristicsForm";
+import WeaponsForm from "./forms/WeaponsForm";
+import SkillsForm from "./forms/SkillsForm";
+import BackgroundForm from "./forms/BackgroundForm";
+import SaveInvestigator from "./forms/SaveInvestigator";
+import PossessionsForm from "./forms/PossessionsForm";
+import { FormProvider } from "./context/FormContext";
+import RollDice from "./screens/RollDice";
 
 const router = createBrowserRouter([
   {
@@ -58,16 +54,13 @@ const router = createBrowserRouter([
     path: "/roll",
     element: <RollDice />,
   },
-
 ]);
 
+const container = document.getElementById("root");
 
-
-const container = document.getElementById('root')
-
-const root = createRoot(container!)
+const root = createRoot(container!);
 root.render(
   <FormProvider>
     <RouterProvider router={router} />
-  </FormProvider>
-)
+  </FormProvider>,
+);

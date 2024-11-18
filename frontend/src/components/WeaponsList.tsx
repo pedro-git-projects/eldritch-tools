@@ -1,5 +1,5 @@
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { EllipsisVerticalIcon } from '@heroicons/react/20/solid'
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 
 interface WeaponData {
   name: string;
@@ -17,18 +17,33 @@ interface WeaponsListProps {
   onDelete: (index: number) => void;
 }
 
-export default function WeaponsList({ weapons, onEdit, onDelete }: WeaponsListProps) {
+export default function WeaponsList({
+  weapons,
+  onEdit,
+  onDelete,
+}: WeaponsListProps) {
   const handleEditClick = (index: number) => {
-    const updatedWeapon = { ...weapons[index], name: weapons[index].name + " (Edited)" };
+    const updatedWeapon = {
+      ...weapons[index],
+      name: weapons[index].name + " (Edited)",
+    };
     onEdit(index, updatedWeapon);
   };
 
   return (
-    <ul role="list" className="divide-y divide-cthulhu-gray bg-cthulhu-dark rounded-lg shadow-md overflow-visible">
+    <ul
+      role="list"
+      className="divide-y divide-cthulhu-gray bg-cthulhu-dark rounded-lg shadow-md overflow-visible"
+    >
       {weapons.map((weapon, index) => (
-        <li key={index} className="flex items-center justify-between gap-x-6 py-5 px-4 bg-cthulhu-secondary rounded-md mx-2 my-2 shadow-inner">
+        <li
+          key={index}
+          className="flex items-center justify-between gap-x-6 py-5 px-4 bg-cthulhu-secondary rounded-md mx-2 my-2 shadow-inner"
+        >
           <div className="min-w-0">
-            <p className="text-sm font-semibold text-cthulhu-light">{weapon.name}</p>
+            <p className="text-sm font-semibold text-cthulhu-light">
+              {weapon.name}
+            </p>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-cthulhu-muted">
               <p>Skill: {weapon.skillName}</p>
               <p>Damage: {weapon.damage}</p>
@@ -48,12 +63,18 @@ export default function WeaponsList({ weapons, onEdit, onDelete }: WeaponsListPr
                 className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-cthulhu-dark py-2 shadow-lg ring-1 ring-cthulhu-deep"
               >
                 <MenuItem>
-                  <button onClick={() => handleEditClick(index)} className="block w-full text-left px-3 py-1 text-sm text-cthulhu-light hover:bg-cthulhu-deep">
+                  <button
+                    onClick={() => handleEditClick(index)}
+                    className="block w-full text-left px-3 py-1 text-sm text-cthulhu-light hover:bg-cthulhu-deep"
+                  >
                     Edit
                   </button>
                 </MenuItem>
                 <MenuItem>
-                  <button onClick={() => onDelete(index)} className="block w-full text-left px-3 py-1 text-sm text-cthulhu-light hover:bg-cthulhu-deep">
+                  <button
+                    onClick={() => onDelete(index)}
+                    className="block w-full text-left px-3 py-1 text-sm text-cthulhu-light hover:bg-cthulhu-deep"
+                  >
                     Delete
                   </button>
                 </MenuItem>
@@ -63,5 +84,5 @@ export default function WeaponsList({ weapons, onEdit, onDelete }: WeaponsListPr
         </li>
       ))}
     </ul>
-  )
+  );
 }

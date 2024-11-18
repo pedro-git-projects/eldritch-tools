@@ -1,16 +1,28 @@
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
-import { UpdateCharacteristics, PrintCharacteristics } from "../../wailsjs/go/investigator/Characteristics";
+import {
+  UpdateCharacteristics,
+  PrintCharacteristics,
+} from "../../wailsjs/go/investigator/Characteristics";
 import { useFormContext } from "../context/FormContext";
 
 export default function CharacteristicsForm() {
-  type CharacteristicKey = 'str' | 'dex' | 'int' | 'con' | 'app' | 'pow' | 'siz' | 'edu' | 'move';
+  type CharacteristicKey =
+    | "str"
+    | "dex"
+    | "int"
+    | "con"
+    | "app"
+    | "pow"
+    | "siz"
+    | "edu"
+    | "move";
 
-  const {characteristics, setCharacteristics} = useFormContext();
+  const { characteristics, setCharacteristics } = useFormContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCharacteristics((prevInfo) => ({
+    setCharacteristics(prevInfo => ({
       ...prevInfo,
       [name as CharacteristicKey]: parseInt(value),
     }));
@@ -30,21 +42,20 @@ export default function CharacteristicsForm() {
         characteristics.edu,
         characteristics.move,
       );
-      alert('Characteristics updated successfully!');
+      alert("Characteristics updated successfully!");
     } catch (error) {
-      console.error('Error updating characteristics:', error);
+      console.error("Error updating characteristics:", error);
     }
   };
 
   const handlePrintCharacteristcs = async () => {
     try {
       await PrintCharacteristics();
-      alert('Check the console for printed characteristics.');
+      alert("Check the console for printed characteristics.");
     } catch (error) {
-      console.error('Error printing info:', error);
+      console.error("Error printing info:", error);
     }
   };
-
 
   return (
     <Navigation>
@@ -52,16 +63,22 @@ export default function CharacteristicsForm() {
       <div className="divide-y divide-white/5">
         <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
           <div>
-            <h2 className="text-base font-semibold text-white">Characteristics</h2>
-            <p className="mt-1 text-sm text-gray-400">Define the investigator's key characteristics.</p>
+            <h2 className="text-base font-semibold text-white">
+              Characteristics
+            </h2>
+            <p className="mt-1 text-sm text-gray-400">
+              Define the investigator's key characteristics.
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="md:col-span-2">
             <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-
               {Object.keys(characteristics).map((key, index) => (
                 <div key={index} className="sm:col-span-3">
-                  <label htmlFor={key} className="block text-sm font-medium text-white capitalize">
+                  <label
+                    htmlFor={key}
+                    className="block text-sm font-medium text-white capitalize"
+                  >
                     {key}
                   </label>
                   <div className="mt-2">
@@ -76,7 +93,6 @@ export default function CharacteristicsForm() {
                   </div>
                 </div>
               ))}
-
             </div>
 
             <div className="mt-8 flex items-center justify-end gap-x-6">
@@ -98,6 +114,5 @@ export default function CharacteristicsForm() {
         </div>
       </div>
     </Navigation>
-  )
-
+  );
 }

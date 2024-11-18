@@ -1,7 +1,7 @@
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 import { useState } from "react";
-import { UpdateMeta } from "../../wailsjs/go/investigator/Meta"
+import { UpdateMeta } from "../../wailsjs/go/investigator/Meta";
 
 export default function BackgroundForm() {
   const [meta, setMeta] = useState({
@@ -19,12 +19,11 @@ export default function BackgroundForm() {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setMeta((prev) => ({
+    setMeta(prev => ({
       ...prev,
       [name]: value,
     }));
   };
-
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -39,7 +38,7 @@ export default function BackgroundForm() {
         meta.InjuriesAndScars,
         meta.PhobiasAndManias,
         meta.ArcaneTomesSpellsAndArtifacts,
-        meta.EncountersWithStrangeEntities
+        meta.EncountersWithStrangeEntities,
       );
       console.log("Submitted Meta:", meta);
       alert("Background information updated successfully!");
@@ -52,11 +51,16 @@ export default function BackgroundForm() {
     <Navigation>
       <TopMenu />
       <div className="max-w-4xl mx-auto p-4 space-y-6">
-        <h2 className="text-2xl font-semibold text-white">Investigator Background</h2>
+        <h2 className="text-2xl font-semibold text-white">
+          Investigator Background
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {Object.entries(meta).map(([field, value]) => (
             <div key={field}>
-              <label htmlFor={field} className="block text-sm font-medium text-white">
+              <label
+                htmlFor={field}
+                className="block text-sm font-medium text-white"
+              >
                 {field.replace(/([A-Z])/g, " $1")}
               </label>
               <div className="mt-2">
@@ -85,4 +89,3 @@ export default function BackgroundForm() {
     </Navigation>
   );
 }
-

@@ -1,14 +1,19 @@
-import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react'
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  TransitionChild,
+} from "@headlessui/react";
 import {
   Bars3Icon,
   PlusCircleIcon,
   MagnifyingGlassIcon,
   XMarkIcon,
   BeakerIcon,
-} from '@heroicons/react/24/solid'
+} from "@heroicons/react/24/solid";
 import { GiDiceTwentyFacesOne } from "react-icons/gi";
-import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,22 +23,46 @@ export default function Navigation({ children }: LayoutProps) {
   const location = useLocation();
 
   const navigation = [
-    { name: 'Create Investigator', href: '/', icon: PlusCircleIcon, current: true },
-    { name: 'Search Investigator', href: '/search', icon: MagnifyingGlassIcon, current: false },
-    { name: 'Simulate Combat', href: '/combat', icon: BeakerIcon, current: false },
-    { name: 'Roll Dice', href: '/roll', icon: GiDiceTwentyFacesOne, current: false },
-  ]
+    {
+      name: "Create Investigator",
+      href: "/",
+      icon: PlusCircleIcon,
+      current: true,
+    },
+    {
+      name: "Search Investigator",
+      href: "/search",
+      icon: MagnifyingGlassIcon,
+      current: false,
+    },
+    {
+      name: "Simulate Combat",
+      href: "/combat",
+      icon: BeakerIcon,
+      current: false,
+    },
+    {
+      name: "Roll Dice",
+      href: "/roll",
+      icon: GiDiceTwentyFacesOne,
+      current: false,
+    },
+  ];
 
   function classNames(...classes: String[]) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(" ");
   }
 
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <>
       <div>
-        <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
+        <Dialog
+          open={sidebarOpen}
+          onClose={setSidebarOpen}
+          className="relative z-50 lg:hidden"
+        >
           <DialogBackdrop
             transition
             className="fixed inset-0 bg-cthulhu-dark/80 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
@@ -46,9 +75,16 @@ export default function Navigation({ children }: LayoutProps) {
             >
               <TransitionChild>
                 <div className="absolute left-full top-0 flex w-16 justify-center pt-5 duration-300 ease-in-out data-[closed]:opacity-0">
-                  <button type="button" onClick={() => setSidebarOpen(false)} className="-m-2.5 p-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setSidebarOpen(false)}
+                    className="-m-2.5 p-2.5"
+                  >
                     <span className="sr-only">Close sidebar</span>
-                    <XMarkIcon aria-hidden="true" className="h-6 w-6 text-cthulhu-bg" />
+                    <XMarkIcon
+                      aria-hidden="true"
+                      className="h-6 w-6 text-cthulhu-bg"
+                    />
                   </button>
                 </div>
               </TransitionChild>
@@ -68,18 +104,21 @@ export default function Navigation({ children }: LayoutProps) {
                   <ul role="list" className="flex flex-1 flex-col gap-y-7">
                     <li>
                       <ul role="list" className="-mx-2 space-y-1">
-                        {navigation.map((item) => (
+                        {navigation.map(item => (
                           <li key={item.name}>
                             <Link
                               to={item.href}
                               className={classNames(
                                 location.pathname === item.href
-                                  ? 'bg-cthulhu-deep text-cthulhu-highlight'
-                                  : 'text-cthulhu-olive hover:bg-cthulhu-gray hover:text-cthulhu-light',
-                                'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
+                                  ? "bg-cthulhu-deep text-cthulhu-highlight"
+                                  : "text-cthulhu-olive hover:bg-cthulhu-gray hover:text-cthulhu-light",
+                                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                               )}
                             >
-                              <item.icon aria-hidden="true" className="h-6 w-6 shrink-0 text-cthulhu-teal" />
+                              <item.icon
+                                aria-hidden="true"
+                                className="h-6 w-6 shrink-0 text-cthulhu-teal"
+                              />
                               {item.name}
                             </Link>
                           </li>
@@ -110,18 +149,21 @@ export default function Navigation({ children }: LayoutProps) {
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
-                    {navigation.map((item) => (
+                    {navigation.map(item => (
                       <li key={item.name}>
                         <Link
                           to={item.href}
                           className={classNames(
                             location.pathname === item.href
-                              ? 'bg-cthulhu-deep text-cthulhu-highlight'
-                              : 'text-cthulhu-olive hover:bg-cthulhu-gray hover:text-cthulhu-light',
-                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6'
+                              ? "bg-cthulhu-deep text-cthulhu-highlight"
+                              : "text-cthulhu-olive hover:bg-cthulhu-gray hover:text-cthulhu-light",
+                            "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                           )}
                         >
-                          <item.icon aria-hidden="true" className="h-6 w-6 shrink-0 text-cthulhu-teal" />
+                          <item.icon
+                            aria-hidden="true"
+                            className="h-6 w-6 shrink-0 text-cthulhu-teal"
+                          />
                           {item.name}
                         </Link>
                       </li>
@@ -134,22 +176,25 @@ export default function Navigation({ children }: LayoutProps) {
         </div>
 
         <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-cthulhu-secondary px-4 py-4 shadow-sm sm:px-6 lg:hidden">
-          <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-cthulhu-olive lg:hidden">
+          <button
+            type="button"
+            onClick={() => setSidebarOpen(true)}
+            className="-m-2.5 p-2.5 text-cthulhu-olive lg:hidden"
+          >
             <span className="sr-only">Open sidebar</span>
             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
           </button>
-          <div className="flex-1 text-sm font-semibold leading-6 text-cthulhu-beige">Menu</div>
+          <div className="flex-1 text-sm font-semibold leading-6 text-cthulhu-beige">
+            Menu
+          </div>
         </div>
 
         <main className="py-10 lg:pl-72">
           <div className="px-4 sm:px-6 lg:px-8">
-            <div className="bg-cthulhu-dark text-cthulhu-beige">
-              {children}
-            </div>
+            <div className="bg-cthulhu-dark text-cthulhu-beige">{children}</div>
           </div>
         </main>
       </div>
     </>
   );
 }
-

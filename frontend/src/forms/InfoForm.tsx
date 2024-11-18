@@ -1,15 +1,15 @@
-import { UpdateInfo, PrintInfo } from '../../wailsjs/go/investigator/Info';
-import placeholder from "../assets/images/portrait.jpg"
-import { useFormContext } from '../context/FormContext';
-import Navigation from '../layout/Navigation';
-import TopMenu from './TopMenu';
+import { UpdateInfo, PrintInfo } from "../../wailsjs/go/investigator/Info";
+import placeholder from "../assets/images/portrait.jpg";
+import { useFormContext } from "../context/FormContext";
+import Navigation from "../layout/Navigation";
+import TopMenu from "./TopMenu";
 
 export default function InfoForm() {
   const { info, setInfo, setPortrait } = useFormContext();
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    setInfo((prevInfo) => ({
+    setInfo(prevInfo => ({
       ...prevInfo,
       [name]: value,
     }));
@@ -26,11 +26,11 @@ export default function InfoForm() {
         info.birthplace,
         parseInt(info.age, 10),
         info.sex,
-        info.portrait
+        info.portrait,
       );
-      alert('Info updated successfully!');
+      alert("Info updated successfully!");
     } catch (error) {
-      console.error('Error updating info:', error);
+      console.error("Error updating info:", error);
     }
   };
 
@@ -54,17 +54,14 @@ export default function InfoForm() {
     }
   };
 
-
-
   const handlePrintInfo = async () => {
     try {
       await PrintInfo();
-      alert('Check the console for printed information.');
+      alert("Check the console for printed information.");
     } catch (error) {
-      console.error('Error printing info:', error);
+      console.error("Error printing info:", error);
     }
   };
-
 
   return (
     <Navigation>
@@ -72,13 +69,16 @@ export default function InfoForm() {
       <div className="divide-y divide-white/5">
         <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
           <div>
-            <h2 className="text-base/7 font-semibold text-white">Personal Information</h2>
-            <p className="mt-1 text-sm/6 text-gray-400">Basic information about the player and investigator.</p>
+            <h2 className="text-base/7 font-semibold text-white">
+              Personal Information
+            </h2>
+            <p className="mt-1 text-sm/6 text-gray-400">
+              Basic information about the player and investigator.
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="md:col-span-2">
             <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
-
               <div className="col-span-full flex items-center gap-x-8">
                 <img
                   alt="Investigator Avatar"
@@ -95,18 +95,24 @@ export default function InfoForm() {
                   />
                   <button
                     type="button"
-                    onClick={() => document.getElementById("portraitInput")?.click()}
+                    onClick={() =>
+                      document.getElementById("portraitInput")?.click()
+                    }
                     className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
                   >
                     Change avatar
                   </button>
-                  <p className="mt-2 text-xs/5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
+                  <p className="mt-2 text-xs/5 text-gray-400">
+                    JPG, GIF or PNG. 1MB max.
+                  </p>
                 </div>
               </div>
 
-
               <div className="sm:col-span-3">
-                <label htmlFor="name" className="block text-sm/6 font-medium text-white">
+                <label
+                  htmlFor="name"
+                  className="block text-sm/6 font-medium text-white"
+                >
                   Name
                 </label>
                 <div className="mt-2">
@@ -122,7 +128,10 @@ export default function InfoForm() {
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="player" className="block text-sm/6 font-medium text-white">
+                <label
+                  htmlFor="player"
+                  className="block text-sm/6 font-medium text-white"
+                >
                   Player
                 </label>
                 <div className="mt-2">
@@ -138,7 +147,10 @@ export default function InfoForm() {
               </div>
 
               <div className="col-span-full">
-                <label htmlFor="occupation" className="block text-sm/6 font-medium text-white">
+                <label
+                  htmlFor="occupation"
+                  className="block text-sm/6 font-medium text-white"
+                >
                   Occupation
                 </label>
                 <div className="mt-2">
@@ -154,7 +166,10 @@ export default function InfoForm() {
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="age" className="block text-sm/6 font-medium text-white">
+                <label
+                  htmlFor="age"
+                  className="block text-sm/6 font-medium text-white"
+                >
                   Age
                 </label>
                 <div className="mt-2">
@@ -170,7 +185,10 @@ export default function InfoForm() {
               </div>
 
               <div className="sm:col-span-4">
-                <label htmlFor="sex" className="block text-sm/6 font-medium text-white">
+                <label
+                  htmlFor="sex"
+                  className="block text-sm/6 font-medium text-white"
+                >
                   Sex
                 </label>
                 <div className="mt-2">
@@ -188,7 +206,10 @@ export default function InfoForm() {
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="residence" className="block text-sm/6 font-medium text-white">
+                <label
+                  htmlFor="residence"
+                  className="block text-sm/6 font-medium text-white"
+                >
                   Residence
                 </label>
                 <div className="mt-2">
@@ -204,7 +225,10 @@ export default function InfoForm() {
               </div>
 
               <div className="sm:col-span-3">
-                <label htmlFor="birthplace" className="block text-sm/6 font-medium text-white">
+                <label
+                  htmlFor="birthplace"
+                  className="block text-sm/6 font-medium text-white"
+                >
                   Birthplace
                 </label>
                 <div className="mt-2">

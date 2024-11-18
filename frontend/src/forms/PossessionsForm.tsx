@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import Navigation from '../layout/Navigation';
-import TopMenu from './TopMenu';
-import { UpdatePossessions } from '../../wailsjs/go/investigator/Possessions';
-import { useFormContext } from '../context/FormContext';
+import { useState } from "react";
+import Navigation from "../layout/Navigation";
+import TopMenu from "./TopMenu";
+import { UpdatePossessions } from "../../wailsjs/go/investigator/Possessions";
+import { useFormContext } from "../context/FormContext";
 
 type Possession = {
   Name: string;
@@ -14,46 +14,57 @@ export default function PossessionsForm() {
   const { possessions, setPossessions } = useFormContext();
 
   const [newPossession, setNewPossession] = useState<Possession>({
-    Name: '',
-    Description: '',
+    Name: "",
+    Description: "",
     Quantity: 1,
   });
 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [editingPossession, setEditingPossession] = useState<Possession | null>(null);
+  const [editingPossession, setEditingPossession] = useState<Possession | null>(
+    null,
+  );
 
   // Modal state variables
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, isEditMode = false) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    isEditMode = false,
+  ) => {
     const { name, value } = e.target;
     const update = isEditMode ? setEditingPossession : setNewPossession;
 
     update((prev: any) =>
       prev
         ? {
-          ...prev,
-          [name]: name === 'Quantity' ? parseInt(value, 10) : value,
-        }
-        : prev
+            ...prev,
+            [name]: name === "Quantity" ? parseInt(value, 10) : value,
+          }
+        : prev,
     );
   };
 
   const handleAddPossession = () => {
-    if (!newPossession.Name || !newPossession.Description || newPossession.Quantity < 1) {
-      alert('Please fill out all fields.');
+    if (
+      !newPossession.Name ||
+      !newPossession.Description ||
+      newPossession.Quantity < 1
+    ) {
+      alert("Please fill out all fields.");
       return;
     }
 
     setPossessions([...possessions, newPossession]);
-    setNewPossession({ Name: '', Description: '', Quantity: 1 });
+    setNewPossession({ Name: "", Description: "", Quantity: 1 });
   };
 
   const handleSaveEdit = () => {
     if (editingIndex !== null && editingPossession) {
-      setPossessions((prev) =>
-        prev.map((possession, i) => (i === editingIndex ? editingPossession : possession))
+      setPossessions(prev =>
+        prev.map((possession, i) =>
+          i === editingIndex ? editingPossession : possession,
+        ),
       );
       setEditingIndex(null);
       setEditingPossession(null);
@@ -66,7 +77,7 @@ export default function PossessionsForm() {
   };
 
   const handleDeletePossession = (index: number) => {
-    setPossessions((prev) => prev.filter((_, i) => i !== index));
+    setPossessions(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleUpdatePossessions = async () => {
@@ -75,7 +86,7 @@ export default function PossessionsForm() {
       await UpdatePossessions(possessions);
       setShowSuccessModal(true);
     } catch (error) {
-      console.error('Error updating possessions:', error);
+      console.error("Error updating possessions:", error);
       setShowErrorModal(true);
     }
   };
@@ -84,14 +95,16 @@ export default function PossessionsForm() {
     <Navigation>
       <TopMenu />
       <div className="px-4 py-16">
-        <h2 className="text-lg font-bold text-white mb-4">Manage Possessions</h2>
+        <h2 className="text-lg font-bold text-white mb-4">
+          Manage Possessions
+        </h2>
 
         <div className="space-y-4 mt-4">
           <input
             type="text"
             name="Name"
             value={newPossession.Name}
-            onChange={(e) => handleInputChange(e)}
+            onChange={e => handleInputChange(e)}
             placeholder="Possession Name"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -99,7 +112,7 @@ export default function PossessionsForm() {
             type="text"
             name="Description"
             value={newPossession.Description}
-            onChange={(e) => handleInputChange(e)}
+            onChange={e => handleInputChange(e)}
             placeholder="Description"
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
@@ -107,7 +120,7 @@ export default function PossessionsForm() {
             type="number"
             name="Quantity"
             value={newPossession.Quantity}
-            onChange={(e) => handleInputChange(e)}
+            onChange={e => handleInputChange(e)}
             placeholder="Quantity"
             min="1"
             className="w-full rounded-md bg-gray-800 text-white p-2"
@@ -124,12 +137,14 @@ export default function PossessionsForm() {
         {editingPossession && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
             <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full mx-4 sm:mx-6 md:mx-auto">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Edit Possession</h3>
+              <h3 className="text-lg font-semibold mb-4 text-gray-900">
+                Edit Possession
+              </h3>
               <input
                 type="text"
                 name="Name"
                 value={editingPossession.Name}
-                onChange={(e) => handleInputChange(e, true)}
+                onChange={e => handleInputChange(e, true)}
                 placeholder="Possession Name"
                 className="w-full rounded-md mb-2 bg-gray-100 p-2 text-gray-700"
               />
@@ -137,7 +152,7 @@ export default function PossessionsForm() {
                 type="text"
                 name="Description"
                 value={editingPossession.Description}
-                onChange={(e) => handleInputChange(e, true)}
+                onChange={e => handleInputChange(e, true)}
                 placeholder="Description"
                 className="w-full rounded-md mb-2 bg-gray-100 p-2 text-gray-700"
               />
@@ -145,7 +160,7 @@ export default function PossessionsForm() {
                 type="number"
                 name="Quantity"
                 value={editingPossession.Quantity}
-                onChange={(e) => handleInputChange(e, true)}
+                onChange={e => handleInputChange(e, true)}
                 placeholder="Quantity"
                 min="1"
                 className="w-full rounded-md mb-2 bg-gray-100 p-2 text-gray-700"
@@ -172,7 +187,9 @@ export default function PossessionsForm() {
         )}
 
         <div className="mt-8">
-          <h3 className="text-lg font-semibold text-white">Current Possessions</h3>
+          <h3 className="text-lg font-semibold text-white">
+            Current Possessions
+          </h3>
           {possessions.length > 0 ? (
             possessions.map((item, index) => (
               <div
@@ -182,7 +199,9 @@ export default function PossessionsForm() {
                 <div>
                   <p className="font-semibold text-white">{item.Name}</p>
                   <p className="text-sm text-gray-300">{item.Description}</p>
-                  <p className="text-sm text-gray-300">Quantity: {item.Quantity}</p>
+                  <p className="text-sm text-gray-300">
+                    Quantity: {item.Quantity}
+                  </p>
                 </div>
                 <div className="space-x-2">
                   <button
@@ -216,8 +235,12 @@ export default function PossessionsForm() {
         {showSuccessModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
             <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full">
-              <h3 className="text-lg font-semibold text-green-600">Update Successful!</h3>
-              <p className="text-gray-700 mt-2">Possessions have been successfully updated.</p>
+              <h3 className="text-lg font-semibold text-green-600">
+                Update Successful!
+              </h3>
+              <p className="text-gray-700 mt-2">
+                Possessions have been successfully updated.
+              </p>
               <button
                 onClick={() => setShowSuccessModal(false)}
                 className="mt-4 w-full rounded-md bg-green-500 px-4 py-2 text-sm font-semibold text-white hover:bg-green-400"
@@ -232,8 +255,12 @@ export default function PossessionsForm() {
         {showErrorModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
             <div className="bg-white p-6 rounded-md shadow-lg max-w-md w-full">
-              <h3 className="text-lg font-semibold text-red-600">Update Failed</h3>
-              <p className="text-gray-700 mt-2">An error occurred while updating possessions.</p>
+              <h3 className="text-lg font-semibold text-red-600">
+                Update Failed
+              </h3>
+              <p className="text-gray-700 mt-2">
+                An error occurred while updating possessions.
+              </p>
               <button
                 onClick={() => setShowErrorModal(false)}
                 className="mt-4 w-full rounded-md bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-400"
@@ -247,4 +274,3 @@ export default function PossessionsForm() {
     </Navigation>
   );
 }
-

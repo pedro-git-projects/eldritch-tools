@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from "react";
 
 interface InfoState {
   name: string;
@@ -34,7 +34,16 @@ interface WeaponData {
   numberOfAttacks: number;
 }
 
-type CharacteristicKey = 'str' | 'dex' | 'int' | 'con' | 'app' | 'pow' | 'siz' | 'edu' | 'move';
+type CharacteristicKey =
+  | "str"
+  | "dex"
+  | "int"
+  | "con"
+  | "app"
+  | "pow"
+  | "siz"
+  | "edu"
+  | "move";
 
 interface MetaData {
   PersonalDescription: string;
@@ -72,32 +81,34 @@ interface FormContextType {
   resetWeapons: () => void;
 
   characteristics: Record<CharacteristicKey, number>;
-  setCharacteristics: React.Dispatch<React.SetStateAction<Record<CharacteristicKey, number>>>;
+  setCharacteristics: React.Dispatch<
+    React.SetStateAction<Record<CharacteristicKey, number>>
+  >;
   resetCharacteristics: () => void;
 }
 
 const defaultInfoState: InfoState = {
-  name: '',
-  player: '',
-  occupation: '',
-  age: '',
-  sex: 'Male',
-  residence: '',
-  birthplace: '',
-  portrait: '',
+  name: "",
+  player: "",
+  occupation: "",
+  age: "",
+  sex: "Male",
+  residence: "",
+  birthplace: "",
+  portrait: "",
 };
 
 const defaultMeta: MetaData = {
-  PersonalDescription: '',
-  Traits: '',
-  IdeologyAndBeliefs: '',
-  SignificantPeople: '',
-  MeaningfulLocations: '',
-  TreasuredPossessions: '',
-  InjuriesAndScars: '',
-  PhobiasAndManias: '',
-  ArcaneTomesSpellsAndArtifacts: '',
-  EncountersWithStrangeEntities: '',
+  PersonalDescription: "",
+  Traits: "",
+  IdeologyAndBeliefs: "",
+  SignificantPeople: "",
+  MeaningfulLocations: "",
+  TreasuredPossessions: "",
+  InjuriesAndScars: "",
+  PhobiasAndManias: "",
+  ArcaneTomesSpellsAndArtifacts: "",
+  EncountersWithStrangeEntities: "",
 };
 
 const FormContext = createContext<FormContextType | undefined>(undefined);
@@ -108,8 +119,18 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
   const [possessions, setPossessions] = useState<Possession[]>([]);
   const [skills, setSkills] = useState<SkillData[]>([]);
   const [weapons, setWeapons] = useState<WeaponData[]>([]);
-  const [characteristics, setCharacteristics] = useState<Record<CharacteristicKey, number>>({
-    str: 0, dex: 0, int: 0, con: 0, app: 0, pow: 0, siz: 0, edu: 0, move: 0,
+  const [characteristics, setCharacteristics] = useState<
+    Record<CharacteristicKey, number>
+  >({
+    str: 0,
+    dex: 0,
+    int: 0,
+    con: 0,
+    app: 0,
+    pow: 0,
+    siz: 0,
+    edu: 0,
+    move: 0,
   });
 
   const resetInfo = () => setInfo(defaultInfoState);
@@ -117,12 +138,21 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
   const resetPossessions = () => setPossessions([]);
   const resetSkills = () => setSkills([]);
   const resetWeapons = () => setWeapons([]);
-  const resetCharacteristics = () => setCharacteristics({
-    str: 0, dex: 0, int: 0, con: 0, app: 0, pow: 0, siz: 0, edu: 0, move: 0,
-  });
+  const resetCharacteristics = () =>
+    setCharacteristics({
+      str: 0,
+      dex: 0,
+      int: 0,
+      con: 0,
+      app: 0,
+      pow: 0,
+      siz: 0,
+      edu: 0,
+      move: 0,
+    });
 
   const setPortrait = (portrait: string) => {
-    setInfo((prevInfo) => ({
+    setInfo(prevInfo => ({
       ...prevInfo,
       portrait,
     }));
@@ -160,8 +190,7 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
 export const useFormContext = () => {
   const context = useContext(FormContext);
   if (!context) {
-    throw new Error('useFormContext must be used within a FormProvider');
+    throw new Error("useFormContext must be used within a FormProvider");
   }
   return context;
 };
-

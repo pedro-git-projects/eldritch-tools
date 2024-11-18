@@ -1,15 +1,15 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom";
 
 export default function TopMenu() {
   const navigation = [
-    { name: 'Info', href: '/' },
-    { name: 'Characteristics', href: '/characteristics' },
-    { name: 'Skills', href: '/skills' },
-    { name: 'Weapons', href: '/weapons' },
-    { name: 'Possessions', href: "/possessions" },
-    { name: 'Background', href: '/background' },
-    { name: 'Save', href: '/save' },
-  ]
+    { name: "Info", href: "/" },
+    { name: "Characteristics", href: "/characteristics" },
+    { name: "Skills", href: "/skills" },
+    { name: "Weapons", href: "/weapons" },
+    { name: "Possessions", href: "/possessions" },
+    { name: "Background", href: "/background" },
+    { name: "Save", href: "/save" },
+  ];
 
   const location = useLocation();
 
@@ -20,14 +20,14 @@ export default function TopMenu() {
           role="list"
           className="flex min-w-full flex-none gap-x-6 px-4 text-sm/6 font-semibold text-gray-400 sm:px-6 lg:px-8"
         >
-          {navigation.map((item) => (
+          {navigation.map(item => (
             <li key={item.name}>
               <Link
                 to={item.href}
                 className={
                   location.pathname === item.href
-                    ? 'text-indigo-400'
-                    : 'text-gray-400 hover:text-indigo-300'
+                    ? "text-indigo-400"
+                    : "text-gray-400 hover:text-indigo-300"
                 }
               >
                 {item.name}
@@ -37,5 +37,5 @@ export default function TopMenu() {
         </ul>
       </nav>
     </header>
-  )
+  );
 }
