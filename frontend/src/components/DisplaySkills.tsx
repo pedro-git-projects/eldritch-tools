@@ -15,7 +15,11 @@ export default function SkillsDisplay({ skills }: SkillsDisplayProps) {
     <div>
       <dl className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
         {skillsArray.map(skill => {
-          const total = skill.Level + skill.BaseChance;
+          const isSpecialSkill =
+            skill.Name === "Dodge" || skill.Name === "Language (Own)";
+          const total = isSpecialSkill
+            ? skill.Level
+            : skill.Level + skill.BaseChance;
           const half = Math.floor(total / 2);
           const fifth = Math.floor(total / 5);
 

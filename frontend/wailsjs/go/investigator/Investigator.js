@@ -38,8 +38,16 @@ export function InitDamageBonus() {
   return window['go']['investigator']['Investigator']['InitDamageBonus']();
 }
 
+export function InitDodge() {
+  return window['go']['investigator']['Investigator']['InitDodge']();
+}
+
 export function InitHP() {
   return window['go']['investigator']['Investigator']['InitHP']();
+}
+
+export function InitLanguageOwn() {
+  return window['go']['investigator']['Investigator']['InitLanguageOwn']();
 }
 
 export function InitLuck() {

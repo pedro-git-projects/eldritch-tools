@@ -39,14 +39,19 @@ export default function SkillsForm() {
   useEffect(() => {
     async function loadSkills() {
       const initialSkills = await GetSkills();
-      const skillsWithAdditionalPoints: SkillData[] = initialSkills.map(
-        (skill: any) => ({
+      const skillsWithAdditionalPoints: SkillData[] = initialSkills
+        .filter(
+          (skill: any) =>
+            skill.Name !== "Language (Own)" && skill.Name !== "Dodge",
+        ) // Remove "Language (Own)" and "Dodge"
+        .map((skill: any) => ({
           name: skill.Name,
           baseChance: skill.BaseChance,
           level: skill.Level,
           additionalPoints: 0,
-        }),
-      );
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically
+
       setSkills(skillsWithAdditionalPoints);
     }
 

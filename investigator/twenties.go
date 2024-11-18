@@ -22,7 +22,7 @@ func (i *Investigator) InitTwentiesBaseSkills() {
 	i.Skills["Credit Rating"] = NewSkill("Credit Rating", 0)
 	i.Skills["Cthulhu Mythos"] = NewSkill("Cthulhu Mythos", 0)
 	i.Skills["Disguise"] = NewSkill("Disguise", 5)
-	i.Skills["Dodge"] = NewSkill("Disguise", i.Characteristics.Dex/2)
+	i.Skills["Dodge"] = NewSkill("Dodge", i.Characteristics.Dex/2)
 	i.Skills["Drive Auto"] = NewSkill("Drive Auto", 20)
 	i.Skills["Elec Repair"] = NewSkill("Elec Repair", 10)
 	i.Skills["Fast Talk"] = NewSkill("Fast Talk", 5)
@@ -76,6 +76,14 @@ func (i *Investigator) InitWeapons() error {
 	return nil
 }
 
+func (i *Investigator) InitDodge() {
+	i.Skills["Dodge"] = NewSkill("Dodge", i.Characteristics.Dex/2)
+}
+
+func (i *Investigator) InitLanguageOwn() {
+	i.Skills["Language (Own)"] = NewSkill("Language (Own)", i.Characteristics.Edu)
+}
+
 func (i *Investigator) AddWeapon(name, skillName string, damage uint8, options ...weapons.WeaponOption) {
 	weapon := weapons.NewWeapon(name, skillName, damage, options...)
 	i.Weapons[name] = weapon
@@ -112,6 +120,7 @@ func (i *Investigator) InitMP() {
 
 func (i *Investigator) InitHP() {
 	i.HP.Value = utils.Point((i.Characteristics.Con + i.Characteristics.Siz) / 10)
+	i.HP.MaxValue = utils.Point((i.Characteristics.Con + i.Characteristics.Siz) / 10)
 }
 
 func (i *Investigator) InitSan() {

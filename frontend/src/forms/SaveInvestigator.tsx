@@ -17,6 +17,9 @@ import {
   InitMP,
   InitSan,
   InitDamageBonus,
+  InitMove,
+  InitDodge,
+  InitLanguageOwn,
 } from "../../wailsjs/go/investigator/Investigator";
 import { GetInfo } from "../../wailsjs/go/investigator/Info";
 import { GetMeta } from "../../wailsjs/go/investigator/Meta";
@@ -169,6 +172,9 @@ export default function SaveInvestigator() {
       await InitHP();
       await InitMP();
       await InitSan();
+      await InitMove();
+      await InitDodge();
+      await InitLanguageOwn();
       await InitDamageBonus();
       await Save();
       setShowSuccessModal(true);

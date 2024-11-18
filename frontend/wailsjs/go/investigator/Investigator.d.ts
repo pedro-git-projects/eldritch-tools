@@ -22,7 +22,11 @@ export function GetSkills():Promise<Array<investigator.Skill>>;
 
 export function InitDamageBonus():Promise<void>;
 
+export function InitDodge():Promise<void>;
+
 export function InitHP():Promise<void>;
+
+export function InitLanguageOwn():Promise<void>;
 
 export function InitLuck():Promise<void>;
 

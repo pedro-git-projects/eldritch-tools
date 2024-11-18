@@ -8,6 +8,7 @@ import (
 
 type HP struct {
 	Value       utils.Point
+	MaxValue    utils.Point
 	MajorWound  bool
 	Dying       bool
 	Unconscious bool
