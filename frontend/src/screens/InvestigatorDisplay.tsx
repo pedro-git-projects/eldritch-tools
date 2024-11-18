@@ -12,6 +12,7 @@ import SkillsDisplay from "../components/DisplaySkills";
 import InvestigatorCard from "../components/InvestigatorCard";
 import HpStatusCard from "../components/HpStatusCard";
 import SanityStatusCard from "../components/SanityStatusCard";
+import CombatStatusCard from "../components/CombatStatusCard";
 
 interface FullInvestigator {
   id: number;
@@ -147,12 +148,8 @@ export default function InvestigatorList() {
             <SkillsDisplay skills={selected.skills} />
           </div>
 
-          {/* Combat */}
           <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-900">Combat</h3>
-            <pre className="text-gray-700 text-sm mt-2">
-              {JSON.stringify(selected.combat, null, 2)}
-            </pre>
+            <CombatStatusCard selected={selected} />
           </div>
 
           {/* Meta */}

@@ -78,6 +78,7 @@ func (i *Investigator) InitWeapons() error {
 
 func (i *Investigator) InitDodge() {
 	i.Skills["Dodge"] = NewSkill("Dodge", i.Characteristics.Dex/2)
+	i.Combat.Dodge = i.Characteristics.Dex / 2
 }
 
 func (i *Investigator) InitLanguageOwn() {

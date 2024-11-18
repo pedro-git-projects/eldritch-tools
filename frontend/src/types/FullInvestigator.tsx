@@ -19,7 +19,11 @@ export interface FullInvestigator {
     TempInsane: boolean;
     IndefInsane: boolean;
   };
-  combat: any;
+  combat: {
+    DamageBonus: number;
+    Build: number;
+    Dodge: number;
+  };
   meta: any;
   weapons: any;
   skills: any;
