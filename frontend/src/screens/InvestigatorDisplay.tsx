@@ -4,6 +4,7 @@ import { GetAllInvestigators } from '../../wailsjs/go/main/App'
 import { Listbox, ListboxOption, ListboxOptions, ListboxButton } from '@headlessui/react'
 import { CharacteristicsDisplay } from '../components/DisplayCharacteristics';
 import SkillsDisplay from '../components/DisplaySkills';
+import InvestigatorCard from '../components/InvestigatorCard';
 
 interface FullInvestigator {
   id: number;
@@ -114,16 +115,8 @@ export default function InvestigatorList() {
 
 
       {selected && (
-        <div className="mt-6 bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">{selected.name}</h2>
-          <p className="text-gray-700 mb-1"><strong>Player:</strong> {selected.player}</p>
-          <p className="text-gray-700 mb-1"><strong>Occupation:</strong> {selected.occupation}</p>
-          <p className="text-gray-700 mb-1"><strong>Age:</strong> {selected.age}</p>
-          <p className="text-gray-700 mb-1"><strong>Sex:</strong> {selected.sex}</p>
-          <p className="text-gray-700 mb-1"><strong>Residence:</strong> {selected.residence}</p>
-          <p className="text-gray-700 mb-1"><strong>Birthplace:</strong> {selected.birthplace}</p>
-
-
+        <div className="mt-6 bg-cthulhu-dark rounded-lg shadow-md p-6">
+          <InvestigatorCard selected={selected} />
           <div className="mt-4">
             <CharacteristicsDisplay data={selected.characteristics} />
           </div>
