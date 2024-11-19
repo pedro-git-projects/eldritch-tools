@@ -1,11 +1,23 @@
-import { UpdateInfo, PrintInfo } from "../../wailsjs/go/investigator/Info";
+import { useState } from "react";
+import { UpdateInfo } from "../../wailsjs/go/investigator/Info";
 import placeholder from "../assets/images/portrait.jpg";
+import AlertBanner from "../components/AlertBanner";
+import { ErrorDialog } from "../components/ErrorModal";
 import { useFormContext } from "../context/FormContext";
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 
 export default function InfoForm() {
   const { info, setInfo, setPortrait } = useFormContext();
+  const [alert, setAlert] = useState<{
+    title: string;
+    content: string;
+    nextStepPath?: string;
+  } | null>(null);
+  const [errorDialog, setErrorDialog] = useState<{
+    title: string;
+    content: string;
+  } | null>(null);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -28,51 +40,81 @@ export default function InfoForm() {
         info.sex,
         info.portrait,
       );
-      alert("Info updated successfully!");
+      setAlert({
+        title: "Success",
+        content: "Info updated successfully!",
+        nextStepPath: "/characteristics",
+      });
     } catch (error) {
       console.error("Error updating info:", error);
+      setAlert({
+        title: "Error",
+        content: "Failed to update info. Please try again.",
+      });
     }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileInput = e.target;
     const file = fileInput.files?.[0];
-
     if (file) {
+      const allowedTypes = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        setErrorDialog({
+          title: "Unsupported File Format",
+          content: "Please upload a file in JPG, PNG, or WebP format.",
+        });
+        fileInput.value = "";
+        return;
+      }
       const reader = new FileReader();
-
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
+          const mimeType = file.type;
+          const base64Data = reader.result.split(",")[1];
+          const dataUrl = `data:${mimeType};base64,${base64Data}`;
+
           setTimeout(() => {
-            setPortrait(reader.result as string); // Ensure update
+            setPortrait(dataUrl);
           }, 0);
         }
-        fileInput.value = ""; // Reset the input
+        fileInput.value = "";
       };
-
-      reader.readAsDataURL(file); // Read file
-    }
-  };
-
-  const handlePrintInfo = async () => {
-    try {
-      await PrintInfo();
-      alert("Check the console for printed information.");
-    } catch (error) {
-      console.error("Error printing info:", error);
+      reader.readAsDataURL(file);
     }
   };
 
   return (
     <Navigation>
       <TopMenu />
+      {alert && (
+        <div className="mb-4">
+          <AlertBanner
+            title={alert.title}
+            content={alert.content}
+            onClose={() => setAlert(null)}
+            nextStepPath={alert.nextStepPath}
+          />
+        </div>
+      )}
+      {errorDialog && (
+        <ErrorDialog
+          title={errorDialog.title}
+          content={errorDialog.content}
+          textBtn1="OK"
+          onClose1={() => setErrorDialog(null)}
+        />
+      )}
       <div className="divide-y divide-white/5">
         <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
           <div>
-            <h2 className="text-base/7 font-semibold text-white">
-              Personal Information
-            </h2>
-            <p className="mt-1 text-sm/6 text-gray-400">
+            <h2 className="text-base/7 font-semibold">Personal Information</h2>
+            <p className="mt-1 text-sm/6">
               Basic information about the player and investigator.
             </p>
           </div>
@@ -88,7 +130,7 @@ export default function InfoForm() {
                 <div>
                   <input
                     type="file"
-                    accept="image/*"
+                    accept="image/jpeg, image/jpg, image/png, image/webp"
                     onChange={handleImageChange}
                     className="hidden"
                     id="portraitInput"
@@ -98,21 +140,16 @@ export default function InfoForm() {
                     onClick={() =>
                       document.getElementById("portraitInput")?.click()
                     }
-                    className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+                    className="rounded-md hover:bg-cthulhu-bluegray px-3 py-2 text-sm font-semibold shadow-sm bg-white/20"
                   >
                     Change avatar
                   </button>
-                  <p className="mt-2 text-xs/5 text-gray-400">
-                    JPG, GIF or PNG. 1MB max.
-                  </p>
+                  <p className="mt-2 text-xs/5">JPG, PNG and Webp.</p>
                 </div>
               </div>
 
               <div className="sm:col-span-3">
-                <label
-                  htmlFor="name"
-                  className="block text-sm/6 font-medium text-white"
-                >
+                <label htmlFor="name" className="block text-sm/6 font-semibold">
                   Name
                 </label>
                 <div className="mt-2">
@@ -122,7 +159,7 @@ export default function InfoForm() {
                     type="text"
                     value={info.name}
                     onChange={handleChange}
-                    className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                    className="block w-full rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm/6"
                   />
                 </div>
               </div>
@@ -130,7 +167,7 @@ export default function InfoForm() {
               <div className="sm:col-span-3">
                 <label
                   htmlFor="player"
-                  className="block text-sm/6 font-medium text-white"
+                  className="block text-sm/6 font-semibold"
                 >
                   Player
                 </label>
@@ -141,7 +178,7 @@ export default function InfoForm() {
                     type="text"
                     value={info.player}
                     onChange={handleChange}
-                    className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                    className="block w-full rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm/6"
                   />
                 </div>
               </div>
@@ -149,7 +186,7 @@ export default function InfoForm() {
               <div className="col-span-full">
                 <label
                   htmlFor="occupation"
-                  className="block text-sm/6 font-medium text-white"
+                  className="block text-sm/6 font-semibold"
                 >
                   Occupation
                 </label>
@@ -160,16 +197,13 @@ export default function InfoForm() {
                     type="text"
                     value={info.occupation}
                     onChange={handleChange}
-                    className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                    className="block w-full rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm/6"
                   />
                 </div>
               </div>
 
               <div className="sm:col-span-2">
-                <label
-                  htmlFor="age"
-                  className="block text-sm/6 font-medium text-white"
-                >
+                <label htmlFor="age" className="block text-sm/6 font-semibold">
                   Age
                 </label>
                 <div className="mt-2">
@@ -179,16 +213,13 @@ export default function InfoForm() {
                     type="number"
                     value={info.age}
                     onChange={handleChange}
-                    className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                    className="block w-full rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm/6"
                   />
                 </div>
               </div>
 
               <div className="sm:col-span-4">
-                <label
-                  htmlFor="sex"
-                  className="block text-sm/6 font-medium text-white"
-                >
+                <label htmlFor="sex" className="block text-sm/6 font-semibold">
                   Sex
                 </label>
                 <div className="mt-2">
@@ -197,7 +228,7 @@ export default function InfoForm() {
                     name="sex"
                     value={info.sex}
                     onChange={handleChange}
-                    className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                    className="block w-full rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm/6"
                   >
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -208,7 +239,7 @@ export default function InfoForm() {
               <div className="sm:col-span-3">
                 <label
                   htmlFor="residence"
-                  className="block text-sm/6 font-medium text-white"
+                  className="block text-sm/6 font-semibold"
                 >
                   Residence
                 </label>
@@ -219,7 +250,7 @@ export default function InfoForm() {
                     type="text"
                     value={info.residence}
                     onChange={handleChange}
-                    className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                    className="block w-full rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm/6"
                   />
                 </div>
               </div>
@@ -227,7 +258,7 @@ export default function InfoForm() {
               <div className="sm:col-span-3">
                 <label
                   htmlFor="birthplace"
-                  className="block text-sm/6 font-medium text-white"
+                  className="block text-sm/6 font-semibold"
                 >
                   Birthplace
                 </label>
@@ -238,7 +269,7 @@ export default function InfoForm() {
                     type="text"
                     value={info.birthplace}
                     onChange={handleChange}
-                    className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                    className="block w-full rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm/6"
                   />
                 </div>
               </div>
@@ -246,18 +277,11 @@ export default function InfoForm() {
 
             <div className="mt-8 flex items-center justify-end gap-x-6">
               <button
-                type="button"
-                onClick={handlePrintInfo}
-                className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white hover:bg-white/20"
-              >
-                Print Info
-              </button>
-              <button
                 type="submit"
                 onClick={handleSubmit}
-                className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="rounded-md bg-cthulhu-rust px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cthulhu-sand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                Save
+                Bind
               </button>
             </div>
           </form>

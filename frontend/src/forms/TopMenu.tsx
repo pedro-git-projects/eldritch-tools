@@ -18,7 +18,7 @@ export default function TopMenu() {
       <nav className="flex overflow-x-auto py-4">
         <ul
           role="list"
-          className="flex min-w-full flex-none gap-x-6 px-4 text-sm/6 font-semibold text-gray-400 sm:px-6 lg:px-8"
+          className="flex min-w-full flex-none gap-x-6 px-4 text-sm/6 font-semibold sm:px-6 lg:px-8"
         >
           {navigation.map(item => (
             <li key={item.name}>
@@ -26,8 +26,8 @@ export default function TopMenu() {
                 to={item.href}
                 className={
                   location.pathname === item.href
-                    ? "text-indigo-400"
-                    : "text-gray-400 hover:text-indigo-300"
+                    ? "text-cthulhu-highlight"
+                    : "hover:text-cthulhu-highlight"
                 }
               >
                 {item.name}
