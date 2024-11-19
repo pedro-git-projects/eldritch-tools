@@ -14,6 +14,7 @@ import HpStatusCard from "../components/HpStatusCard";
 import SanityStatusCard from "../components/SanityStatusCard";
 import CombatStatusCard from "../components/CombatStatusCard";
 import MetaDisplay from "../components/DisplayMeta";
+import WeaponsDisplay from "../components/DisplayWeapons";
 
 interface FullInvestigator {
   id: number;
@@ -159,10 +160,7 @@ export default function InvestigatorList() {
 
           {/* Weapons */}
           <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-900">Weapons</h3>
-            <pre className="text-gray-700 text-sm mt-2">
-              {JSON.stringify(selected.weapons, null, 2)}
-            </pre>
+            <WeaponsDisplay weapons={selected.weapons} />
           </div>
 
           {/* Possessions */}
@@ -171,19 +169,6 @@ export default function InvestigatorList() {
             <pre className="text-gray-700 text-sm mt-2">
               {JSON.stringify(selected.possessions, null, 2)}
             </pre>
-          </div>
-
-          {/* Luck and MP */}
-          <div className="mt-4">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Additional Attributes
-            </h3>
-            <p className="text-gray-700 mb-1">
-              <strong>Luck:</strong> {selected.luck}
-            </p>
-            <p className="text-gray-700 mb-1">
-              <strong>MP:</strong> {selected.mp}
-            </p>
           </div>
 
           {/* Wealth */}
