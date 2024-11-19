@@ -1,12 +1,23 @@
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
-import {
-  UpdateCharacteristics,
-  PrintCharacteristics,
-} from "../../wailsjs/go/investigator/Characteristics";
+import { UpdateCharacteristics } from "../../wailsjs/go/investigator/Characteristics";
 import { useFormContext } from "../context/FormContext";
+import { useState } from "react";
+import AlertBanner from "../components/AlertBanner";
+import { ErrorDialog } from "../components/ErrorModal";
 
 export default function CharacteristicsForm() {
+  const [alert, setAlert] = useState<{
+    title: string;
+    content: string;
+    nextStepPath?: string;
+  } | null>(null);
+
+  const [errorDialog, setErrorDialog] = useState<{
+    title: string;
+    content: string;
+  } | null>(null);
+
   type CharacteristicKey =
     | "str"
     | "dex"
@@ -40,31 +51,46 @@ export default function CharacteristicsForm() {
         characteristics.siz,
         characteristics.edu,
       );
-      alert("Characteristics updated successfully!");
+      setAlert({
+        title: "Success",
+        content: "Characteristics updated successfully!",
+        nextStepPath: "/skills",
+      });
     } catch (error) {
-      console.error("Error updating characteristics:", error);
-    }
-  };
-
-  const handlePrintCharacteristcs = async () => {
-    try {
-      await PrintCharacteristics();
-      alert("Check the console for printed characteristics.");
-    } catch (error) {
-      console.error("Error printing info:", error);
+      setErrorDialog({
+        title: "Error updatading characteristics",
+        content: `Failed to update info with ${error}. Please try again.`,
+      });
     }
   };
 
   return (
     <Navigation>
       <TopMenu />
+      {alert && (
+        <div className="mb-4">
+          <AlertBanner
+            title={alert.title}
+            content={alert.content}
+            onClose={() => setAlert(null)}
+            nextStepPath={alert.nextStepPath}
+          />
+        </div>
+      )}
+      {errorDialog && (
+        <ErrorDialog
+          title={errorDialog.title}
+          content={errorDialog.content}
+          textBtn1="OK"
+          onClose1={() => setErrorDialog(null)}
+        />
+      )}
+
       <div className="divide-y divide-white/5">
         <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
           <div>
-            <h2 className="text-base font-semibold text-white">
-              Characteristics
-            </h2>
-            <p className="mt-1 text-sm text-gray-400">
+            <h2 className="text-base font-semibold">Characteristics</h2>
+            <p className="mt-1 text-sm">
               Define the investigator's key characteristics.
             </p>
           </div>
@@ -75,7 +101,7 @@ export default function CharacteristicsForm() {
                 <div key={index} className="sm:col-span-3">
                   <label
                     htmlFor={key}
-                    className="block text-sm font-medium text-white capitalize"
+                    className="block text-sm font-medium uppercase"
                   >
                     {key}
                   </label>
@@ -86,7 +112,7 @@ export default function CharacteristicsForm() {
                       type="number"
                       value={characteristics[key as CharacteristicKey]}
                       onChange={handleChange}
-                      className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm"
+                      className="block w-full rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm/6"
                     />
                   </div>
                 </div>
@@ -95,17 +121,10 @@ export default function CharacteristicsForm() {
 
             <div className="mt-8 flex items-center justify-end gap-x-6">
               <button
-                type="button"
-                onClick={handlePrintCharacteristcs}
-                className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white hover:bg-white/20"
-              >
-                Print Characteristics
-              </button>
-              <button
                 type="submit"
-                className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="rounded-md bg-cthulhu-rust px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cthulhu-sand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
               >
-                Save
+                Bind
               </button>
             </div>
           </form>

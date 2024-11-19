@@ -46,10 +46,9 @@ export default function InfoForm() {
         nextStepPath: "/characteristics",
       });
     } catch (error) {
-      console.error("Error updating info:", error);
-      setAlert({
+      setErrorDialog({
         title: "Error",
-        content: "Failed to update info. Please try again.",
+        content: `Failed to update info with ${error}. Please try again.`,
       });
     }
   };
