@@ -3,7 +3,7 @@ package weapons
 type WeaponConfig struct {
 	Name            string
 	SkillName       string
-	Damage          uint8
+	Damage          Damage
 	NumberOfAttacks uint8
 	Range           uint8
 	Ammo            uint8

@@ -4,7 +4,7 @@ import {weapons} from '../models';
 import {combat} from '../models';
 import {investigator} from '../models';
 
-export function AddWeapon(arg1:string,arg2:string,arg3:number,arg4:Array<weapons.WeaponOption>):Promise<void>;
+export function AddWeapon(arg1:string,arg2:string,arg3:weapons.Damage,arg4:Array<weapons.WeaponOption>):Promise<void>;
 
 export function AddWeaponWithConfig(arg1:weapons.WeaponConfig):Promise<void>;
 

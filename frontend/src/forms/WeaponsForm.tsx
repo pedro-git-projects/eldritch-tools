@@ -1,22 +1,14 @@
 import { useState } from "react";
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
-import {
-  AddWeaponWithConfig,
-  Print,
-} from "../../wailsjs/go/investigator/Investigator";
+import { AddWeaponWithConfig } from "../../wailsjs/go/investigator/Investigator";
 import WeaponsList from "../components/WeaponsList";
 import { useFormContext } from "../context/FormContext";
-
-interface WeaponData {
-  name: string;
-  skillName: string;
-  damage: number;
-  range: number;
-  ammo: number;
-  malf: number;
-  numberOfAttacks: number;
-}
+import {
+  WeaponData,
+  convertToWeaponDataDto,
+  WeaponDataDto,
+} from "../types/WeaponData";
 
 export default function WeaponsForm() {
   const { weapons, setWeapons } = useFormContext();
@@ -24,7 +16,12 @@ export default function WeaponsForm() {
   const [newWeapon, setNewWeapon] = useState<WeaponData>({
     name: "",
     skillName: "",
-    damage: 0,
+    damage: {
+      numDice: 1,
+      sides: 6,
+      modifier: 0,
+      damageBonus: 0,
+    },
     range: 0,
     ammo: 0,
     malf: 0,
@@ -37,6 +34,7 @@ export default function WeaponsForm() {
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     isEditMode = false,
+    nestedField?: string,
   ) => {
     const { name, value } = e.target;
     const update = isEditMode ? setEditingWeapon : setNewWeapon;
@@ -45,55 +43,65 @@ export default function WeaponsForm() {
       prev
         ? {
             ...prev,
-            [name]:
-              name === "name" || name === "skillName" ? value : Number(value),
+            [nestedField || name]: nestedField
+              ? {
+                  ...prev[nestedField],
+                  [name]: Number(value),
+                }
+              : name === "name" || name === "skillName"
+                ? value
+                : Number(value),
           }
         : prev,
     );
   };
 
-  const handleAddWeapon = async () => {
-    const weaponConfig = {
-      Name: newWeapon.name,
-      SkillName: newWeapon.skillName,
-      Damage: newWeapon.damage,
-      Range: newWeapon.range,
-      Ammo: newWeapon.ammo,
-      Malf: newWeapon.malf,
-      NumberOfAttacks: newWeapon.numberOfAttacks,
-    };
+  const handleDamageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
 
+    const regex = /^(\d+)d(\d+)([+-]\d+)?$/; // Match format "XdY+Z"
+    const match = value.match(regex);
+
+    if (match) {
+      const [, numDice, sides, modifier] = match;
+      setNewWeapon(prev => ({
+        ...prev,
+        damage: {
+          ...prev.damage,
+          numDice: parseInt(numDice, 10),
+          sides: parseInt(sides, 10),
+          modifier: modifier ? parseInt(modifier, 10) : 0,
+        },
+      }));
+    }
+  };
+
+  const handleAddWeapon = async () => {
+    // Convert WeaponData to WeaponDataDto
+    const weaponConfig: WeaponDataDto = convertToWeaponDataDto(newWeapon);
+
+    // Send the DTO to the backend
+    // @ts-ignore
     await AddWeaponWithConfig(weaponConfig);
 
+    // Update the frontend state
     setWeapons(prev => [...prev, newWeapon]);
+
+    // Reset the form
     setNewWeapon({
       name: "",
       skillName: "",
-      damage: 0,
+      damage: {
+        numDice: 1,
+        sides: 6,
+        modifier: 0,
+        damageBonus: 0,
+      },
       range: 0,
       ammo: 0,
       malf: 0,
       numberOfAttacks: 1,
     });
-  };
-
-  const handleBindWeapons = async () => {
-    for (const weapon of weapons) {
-      const weaponConfig = {
-        Name: weapon.name,
-        SkillName: weapon.skillName,
-        Damage: weapon.damage,
-        Range: weapon.range,
-        Ammo: weapon.ammo,
-        Malf: weapon.malf,
-        NumberOfAttacks: weapon.numberOfAttacks,
-      };
-
-      await AddWeaponWithConfig(weaponConfig);
-      await Print();
-    }
-
-    alert("Weapons bound to investigator successfully.");
   };
 
   const handleEditWeapon = (index: number) => {
@@ -139,12 +147,11 @@ export default function WeaponsForm() {
             className="w-full rounded-md bg-gray-800 text-white p-2"
           />
           <input
-            type="number"
+            type="text"
             name="damage"
-            value={newWeapon.damage}
-            onChange={e => handleInputChange(e)}
-            placeholder="Damage"
+            placeholder="Damage (e.g., 1d6+2)"
             className="w-full rounded-md bg-gray-800 text-white p-2"
+            onChange={handleDamageInput}
           />
           <input
             type="number"
@@ -187,93 +194,7 @@ export default function WeaponsForm() {
           Add Weapon
         </button>
 
-        {editingWeapon && (
-          <div
-            className="fixed inset-0 flex items-center justify-center bg-cthulhu-secondary bg-opacity-90"
-            style={{ zIndex: 1050 }}
-          >
-            <div className="bg-cthulhu-dark p-6 rounded-md z-1050 shadow-lg max-w-lg w-full mx-4 sm:mx-6 md:mx-auto">
-              <h3 className="text-lg font-semibold mb-4 text-cthulhu-highlight">
-                Edit Weapon
-              </h3>
-              <input
-                type="text"
-                name="name"
-                value={editingWeapon.name}
-                onChange={e => handleInputChange(e, true)}
-                placeholder="Weapon Name"
-                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
-              />
-              <input
-                type="text"
-                name="skillName"
-                value={editingWeapon.skillName}
-                onChange={e => handleInputChange(e, true)}
-                placeholder="Skill Name"
-                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
-              />
-              <input
-                type="number"
-                name="damage"
-                value={editingWeapon.damage}
-                onChange={e => handleInputChange(e, true)}
-                placeholder="Damage"
-                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
-              />
-              <input
-                type="number"
-                name="range"
-                value={editingWeapon.range}
-                onChange={e => handleInputChange(e, true)}
-                placeholder="Range"
-                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
-              />
-              <input
-                type="number"
-                name="ammo"
-                value={editingWeapon.ammo}
-                onChange={e => handleInputChange(e, true)}
-                placeholder="Ammo"
-                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
-              />
-              <input
-                type="number"
-                name="malf"
-                value={editingWeapon.malf}
-                onChange={e => handleInputChange(e, true)}
-                placeholder="Malf"
-                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
-              />
-              <input
-                type="number"
-                name="numberOfAttacks"
-                value={editingWeapon.numberOfAttacks}
-                onChange={e => handleInputChange(e, true)}
-                placeholder="Number of Attacks"
-                className="w-full rounded-md mb-2 bg-cthulhu-gray p-2 text-cthulhu-highlight placeholder-cthulhu-soft"
-              />
-              <div className="flex justify-end gap-2 mt-4">
-                <button
-                  onClick={() => {
-                    setEditingIndex(null);
-                    setEditingWeapon(null);
-                  }}
-                  className="rounded-md bg-cthulhu-muted px-4 py-2 text-sm text-cthulhu-bg hover:bg-cthulhu-bluegray"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSaveEdit}
-                  className="rounded-md bg-cthulhu-accent px-4 py-2 text-sm text-cthulhu-bg hover:bg-cthulhu-teal"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="mt-8 ">
+        <div className="mt-8">
           <h3 className="text-lg font-semibold text-white">Current Weapons</h3>
           <WeaponsList
             weapons={weapons}
@@ -281,12 +202,6 @@ export default function WeaponsForm() {
             onDelete={handleDeleteWeapon}
           />
         </div>
-        <button
-          onClick={handleBindWeapons}
-          className="mt-4 rounded-md bg-green-500 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400"
-        >
-          Bind Weapons to Investigator
-        </button>
       </div>
     </Navigation>
   );

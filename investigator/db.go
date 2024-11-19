@@ -159,8 +159,10 @@ func LoadInvestigator(id int) (*Investigator, error) {
 		return nil, fmt.Errorf("could not deserialize meta: %w", err)
 	}
 
+	fmt.Println("DEBUG::", string(weaponsJSON))
 	err = json.Unmarshal([]byte(weaponsJSON), &i.Weapons)
 	if err != nil {
+		fmt.Println("DEBUG::", err)
 		return nil, fmt.Errorf("could not deserialize weapons: %w", err)
 	}
 

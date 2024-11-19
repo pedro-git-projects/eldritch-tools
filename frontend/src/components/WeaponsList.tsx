@@ -1,15 +1,6 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-
-interface WeaponData {
-  name: string;
-  skillName: string;
-  damage: number;
-  range: number;
-  ammo: number;
-  malf: number;
-  numberOfAttacks: number;
-}
+import { DamageData, WeaponData } from "../types/WeaponData";
 
 interface WeaponsListProps {
   weapons: WeaponData[];
@@ -30,6 +21,17 @@ export default function WeaponsList({
     onEdit(index, updatedWeapon);
   };
 
+  const formatDamage = (damage: DamageData) => {
+    const { numDice, sides, modifier, damageBonus } = damage;
+    const base = `${numDice}d${sides}`;
+    const modifiers = [];
+    if (modifier !== 0)
+      modifiers.push(modifier > 0 ? `+${modifier}` : `${modifier}`);
+    if (damageBonus !== 0)
+      modifiers.push(damageBonus > 0 ? `+${damageBonus}` : `${damageBonus}`);
+    return modifiers.length > 0 ? `${base} ${modifiers.join(" ")}` : base;
+  };
+
   return (
     <ul
       role="list"
@@ -46,7 +48,7 @@ export default function WeaponsList({
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 text-xs text-cthulhu-muted">
               <p>Skill: {weapon.skillName}</p>
-              <p>Damage: {weapon.damage}</p>
+              <p>Damage: {formatDamage(weapon.damage)}</p>
               <p>Range: {weapon.range}</p>
               <p>Ammo: {weapon.ammo}</p>
               <p>Malf: {weapon.malf}</p>

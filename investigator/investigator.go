@@ -44,10 +44,8 @@ func (i *Investigator) InitializeTwenties() error {
 	i.InitTwentiesBaseSkills()
 	i.InitMove()
 	i.InitDamageBonus()
+	i.InitWeapons()
 
-	if err := i.InitWeapons(); err != nil {
-		return err
-	}
 	return nil
 }
 

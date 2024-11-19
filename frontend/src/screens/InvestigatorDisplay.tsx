@@ -158,7 +158,6 @@ export default function InvestigatorList() {
             <MetaDisplay meta={selected.meta} />
           </div>
 
-          {/* Weapons */}
           <div className="mt-4">
             <WeaponsDisplay weapons={selected.weapons} />
           </div>

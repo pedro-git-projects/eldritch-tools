@@ -3,7 +3,6 @@ package combat
 import (
 	"bufio"
 	"fmt"
-	"math/rand"
 	"os"
 	"sort"
 )
@@ -118,10 +117,16 @@ func (e *CombatEngine) resolveAttack(attacker Actor, action Action) {
 	// Check if the attack succeeds
 	if successLevel != "Fail" {
 		// Calculate total damage (weapon damage + damage bonus)
-		damage := action.Weapon.Damage + uint8(rand.Intn(int(attacker.GetDamageBonus())))
+		damage := action.Weapon.Damage.RollDamage() + int(attacker.GetDamageBonus())
+		if damage < 0 {
+			damage = 0 // Negative damage doesn't make sense
+		} else if damage > 255 {
+			damage = 255 // Cap the value to the max uint8 value
+		}
 
 		// Apply damage to target and check for major wound
-		majorWound, _ := action.Target.ReceiveDamage(damage)
+		majorWound, _ := action.Target.ReceiveDamage(uint8(damage))
+
 		fmt.Printf("%s takes %d damage\n", action.Target.GetName(), damage)
 
 		if majorWound {

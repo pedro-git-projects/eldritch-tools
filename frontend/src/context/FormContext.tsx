@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import { WeaponData } from "../types/WeaponData";
 
 interface InfoState {
   name: string;
@@ -22,16 +23,6 @@ interface SkillData {
   baseChance: number;
   level: number;
   additionalPoints: number | string;
-}
-
-interface WeaponData {
-  name: string;
-  skillName: string;
-  damage: number;
-  range: number;
-  ammo: number;
-  malf: number;
-  numberOfAttacks: number;
 }
 
 type CharacteristicKey =
@@ -110,6 +101,23 @@ const defaultMeta: MetaData = {
   EncountersWithStrangeEntities: "",
 };
 
+const defaultWeaponState: WeaponData[] = [
+  {
+    name: "",
+    skillName: "",
+    damage: {
+      numDice: 1,
+      sides: 6,
+      modifier: 0,
+      damageBonus: 0,
+    },
+    range: 0,
+    ammo: 0,
+    malf: 0,
+    numberOfAttacks: 1,
+  },
+];
+
 const FormContext = createContext<FormContextType | undefined>(undefined);
 
 export const FormProvider = ({ children }: { children: ReactNode }) => {
@@ -135,7 +143,7 @@ export const FormProvider = ({ children }: { children: ReactNode }) => {
   const resetMeta = () => setMeta(defaultMeta);
   const resetPossessions = () => setPossessions([]);
   const resetSkills = () => setSkills([]);
-  const resetWeapons = () => setWeapons([]);
+  const resetWeapons = () => setWeapons(defaultWeaponState);
   const resetCharacteristics = () =>
     setCharacteristics({
       str: 0,

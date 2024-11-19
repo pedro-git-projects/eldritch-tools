@@ -3,7 +3,7 @@ package weapons
 type Weapon struct {
 	Name            string
 	SkillName       string
-	Damage          uint8
+	Damage          Damage
 	NumberOfAttacks uint8
 	Range           uint8
 	Ammo            uint8
@@ -36,7 +36,7 @@ func WithNumberOfAttacks(numberOfAttacks uint8) WeaponOption {
 	}
 }
 
-func NewWeapon(name string, skillName string, damage uint8, opts ...WeaponOption) *Weapon {
+func NewWeapon(name string, skillName string, damage Damage, opts ...WeaponOption) *Weapon {
 	w := &Weapon{
 		Name:            name,
 		SkillName:       skillName,

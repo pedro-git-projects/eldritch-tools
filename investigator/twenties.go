@@ -60,20 +60,15 @@ func (i *Investigator) InitTwentiesBaseSkills() {
 	i.Skills["Track"] = NewSkill("Track", 10)
 }
 
-func (i *Investigator) InitWeapons() error {
-	roll := dice.GetDiceRoller().RollDx(3)
-	damageInt := roll + int(i.Combat.DamageBonus)
-	if damageInt < 0 {
-		damageInt = 0
+func (i *Investigator) InitWeapons() {
+	// iD3 + DB
+	dmg := weapons.Damage{
+		NumDice:     1,
+		Sides:       3,
+		Modifier:    1,
+		DamageBonus: i.GetDamageBonus(),
 	}
-	fmt.Println("DamageInt Value ", damageInt)
-	damage, err := utils.SafeIntToUint8(damageInt, "InitWeapons")
-	fmt.Println("Damage Value ", damage)
-	if err != nil {
-		return err
-	}
-	i.Weapons["Unarmed"] = weapons.NewWeapon("Unarmed", "Fighting (Brawl)", damage)
-	return nil
+	i.Weapons["Unarmed"] = weapons.NewWeapon("Unarmed", "Fighting (Brawl)", dmg)
 }
 
 func (i *Investigator) InitDodge() {
@@ -85,7 +80,7 @@ func (i *Investigator) InitLanguageOwn() {
 	i.Skills["Language (Own)"] = NewSkill("Language (Own)", i.Characteristics.Edu)
 }
 
-func (i *Investigator) AddWeapon(name, skillName string, damage uint8, options ...weapons.WeaponOption) {
+func (i *Investigator) AddWeapon(name, skillName string, damage weapons.Damage, options ...weapons.WeaponOption) {
 	weapon := weapons.NewWeapon(name, skillName, damage, options...)
 	i.Weapons[name] = weapon
 	fmt.Printf("Added weapon: %s, Damage: %d, Skill: %s\n", weapon.Name, weapon.Damage, weapon.SkillName)
