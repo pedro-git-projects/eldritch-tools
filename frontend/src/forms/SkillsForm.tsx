@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navigation from "../layout/Navigation";
 import TopMenu from "./TopMenu";
 import {
@@ -6,16 +6,22 @@ import {
   UpdateSkills,
 } from "../../wailsjs/go/investigator/Investigator";
 import { useFormContext } from "../context/FormContext";
-
-interface SkillData {
-  name: string;
-  baseChance: number;
-  level: number;
-  additionalPoints: number | string;
-}
+import { SkillData } from "../types/SkillData";
+import AlertBanner from "../components/AlertBanner";
+import { ErrorDialog } from "../components/ErrorModal";
 
 export default function SkillsForm() {
   const { skills, setSkills } = useFormContext();
+
+  const [alert, setAlert] = useState<{
+    title: string;
+    content: string;
+    nextStepPath?: string;
+  } | null>(null);
+  const [errorDialog, setErrorDialog] = useState<{
+    title: string;
+    content: string;
+  } | null>(null);
 
   const handleSubmit = async () => {
     const updatedSkills = skills.map((skill: SkillData) => ({
@@ -30,9 +36,17 @@ export default function SkillsForm() {
 
     try {
       await UpdateSkills(updatedSkills);
-      alert("Skills updated successfully!");
+      setAlert({
+        title: "Success",
+        content:
+          "The ancient forces approve. Skills are now etched into your being.",
+        nextStepPath: "/weapons",
+      });
     } catch (error) {
-      console.error("Error updating skills:", error);
+      setErrorDialog({
+        title: "Error",
+        content: `Failed to update info with ${error}. Please try again.`,
+      });
     }
   };
 
@@ -75,11 +89,27 @@ export default function SkillsForm() {
   return (
     <Navigation>
       <TopMenu />
-      <div className="divide-y divide-white/5 px-4 py-16">
-        <h2 className="text-base font-semibold text-white">Skills</h2>
-        <p className="mt-1 text-sm text-gray-400">
-          Adjust points for each skill.
-        </p>
+      {alert && (
+        <div className="mb-4">
+          <AlertBanner
+            title={alert.title}
+            content={alert.content}
+            onClose={() => setAlert(null)}
+            nextStepPath={alert.nextStepPath}
+          />
+        </div>
+      )}
+      {errorDialog && (
+        <ErrorDialog
+          title={errorDialog.title}
+          content={errorDialog.content}
+          textBtn1="OK"
+          onClose1={() => setErrorDialog(null)}
+        />
+      )}
+      <div className="px-6 py-16">
+        <h2 className="text-base font-semibold">Skills</h2>
+        <p className="mt-1 text-sm mb-8">Adjust points for each skill.</p>
 
         <form
           onSubmit={e => {
@@ -87,10 +117,10 @@ export default function SkillsForm() {
             handleSubmit();
           }}
         >
-          <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {skills.map((skill, index) => (
               <div key={skill.name} className="col-span-1">
-                <label className="block text-sm font-medium text-white">
+                <label className="block text-sm font-medium">
                   {skill.name} (Base: {skill.baseChance}%)
                 </label>
                 <div className="mt-2 flex items-center gap-x-4">
@@ -98,9 +128,9 @@ export default function SkillsForm() {
                     type="number"
                     value={skill.additionalPoints}
                     onChange={e => handleChange(index, e.target.value)}
-                    className="w-20 rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-indigo-500 sm:text-sm"
+                    className="w-20 rounded-md border-0 bg-cthulhu-secondary py-1.5 shadow-sm ring-1 ring-inset ring-inset ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal sm:text-sm"
                   />
-                  <span className="text-sm text-gray-400">
+                  <span className="text-sm">
                     Total:{" "}
                     {Math.max(
                       skill.baseChance,
@@ -119,9 +149,9 @@ export default function SkillsForm() {
           <div className="mt-8 flex justify-end">
             <button
               type="submit"
-              className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              className="rounded-md bg-cthulhu-rust px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cthulhu-sand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             >
-              Submit
+              Bind
             </button>
           </div>
         </form>

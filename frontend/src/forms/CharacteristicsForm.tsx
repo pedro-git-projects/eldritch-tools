@@ -53,7 +53,8 @@ export default function CharacteristicsForm() {
       );
       setAlert({
         title: "Success",
-        content: "Characteristics updated successfully!",
+        content:
+          "Characteristics adjusted as per the unseen script. A strange power beckons you.",
         nextStepPath: "/skills",
       });
     } catch (error) {

@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { WeaponData } from "../types/WeaponData";
+import { SkillData } from "../types/SkillData";
 
 interface InfoState {
   name: string;
@@ -16,13 +17,6 @@ interface Possession {
   Name: string;
   Description: string;
   Quantity: number;
-}
-
-interface SkillData {
-  name: string;
-  baseChance: number;
-  level: number;
-  additionalPoints: number | string;
 }
 
 type CharacteristicKey =

@@ -42,7 +42,8 @@ export default function InfoForm() {
       );
       setAlert({
         title: "Success",
-        content: "Info updated successfully!",
+        content:
+          "Your essence has been updated. The cosmos stirs with anticipation.",
         nextStepPath: "/characteristics",
       });
     } catch (error) {
