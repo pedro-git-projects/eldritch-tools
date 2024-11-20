@@ -1,6 +1,10 @@
 package investigator
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/pedro-git-projects/eldritch-tools/weapons"
+)
 
 func (i *Investigator) PrintWeapons() {
 	fmt.Println("+----------------+--------+---------------+-------+------+-------+")
@@ -13,4 +17,35 @@ func (i *Investigator) PrintWeapons() {
 	}
 
 	fmt.Println("+----------------+--------+---------------+-------+------+-------+")
+}
+
+func (i *Investigator) UpdateWeapon(name string, updatedWeapon weapons.Weapon) error {
+	existingWeapon, exists := i.Weapons[name]
+	if !exists {
+		return fmt.Errorf("weapon '%s' does not exist", name)
+	}
+
+	existingWeapon.SkillName = updatedWeapon.SkillName
+	existingWeapon.Damage = updatedWeapon.Damage
+	existingWeapon.NumberOfAttacks = updatedWeapon.NumberOfAttacks
+	existingWeapon.Range = updatedWeapon.Range
+	existingWeapon.Ammo = updatedWeapon.Ammo
+	existingWeapon.Malf = updatedWeapon.Malf
+
+	i.Weapons[name] = existingWeapon
+	fmt.Printf("Updated weapon '%s': %+v\n", name, existingWeapon)
+
+	return nil
+}
+
+func (i *Investigator) DeleteWeapon(name string) error {
+	_, exists := i.Weapons[name]
+	if !exists {
+		return fmt.Errorf("weapon '%s' does not exist", name)
+	}
+
+	delete(i.Weapons, name)
+	fmt.Printf("Deleted weapon '%s'\n", name)
+
+	return nil
 }

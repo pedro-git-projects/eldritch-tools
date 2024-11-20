@@ -14,6 +14,10 @@ export function ChooseAction(arg1) {
   return window['go']['investigator']['Investigator']['ChooseAction'](arg1);
 }
 
+export function DeleteWeapon(arg1) {
+  return window['go']['investigator']['Investigator']['DeleteWeapon'](arg1);
+}
+
 export function GetDamageBonus() {
   return window['go']['investigator']['Investigator']['GetDamageBonus']();
 }
@@ -128,4 +132,8 @@ export function UpdateInvestigator(arg1, arg2, arg3, arg4) {
 
 export function UpdateSkills(arg1) {
   return window['go']['investigator']['Investigator']['UpdateSkills'](arg1);
+}
+
+export function UpdateWeapon(arg1, arg2) {
+  return window['go']['investigator']['Investigator']['UpdateWeapon'](arg1, arg2);
 }

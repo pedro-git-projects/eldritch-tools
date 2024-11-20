@@ -10,6 +10,8 @@ export function AddWeaponWithConfig(arg1:weapons.WeaponConfig):Promise<void>;
 
 export function ChooseAction(arg1:combat.CombatEngine):Promise<combat.Action>;
 
+export function DeleteWeapon(arg1:string):Promise<void>;
+
 export function GetDamageBonus():Promise<number>;
 
 export function GetDex():Promise<number>;
@@ -67,3 +69,5 @@ export function TakeTurn(arg1:combat.CombatEngine):Promise<void>;
 export function UpdateInvestigator(arg1:investigator.Info,arg2:investigator.Meta,arg3:investigator.Characteristics,arg4:Array<investigator.Possession>):Promise<void>;
 
 export function UpdateSkills(arg1:Array<investigator.Skill>):Promise<void>;
+
+export function UpdateWeapon(arg1:string,arg2:weapons.Weapon):Promise<void>;
