@@ -21,16 +21,23 @@ export default function WeaponsList({
     onEdit(index, updatedWeapon);
   };
 
+
   const formatDamage = (damage: DamageData) => {
     const { numDice, sides, modifier, damageBonus } = damage;
     const base = `${numDice}d${sides}`;
-    const modifiers = [];
-    if (modifier !== 0)
-      modifiers.push(modifier > 0 ? `+${modifier}` : `${modifier}`);
-    if (damageBonus !== 0)
-      modifiers.push(damageBonus > 0 ? `+${damageBonus}` : `${damageBonus}`);
-    return modifiers.length > 0 ? `${base} ${modifiers.join(" ")}` : base;
+    let modifiers = "";
+
+    if (modifier !== 0) {
+      modifiers += modifier > 0 ? `+${modifier}` : `${modifier}`;
+    }
+
+    if (damageBonus !== 0) {
+      modifiers += damageBonus > 0 ? `+${damageBonus}` : `${damageBonus}`;
+    }
+
+    return modifiers ? `${base}${modifiers}` : base;
   };
+
 
   return (
     <ul

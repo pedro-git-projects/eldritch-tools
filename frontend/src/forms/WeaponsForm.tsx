@@ -8,6 +8,7 @@ import {
   WeaponData,
   convertToWeaponDataDto,
   WeaponDataDto,
+  parseDamage,
 } from "../types/WeaponData";
 import AlertBanner from "../components/AlertBanner";
 import { ErrorDialog } from "../components/ErrorModal";
@@ -46,6 +47,12 @@ export default function WeaponsForm() {
 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingWeapon, setEditingWeapon] = useState<WeaponData | null>(null);
+  const [damageInput, setDamageInput] = useState<string>("");
+
+
+  const handleEditingDamageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDamageInput(e.target.value);
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -60,7 +67,7 @@ export default function WeaponsForm() {
 
       if (nestedField === "damage") {
         // Parse damage field value (e.g., "1d6+2")
-        const regex = /^(\d+)d(\d+)([+-]\d+)?$/;
+        const regex = /^(\d+)d(\d+)([+-]\d+)?([+-]\d+)?$/;
         const match = value.match(regex);
         if (match) {
           const [, numDice, sides, modifier] = match;
@@ -74,7 +81,6 @@ export default function WeaponsForm() {
             },
           };
         } else {
-          // Invalid damage format
           return prev;
         }
       }
@@ -83,9 +89,9 @@ export default function WeaponsForm() {
         ...prev,
         [nestedField || name]: nestedField
           ? {
-              ...prev[nestedField],
-              [name]: Number(value),
-            }
+            ...prev[nestedField],
+            [name]: Number(value),
+          }
           : name === "name" || name === "skillName"
             ? value
             : Number(value),
@@ -160,28 +166,46 @@ export default function WeaponsForm() {
     }
   };
 
+
   const handleEditWeapon = (index: number) => {
+    const weapon = weapons[index];
     setEditingIndex(index);
-    setEditingWeapon({ ...weapons[index] });
-    setEditingWeaponName(weapons[index].name);
+    setEditingWeapon({ ...weapon });
+    setEditingWeaponName(weapon.name);
+    setDamageInput(
+      weapon.damage
+        ? `${weapon.damage.numDice}d${weapon.damage.sides}${weapon.damage.modifier > 0 ? `+${weapon.damage.modifier}` : weapon.damage.modifier < 0 ? `${weapon.damage.modifier}` : ""}`
+        : ""
+    );
   };
 
   const handleSaveEdit = async () => {
     if (editingIndex !== null && editingWeapon && editingWeaponName) {
       try {
+        const parsedDamage = damageInput ? parseDamage(damageInput) : null;
+
+        const updatedWeapon = {
+          ...editingWeapon,
+          damage: parsedDamage,
+        };
+
+        // TODO: handle possible null
+        // @ts-ignore
         setWeapons(prev =>
           prev.map((weapon, i) =>
-            i === editingIndex ? editingWeapon : weapon,
-          ),
+            i === editingIndex ? updatedWeapon : weapon
+          )
         );
+
         setEditingIndex(null);
         setEditingWeapon(null);
         setEditingWeaponName(null);
+        setDamageInput("");
       } catch (err) {
         console.error("Failed to save edited weapon:", err);
         setErrorDialog({
           title: "Error",
-          content: `Failed to update info with ${err}. Please try again.`,
+          content: `Failed to parse damage: "${damageInput}". Please use the format "XdY+Z".`,
         });
       }
     }
@@ -239,18 +263,11 @@ export default function WeaponsForm() {
             <input
               type="text"
               name="damage"
-              value={`${editingWeapon.damage.numDice}d${editingWeapon.damage.sides}${
-                editingWeapon.damage.modifier
-                  ? editingWeapon.damage.modifier > 0
-                    ? `+${editingWeapon.damage.modifier}`
-                    : editingWeapon.damage.modifier
-                  : ""
-              }`}
-              onChange={e => handleInputChange(e, true, "damage")}
               placeholder="Damage (e.g., 1d6+2)"
-              className="w-full rounded-md mb-2 bg-cthulhu-secondary p-2 border-0 ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-beige"
+              value={damageInput}
+              onChange={handleEditingDamageInput}
+              className="w-full rounded-md bg-cthulhu-secondary p-2 border-0 ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-beige"
             />
-
             <label htmlFor="range" className="block text-sm/6 font-medium">
               Range
             </label>

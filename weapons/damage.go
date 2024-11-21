@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/labstack/gommon/log"
 	"github.com/pedro-git-projects/eldritch-tools/dice"
 )
 
@@ -25,13 +26,27 @@ func (d *Damage) RollDamage() int {
 }
 
 func (d Damage) MarshalJSON() ([]byte, error) {
-	formatted := fmt.Sprintf("%dd%d+%d+%d", d.NumDice, d.Sides, d.Modifier, d.DamageBonus)
-	fmt.Println("DEBUG::MARSHALING TO ", formatted)
+	var formatted string
+
+	if d.Modifier >= 0 {
+		formatted = fmt.Sprintf("%dd%d+%d", d.NumDice, d.Sides, d.Modifier)
+	} else {
+		formatted = fmt.Sprintf("%dd%d%d", d.NumDice, d.Sides, d.Modifier)
+	}
+
+	if d.DamageBonus > 0 {
+		formatted += fmt.Sprintf("+%d", d.DamageBonus)
+	} else if d.DamageBonus < 0 {
+		formatted += fmt.Sprintf("%d", d.DamageBonus)
+	}
+
+	log.Error("DEBUG::MARSHALING TO ", formatted)
+
 	return json.Marshal(formatted)
 }
 
 func (d *Damage) UnmarshalJSON(data []byte) error {
-	fmt.Println("DEBUG::", string(data))
+	log.Error("DEBUG::", string(data))
 	var formatted string
 	if err := json.Unmarshal(data, &formatted); err != nil {
 		return err
@@ -39,17 +54,30 @@ func (d *Damage) UnmarshalJSON(data []byte) error {
 
 	var numDice, sides uint8
 	var modifier, damageBonus int8
-	damageBonus = 0
 
-	if _, err := fmt.Sscanf(formatted, "%dd%d+%d+%d", &numDice, &sides, &modifier, &damageBonus); err != nil {
-		if _, err := fmt.Sscanf(formatted, "%dd%d+%d", &numDice, &sides, &modifier); err != nil {
-			return err
-		}
+	if _, err := fmt.Sscanf(formatted, "%dd%d%[+-]%d%[+-]%d", &numDice, &sides, &modifier, &damageBonus); err == nil {
+		d.NumDice = numDice
+		d.Sides = sides
+		d.Modifier = modifier
+		d.DamageBonus = damageBonus
+		return nil
 	}
 
-	d.NumDice = numDice
-	d.Sides = sides
-	d.Modifier = modifier
-	d.DamageBonus = damageBonus
-	return nil
+	if _, err := fmt.Sscanf(formatted, "%dd%d%[+-]%d", &numDice, &sides, &modifier); err == nil {
+		d.NumDice = numDice
+		d.Sides = sides
+		d.Modifier = modifier
+		d.DamageBonus = 0
+		return nil
+	}
+
+	if _, err := fmt.Sscanf(formatted, "%dd%d", &numDice, &sides); err == nil {
+		d.NumDice = numDice
+		d.Sides = sides
+		d.Modifier = 0
+		d.DamageBonus = 0
+		return nil
+	}
+
+	return fmt.Errorf("invalid damage format: %s", formatted)
 }

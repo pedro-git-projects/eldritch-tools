@@ -26,11 +26,12 @@ export interface WeaponDataDto {
   convertValues?: (a: any, classs: any, asMap?: boolean) => any;
 }
 
+
 export function convertToWeaponDataDto(weapon: WeaponData): WeaponDataDto {
   const { numDice, sides, modifier, damageBonus } = weapon.damage;
 
-  // Format damage as "Xdy+Z" (ignoring damageBonus since it's backend-derived)
-  const formattedDamage = `${numDice}d${sides}${modifier >= 0 ? `+${modifier}` : modifier}`;
+  // Format damage as "Xdy+Z-W" (include damageBonus)
+  const formattedDamage = `${numDice}d${sides}${modifier >= 0 ? `+${modifier}` : modifier}${damageBonus > 0 ? `+${damageBonus}` : damageBonus}`;
 
   return {
     Name: weapon.name,
@@ -42,6 +43,7 @@ export function convertToWeaponDataDto(weapon: WeaponData): WeaponDataDto {
     NumberOfAttacks: weapon.numberOfAttacks,
   };
 }
+
 
 export function mapToWailsWeaponData(weapon: WeaponData) {
   return {
@@ -60,19 +62,19 @@ export function mapToWailsWeaponData(weapon: WeaponData) {
 }
 
 export function parseDamage(damageString: String) {
-  const damageRegex = /(\d+)d(\d+)\+(\d+)\+?(-?\d+)?/;
+  const damageRegex = /^(\d+)d(\d+)([+-]\d+)?([+-]\d+)?$/;
   const match = damageString.match(damageRegex);
 
   if (!match) {
     throw new Error(`Invalid damage format: ${damageString}`);
   }
 
-  const [_, numDice, sides, modifier, damageBonus = "0"] = match; // Default to "0" as a string
+  const [_, numDice, sides, modifier = "+0", damageBonus = "0"] = match;
 
   return {
     numDice: parseInt(numDice, 10),
     sides: parseInt(sides, 10),
     modifier: parseInt(modifier, 10),
-    damageBonus: parseInt(String(damageBonus), 10), // Ensure damageBonus is parsed correctly
+    damageBonus: parseInt(String(damageBonus), 10),
   };
 }
