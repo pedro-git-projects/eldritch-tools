@@ -26,7 +26,6 @@ export interface WeaponDataDto {
   convertValues?: (a: any, classs: any, asMap?: boolean) => any;
 }
 
-
 export function convertToWeaponDataDto(weapon: WeaponData): WeaponDataDto {
   const { numDice, sides, modifier, damageBonus } = weapon.damage;
 
@@ -43,7 +42,6 @@ export function convertToWeaponDataDto(weapon: WeaponData): WeaponDataDto {
     NumberOfAttacks: weapon.numberOfAttacks,
   };
 }
-
 
 export function mapToWailsWeaponData(weapon: WeaponData) {
   return {

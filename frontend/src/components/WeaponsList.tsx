@@ -21,7 +21,6 @@ export default function WeaponsList({
     onEdit(index, updatedWeapon);
   };
 
-
   const formatDamage = (damage: DamageData) => {
     const { numDice, sides, modifier, damageBonus } = damage;
     const base = `${numDice}d${sides}`;
@@ -37,7 +36,6 @@ export default function WeaponsList({
 
     return modifiers ? `${base}${modifiers}` : base;
   };
-
 
   return (
     <ul

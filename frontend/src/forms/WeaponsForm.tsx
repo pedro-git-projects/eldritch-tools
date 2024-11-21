@@ -49,7 +49,6 @@ export default function WeaponsForm() {
   const [editingWeapon, setEditingWeapon] = useState<WeaponData | null>(null);
   const [damageInput, setDamageInput] = useState<string>("");
 
-
   const handleEditingDamageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDamageInput(e.target.value);
   };
@@ -89,9 +88,9 @@ export default function WeaponsForm() {
         ...prev,
         [nestedField || name]: nestedField
           ? {
-            ...prev[nestedField],
-            [name]: Number(value),
-          }
+              ...prev[nestedField],
+              [name]: Number(value),
+            }
           : name === "name" || name === "skillName"
             ? value
             : Number(value),
@@ -166,7 +165,6 @@ export default function WeaponsForm() {
     }
   };
 
-
   const handleEditWeapon = (index: number) => {
     const weapon = weapons[index];
     setEditingIndex(index);
@@ -175,7 +173,7 @@ export default function WeaponsForm() {
     setDamageInput(
       weapon.damage
         ? `${weapon.damage.numDice}d${weapon.damage.sides}${weapon.damage.modifier > 0 ? `+${weapon.damage.modifier}` : weapon.damage.modifier < 0 ? `${weapon.damage.modifier}` : ""}`
-        : ""
+        : "",
     );
   };
 
@@ -193,8 +191,8 @@ export default function WeaponsForm() {
         // @ts-ignore
         setWeapons(prev =>
           prev.map((weapon, i) =>
-            i === editingIndex ? updatedWeapon : weapon
-          )
+            i === editingIndex ? updatedWeapon : weapon,
+          ),
         );
 
         setEditingIndex(null);
