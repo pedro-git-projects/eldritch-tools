@@ -47,7 +47,13 @@ export default function WeaponsDisplay({ weapons }: WeaponsDisplayProps) {
                   <dt className="text-sm font-medium">Damage:</dt>
                   <dd className="text-sm font-semibold">
                     {damage
-                      ? `${damage.numDice}d${damage.sides} + ${damage.modifier}`
+                      ? `${damage.numDice}d${damage.sides}` +
+                        (damage.modifier !== 0
+                          ? `${damage.modifier > 0 ? `+${damage.modifier}` : damage.modifier}`
+                          : "") +
+                        (damage.damageBonus !== 0
+                          ? `${damage.damageBonus > 0 ? `+${damage.damageBonus}` : damage.damageBonus}`
+                          : "")
                       : weapon.Damage}
                   </dd>
                 </div>

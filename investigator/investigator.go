@@ -3,6 +3,7 @@ package investigator
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -196,6 +197,7 @@ func (i *Investigator) GetSkillLevel(skillName string) uint8 {
 }
 
 func (i *Investigator) GetDamageBonus() int8 {
+	log.Println("DAMAGE BONUS ", i.Combat.DamageBonus)
 	return i.Combat.DamageBonus
 }
 

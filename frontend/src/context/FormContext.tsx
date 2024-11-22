@@ -109,6 +109,7 @@ const defaultWeaponState: WeaponData[] = [
     ammo: 0,
     malf: 0,
     numberOfAttacks: 1,
+    applyDamageBonus: false,
   },
 ];
 

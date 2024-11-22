@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/labstack/gommon/log"
 	"github.com/pedro-git-projects/eldritch-tools/dice"
 )
 
@@ -40,13 +39,10 @@ func (d Damage) MarshalJSON() ([]byte, error) {
 		formatted += fmt.Sprintf("%d", d.DamageBonus)
 	}
 
-	log.Error("DEBUG::MARSHALING TO ", formatted)
-
 	return json.Marshal(formatted)
 }
 
 func (d *Damage) UnmarshalJSON(data []byte) error {
-	log.Error("DEBUG::", string(data))
 	var formatted string
 	if err := json.Unmarshal(data, &formatted); err != nil {
 		return err

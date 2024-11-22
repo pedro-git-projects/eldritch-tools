@@ -8,6 +8,7 @@ type Weapon struct {
 	Range           uint8
 	Ammo            uint8
 	Malf            uint8
+	ApplyDmageBonus bool
 }
 
 type WeaponOption func(*Weapon)
@@ -36,6 +37,12 @@ func WithNumberOfAttacks(numberOfAttacks uint8) WeaponOption {
 	}
 }
 
+func WithDamageBonus(usesDamageBonus bool) WeaponOption {
+	return func(w *Weapon) {
+		w.ApplyDmageBonus = usesDamageBonus
+	}
+}
+
 func NewWeapon(name string, skillName string, damage Damage, opts ...WeaponOption) *Weapon {
 	w := &Weapon{
 		Name:            name,
@@ -45,6 +52,7 @@ func NewWeapon(name string, skillName string, damage Damage, opts ...WeaponOptio
 		Range:           0,
 		Ammo:            0,
 		Malf:            0,
+		ApplyDmageBonus: false,
 	}
 
 	for _, opt := range opts {

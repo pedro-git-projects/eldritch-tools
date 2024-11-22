@@ -1,3 +1,5 @@
+import { GetDamageBonus } from "../../wailsjs/go/investigator/Investigator";
+
 export interface DamageData {
   numDice: number;
   sides: number;
@@ -13,6 +15,7 @@ export interface WeaponData {
   ammo: number;
   malf: number;
   numberOfAttacks: number;
+  applyDamageBonus: boolean;
 }
 
 export interface WeaponDataDto {
@@ -23,14 +26,31 @@ export interface WeaponDataDto {
   Ammo: number;
   Malf: number;
   NumberOfAttacks: number;
+  ApplyDamageBonus: boolean;
   convertValues?: (a: any, classs: any, asMap?: boolean) => any;
 }
 
-export function convertToWeaponDataDto(weapon: WeaponData): WeaponDataDto {
-  const { numDice, sides, modifier, damageBonus } = weapon.damage;
+// TODO: find out why the Damage Bonus is only being
+// corretly applied to unarmed
+export async function convertToWeaponDataDto(
+  weapon: WeaponData,
+): Promise<WeaponDataDto> {
+  const { numDice, sides, modifier } = weapon.damage;
+  const { applyDamageBonus } = weapon;
 
-  // Format damage as "Xdy+Z-W" (include damageBonus)
-  const formattedDamage = `${numDice}d${sides}${modifier >= 0 ? `+${modifier}` : modifier}${damageBonus > 0 ? `+${damageBonus}` : damageBonus}`;
+  let damageBonus = 0;
+  if (applyDamageBonus) {
+    try {
+      damageBonus = await GetDamageBonus();
+    } catch (err) {
+      throw new Error(`Failed to fetch damage bonus: ${err}`);
+    }
+  }
+
+  const formattedDamage =
+    `${numDice}d${sides}` +
+    `${modifier !== 0 ? (modifier > 0 ? `+${modifier}` : modifier) : ""}` +
+    `${applyDamageBonus && damageBonus !== 0 ? (damageBonus > 0 ? `+${damageBonus}` : damageBonus) : ""}`;
 
   return {
     Name: weapon.name,
@@ -40,6 +60,7 @@ export function convertToWeaponDataDto(weapon: WeaponData): WeaponDataDto {
     Ammo: weapon.ammo,
     Malf: weapon.malf,
     NumberOfAttacks: weapon.numberOfAttacks,
+    ApplyDamageBonus: applyDamageBonus,
   };
 }
 

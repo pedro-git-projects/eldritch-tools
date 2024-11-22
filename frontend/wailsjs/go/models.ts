@@ -271,6 +271,7 @@ export namespace weapons {
 	    Range: number;
 	    Ammo: number;
 	    Malf: number;
+	    ApplyDmageBonus: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new Weapon(source);
@@ -285,6 +286,7 @@ export namespace weapons {
 	        this.Range = source["Range"];
 	        this.Ammo = source["Ammo"];
 	        this.Malf = source["Malf"];
+	        this.ApplyDmageBonus = source["ApplyDmageBonus"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
@@ -313,6 +315,7 @@ export namespace weapons {
 	    Range: number;
 	    Ammo: number;
 	    Malf: number;
+	    ApplyDmageBonus: boolean;
 	
 	    static createFrom(source: any = {}) {
 	        return new WeaponConfig(source);
@@ -327,6 +330,7 @@ export namespace weapons {
 	        this.Range = source["Range"];
 	        this.Ammo = source["Ammo"];
 	        this.Malf = source["Malf"];
+	        this.ApplyDmageBonus = source["ApplyDmageBonus"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {

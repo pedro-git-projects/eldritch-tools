@@ -8,6 +8,7 @@ type WeaponConfig struct {
 	Range           uint8
 	Ammo            uint8
 	Malf            uint8
+	ApplyDmageBonus bool
 }
 
 func NewWeaponFromConfig(config WeaponConfig) *Weapon {
@@ -19,5 +20,6 @@ func NewWeaponFromConfig(config WeaponConfig) *Weapon {
 		Range:           config.Range,
 		Ammo:            config.Ammo,
 		Malf:            config.Malf,
+		ApplyDmageBonus: config.ApplyDmageBonus,
 	}
 }

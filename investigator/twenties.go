@@ -65,10 +65,10 @@ func (i *Investigator) InitWeapons() {
 	dmg := weapons.Damage{
 		NumDice:     1,
 		Sides:       3,
-		Modifier:    1,
+		Modifier:    0,
 		DamageBonus: i.GetDamageBonus(),
 	}
-	i.Weapons["Unarmed"] = weapons.NewWeapon("Unarmed", "Fighting (Brawl)", dmg)
+	i.Weapons["Unarmed"] = weapons.NewWeapon("Unarmed", "Fighting (Brawl)", dmg, weapons.WithDamageBonus(true))
 }
 
 func (i *Investigator) InitDodge() {
@@ -92,6 +92,7 @@ func (i *Investigator) AddWeaponWithConfig(config weapons.WeaponConfig) {
 		weapons.WithAmmo(config.Ammo),
 		weapons.WithMalf(config.Malf),
 		weapons.WithNumberOfAttacks(config.NumberOfAttacks),
+		weapons.WithDamageBonus(config.ApplyDmageBonus),
 	}
 
 	i.AddWeapon(config.Name, config.SkillName, config.Damage, options...)

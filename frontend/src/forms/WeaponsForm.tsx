@@ -13,8 +13,6 @@ import {
 import AlertBanner from "../components/AlertBanner";
 import { ErrorDialog } from "../components/ErrorModal";
 
-// TODO: Fix editing damage values
-
 export default function WeaponsForm() {
   const { weapons, setWeapons } = useFormContext();
   const [alert, setAlert] = useState<{
@@ -43,6 +41,7 @@ export default function WeaponsForm() {
     ammo: 0,
     malf: 0,
     numberOfAttacks: 1,
+    applyDamageBonus: false,
   });
 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -54,11 +53,12 @@ export default function WeaponsForm() {
   };
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     isEditMode = false,
     nestedField?: string,
   ) => {
-    const { name, value } = e.target;
+    // @ts-ignore
+    const { name, value, type, checked } = e.target;
     const update = isEditMode ? setEditingWeapon : setNewWeapon;
 
     update((prev: any) => {
@@ -86,25 +86,54 @@ export default function WeaponsForm() {
 
       return {
         ...prev,
-        [nestedField || name]: nestedField
-          ? {
-              ...prev[nestedField],
-              [name]: Number(value),
-            }
-          : name === "name" || name === "skillName"
-            ? value
-            : Number(value),
+        [nestedField || name]:
+          type === "checkbox"
+            ? checked
+            : nestedField
+              ? {
+                  ...prev[nestedField],
+                  [name]: Number(value),
+                }
+              : name === "name" || name === "skillName"
+                ? value
+                : Number(value),
       };
     });
   };
 
   const handleBindAllWeapons = async () => {
     try {
+      const weaponConfigs = [];
+
       for (const weapon of weapons) {
-        const weaponConfig: WeaponDataDto = convertToWeaponDataDto(weapon);
-        // @ts-ignore
-        await AddWeaponWithConfig(weaponConfig);
+        try {
+          const weaponConfig: WeaponDataDto =
+            await convertToWeaponDataDto(weapon);
+          weaponConfigs.push(weaponConfig);
+        } catch (error) {
+          console.error(`Failed to convert weapon "${weapon.name}":`, error);
+          setErrorDialog({
+            title: "Conversion Error",
+            content: `Failed to convert weapon "${weapon.name}". Error: ${error}`,
+          });
+          return;
+        }
       }
+
+      for (const weaponConfig of weaponConfigs) {
+        try {
+          // @ts-ignore
+          await AddWeaponWithConfig(weaponConfig);
+        } catch (error) {
+          console.error(`Failed to add weapon "${weaponConfig.Name}":`, error);
+          setErrorDialog({
+            title: "Add Weapon Error",
+            content: `Failed to add weapon "${weaponConfig.Name}". Error: ${error}`,
+          });
+          return;
+        }
+      }
+
       setAlert({
         title: "Success",
         content:
@@ -112,9 +141,10 @@ export default function WeaponsForm() {
         nextStepPath: "/possessions",
       });
     } catch (error) {
+      console.error("Unexpected error during binding:", error);
       setErrorDialog({
         title: "Error",
-        content: `Failed to bind all weapons. Error: ${error}`,
+        content: `An unexpected error occurred. Error: ${error}`,
       });
     }
   };
@@ -156,6 +186,7 @@ export default function WeaponsForm() {
         ammo: 0,
         malf: 0,
         numberOfAttacks: 1,
+        applyDamageBonus: false,
       });
     } catch (err) {
       setErrorDialog({
@@ -391,6 +422,20 @@ export default function WeaponsForm() {
             placeholder="Damage (e.g., 1d6+2)"
             className="w-full placeholder-cthulhu-bluegray rounded-md bg-cthulhu-secondary p-2 border-0 shadow-sm ring-cthulhu-teal/10 focus:ring-2 focus:ring-inset focus:ring-cthulhu-teal"
             onChange={handleDamageInput}
+          />
+
+          <label
+            htmlFor="applyDamageBonus"
+            className="block text-sm font-medium"
+          >
+            Apply Damage Bonus
+          </label>
+          <input
+            type="checkbox"
+            name="applyDamageBonus"
+            checked={newWeapon.applyDamageBonus}
+            onChange={handleInputChange}
+            className="rounded"
           />
 
           <label htmlFor="range" className="block text-sm/6 font-medium">

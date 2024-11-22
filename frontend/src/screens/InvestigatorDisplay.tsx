@@ -17,6 +17,7 @@ import MetaDisplay from "../components/DisplayMeta";
 import WeaponsDisplay from "../components/DisplayWeapons";
 import { PossessionsDisplay } from "../components/PossessionsDisplay";
 import WealthStatusCard from "../components/WealthDisplay";
+import { json } from "react-router-dom";
 
 interface FullInvestigator {
   id: number;
@@ -159,6 +160,8 @@ export default function InvestigatorList() {
           <div className="mt-4">
             <WeaponsDisplay weapons={selected.weapons} />
           </div>
+
+          <div>{JSON.stringify(selected.weapons)}</div>
 
           <div className="mt-4">
             <WealthStatusCard wealth={selected.wealth} />
